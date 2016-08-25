@@ -15,4 +15,14 @@
     <string name="main_monitor">語速監控</string>
     <string name="main_setting">設定</string>
 
+    <!--speak speed-->
+    <string name="name">姓名</string>
+    <string name="sex">性別</string>
+    <string name="status">狀態</string>
+    <string name="calculate_font">字數</string>
+    <string name="date">時間</string>
+    <string name="start">開始</string>
+    <string name="back">返回</string>
+    <string name="sex_male">男</string>
+    <string name="sex_female">女</string>
 </resources>

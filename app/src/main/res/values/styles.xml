@@ -8,4 +8,12 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="sex_radio_button_male" parent="@android:style/Widget.CompoundButton.RadioButton">
+        <item name="android:background">@drawable/speak_speed_radio_button_male</item>
+    </style>
+
+    <style name="sex_radio_button_female" parent="@android:style/Widget.CompoundButton.RadioButton">
+        <item name="android:background">@drawable/speak_speed_radio_button_female</item>
+    </style>
+
 </resources>

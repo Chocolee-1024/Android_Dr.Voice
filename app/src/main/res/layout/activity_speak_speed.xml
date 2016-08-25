@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin">
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#76b6c0"
+        android:gravity="center"
+        android:text="@string/name"
+        android:textColor="#ffffff"
+        android:textSize="16sp"
+        app:layout_heightPercent="5%"
+        app:layout_widthPercent="35%" />
+
+    <EditText
+        android:id="@+id/ed_name"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/tv_name"
+        android:background="@drawable/speak_speed_edittext_stroke"
+        android:hint="請輸入姓名"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        app:layout_heightPercent="5%"
+        app:layout_widthPercent="65%" />
+
+    <TextView
+        android:id="@+id/tv_sex"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_below="@+id/tv_name"
+        android:background="#76b6c0"
+        android:gravity="center"
+        android:text="@string/sex"
+        android:textColor="#ffffff"
+        android:textSize="16sp"
+        app:layout_heightPercent="5%"
+        app:layout_marginTopPercent="1%"
+        app:layout_widthPercent="35%" />
+
+    <RadioGroup
+        android:id="@+id/rg_sex"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_below="@+id/tv_name"
+        android:layout_toRightOf="@+id/tv_sex"
+        android:orientation="horizontal"
+        app:layout_heightPercent="5%"
+        app:layout_marginTopPercent="1%"
+        app:layout_widthPercent="65%">
+
+        <RadioButton
+            android:id="@+id/rb_boy"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:button="@null"
+            style="@style/sex_radio_button_male"
+            android:text="@string/sex_male"
+            android:textColor="#ffffff" />
+
+        <RadioButton
+            android:id="@+id/rb_girl"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:button="@null"
+            android:text="@string/sex_female"
+            style="@style/sex_radio_button_female"
+            android:textColor="#ffffff" />
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/tv_status"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_below="@+id/rg_sex"
+        android:background="#76b6c0"
+        android:gravity="center"
+        android:text="@string/status"
+        android:textColor="#ffffff"
+        android:textSize="16sp"
+        app:layout_heightPercent="5%"
+        app:layout_marginTopPercent="1%"
+        app:layout_widthPercent="35%" />
+
+    <TextView
+        android:id="@+id/tv_status_text"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_below="@+id/rg_sex"
+        android:layout_toRightOf="@+id/tv_status"
+        android:background="#e6e6e6"
+        android:gravity="center"
+        app:layout_heightPercent="5%"
+        app:layout_marginTopPercent="1%"
+        app:layout_widthPercent="65%" />
+
+    <TextView
+        android:id="@+id/tv_font_number"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_below="@+id/tv_status"
+        android:background="#76b6c0"
+        android:gravity="center"
+        android:text="@string/calculate_font"
+        android:textColor="#ffffff"
+        android:textSize="16sp"
+        app:layout_heightPercent="5%"
+        app:layout_marginTopPercent="1%"
+        app:layout_widthPercent="35%" />
+
+    <TextView
+        android:id="@+id/tv_font_number_calculate"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_below="@+id/tv_status"
+        android:layout_toRightOf="@+id/tv_font_number"
+        android:background="#e6e6e6"
+        android:gravity="center"
+        app:layout_heightPercent="5%"
+        app:layout_marginTopPercent="1%"
+        app:layout_widthPercent="65%" />
+
+    <TextView
+        android:id="@+id/tv_sc_time"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_below="@+id/tv_font_number"
+        android:background="#aae6e6"
+        android:gravity="center"
+        android:text="@string/date"
+        android:textColor="#ffffff"
+        app:layout_heightPercent="5%"
+        app:layout_marginTopPercent="1%"
+        app:layout_widthPercent="58%" />
+
+    <TextView
+        android:id="@+id/tv_sc_font"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_below="@+id/tv_font_number"
+        android:layout_toRightOf="@+id/tv_sc_time"
+        android:background="#35cde4"
+        android:gravity="center"
+        android:text="@string/calculate_font"
+        android:textColor="#ffffff"
+        app:layout_heightPercent="5%"
+        app:layout_marginTopPercent="1%"
+        app:layout_widthPercent="42%" />
+
+    <ListView
+        android:layout_width="0dp"
+        android:layout_height="0dp" />
+
+    <Button
+        android:id="@+id/btn_back"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_alignParentBottom="true"
+        android:background="#76b6c0"
+        android:text="@string/back"
+        android:textColor="#ffffff"
+        app:layout_heightPercent="8%"
+        app:layout_widthPercent="18%" />
+
+    <Button
+        android:id="@+id/btn_Check"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:background="#76b6c0"
+        android:text="@string/start"
+        android:textColor="#ffffff"
+        app:layout_heightPercent="8%"
+        app:layout_widthPercent="18%" />
+</android.support.percent.PercentRelativeLayout>
