@@ -1,3 +1,18 @@
 <resources>
-    <string name="app_name">Voice_App</string>
+    <string name="app_name">VoiceApp</string>
+    <string name="key">863357276335-9941vhgui0n5fm6v4j1pjmp30qb11f1h.apps.googleusercontent.com</string>
+
+    <!--login-->
+    <string name="login">帳號登入</string>
+    <string name="login_nonempty">帳號不能為空</string>
+    <string name="login_fail">登入失敗</string>
+    <string name="login_loading">讀取中</string>
+    <string name="login_wait">請等待...</string>
+    <!--main-->
+    <string name="main_day_exercise">每日練習</string>
+    <string name="main_week_test">每週評量</string>
+    <string name="main_history">歷史紀錄</string>
+    <string name="main_monitor">語速監控</string>
+    <string name="main_setting">設定</string>
+
 </resources>
