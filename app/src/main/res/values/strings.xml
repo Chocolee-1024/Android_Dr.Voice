@@ -1,18 +1,24 @@
 <resources>
     <string name="app_name">VoiceApp</string>
     <string name="key">863357276335-9941vhgui0n5fm6v4j1pjmp30qb11f1h.apps.googleusercontent.com</string>
-
+    <!--home page-->
+    <string name="home_page_title">嗓音自我照護\n(練習版)</string>
+    <string name="home_page_start">開始</string>
+    <string name="home_page_developer">亞東嗓音團隊開發</string>
     <!--login-->
-    <string name="login">帳號登入</string>
+    <string name="login">登入</string>
+    <string name="hint">請輸入手機號碼</string>
     <string name="login_nonempty">帳號不能為空</string>
     <string name="login_fail">登入失敗</string>
     <string name="login_loading">讀取中</string>
     <string name="login_wait">請等待...</string>
     <!--main-->
-    <string name="main_day_exercise">每日練習</string>
-    <string name="main_week_test">每週評量</string>
-    <string name="main_history">歷史紀錄</string>
-    <string name="main_monitor">語速監控</string>
-    <string name="main_setting">設定</string>
+    <string-array name="menu_text_array">
+        <item>每日練習</item>
+        <item>每週評量</item>
+        <item>歷史紀錄</item>
+        <item>語速監控</item>
+        <item>設"        "定</item>
+    </string-array>
 
 </resources>

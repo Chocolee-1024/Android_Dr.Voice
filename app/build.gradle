@@ -41,5 +41,6 @@ dependencies {
     compile 'com.google.apis:google-api-services-drive:v3-rev36-1.22.0'
     compile 'com.google.http-client:google-http-client-gson:1.16.0-rc'
     compile 'me.grantland:autofittextview:0.2.+'
+    compile 'com.android.support:recyclerview-v7:24.+'
 
 }

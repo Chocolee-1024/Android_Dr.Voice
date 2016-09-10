@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer-array name="menu_icon_array">
+        <item>@drawable/menu_1_button</item>
+        <item>@drawable/menu_2_button</item>
+        <item>@drawable/menu_3_button</item>
+        <item>@drawable/menu_4_button</item>
+        <item>@drawable/menu_5_button</item>
+    </integer-array>
+</resources>

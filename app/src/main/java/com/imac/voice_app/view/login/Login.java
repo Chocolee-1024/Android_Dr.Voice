@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.imac.voice_app.R;
+import com.imac.voice_app.module.FontManager;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -19,7 +20,7 @@ import butterknife.OnClick;
 public class Login {
     @BindView(R.id.login)
     protected Button loginButton;
-    @BindView(R.id.account)
+    @BindView(R.id.title)
     protected EditText accountEditText;
     private Activity activity;
     private DataChangeListener dataChangeListener;
@@ -27,9 +28,14 @@ public class Login {
     public Login( Activity activity, DataChangeListener dataChangeListener,View view) {
         this.activity = activity;
         this.dataChangeListener = dataChangeListener;
-        ButterKnife.bind(this,activity);
-    }
 
+        ButterKnife.bind(this,activity);
+        setFontType();
+    }
+    private void setFontType(){
+        FontManager.setFont(activity,FontManager.LIGHT,accountEditText);
+        FontManager.setFont(activity,FontManager.MEDIUM,loginButton);
+    }
     @OnClick(R.id.login)
     public void loginClick(View view) {
         if (TextUtils.isEmpty(accountEditText.getText().toString())) {
