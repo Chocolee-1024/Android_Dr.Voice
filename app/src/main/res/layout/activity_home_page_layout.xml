@@ -14,34 +14,38 @@
         app:layout_marginRightPercent="15%"
         app:layout_marginTopPercent="20%" />
 
-    <EditText
+    <TextView
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/login_edittext_bg"
         android:gravity="center_horizontal"
-        android:hint="@string/hint"
-        android:inputType="number"
-        android:padding="0dp"
-        android:singleLine="true"
+        android:text="@string/home_page_title"
         android:textColor="@color/login_text_color"
-        android:textColorHint="@color/hint_color"
-        android:textSize="24sp"
+        android:textSize="36sp"
         app:layout_marginLeftPercent="15%"
         app:layout_marginRightPercent="15%"
         app:layout_marginTopPercent="37%" />
 
     <Button
-        android:id="@+id/login"
+        android:id="@+id/start"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/title"
-        android:background="@drawable/login_button_bg"
-        android:text="@string/login"
+        android:background="@drawable/start_button_bg"
+        android:text="@string/home_page_start"
         android:textColor="@color/black"
         android:textSize="20sp"
         app:layout_marginLeftPercent="15%"
         app:layout_marginRightPercent="15%"
         app:layout_marginTopPercent="5%" />
+    <TextView
+        android:id="@+id/developer"
+        android:text="@string/home_page_developer"
+        android:textSize="14sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        app:layout_marginBottomPercent="4%"/>
 
 </android.support.percent.PercentRelativeLayout>

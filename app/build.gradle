@@ -42,4 +42,5 @@ dependencies {
     compile 'com.google.http-client:google-http-client-gson:1.16.0-rc'
     compile 'me.grantland:autofittextview:0.2.+'
     compile 'com.nuance:speechkit:2.1+@aar'
+    compile 'com.android.support:recyclerview-v7:24.+'
 }

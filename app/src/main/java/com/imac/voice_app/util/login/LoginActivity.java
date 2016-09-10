@@ -1,7 +1,9 @@
 package com.imac.voice_app.util.login;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -13,7 +15,9 @@ import android.widget.Toast;
 import com.imac.voice_app.R;
 import com.imac.voice_app.core.ActivityLauncher;
 import com.imac.voice_app.module.LoginChecker;
-import com.imac.voice_app.util.MainActivity;
+import com.imac.voice_app.module.PermissionsActivity;
+import com.imac.voice_app.module.PermissionsChecker;
+import com.imac.voice_app.util.mainmenu.MainActivity;
 import com.imac.voice_app.view.login.DataChangeListener;
 import com.imac.voice_app.view.login.Login;
 
@@ -23,15 +27,24 @@ public class LoginActivity extends AppCompatActivity implements DataChangeListen
     private ProgressDialog progressDialog;
     private Login login;
     private Activity activity;
-
+    private PermissionsChecker permissionsChecker;
+    private final static int ASK_PERMISSION_CODE = 0;
+    private final String[] permission = new String[]{
+            Manifest.permission.GET_ACCOUNTS
+    };
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_layout);
-
         ButterKnife.bind(this);
-        init();
+        permissionsChecker = new PermissionsChecker(this);
+        if (permissionsChecker.missingPermissions(permission)) {
+            PermissionsActivity.startPermissionsForResult(this, ASK_PERMISSION_CODE, permission);
+        } else {
+            init();
+        }
+
     }
 
     private void init() {
@@ -73,5 +86,15 @@ public class LoginActivity extends AppCompatActivity implements DataChangeListen
     public void onDataChange(View view) {
         LoginChecker checker = new LoginChecker(LoginActivity.this, setEventCallBack());
         checker.checkFile(((EditText) view).getText().toString());
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == ASK_PERMISSION_CODE && resultCode == PermissionsActivity.PERMISSIONS_REFUSE) {
+            finish();
+        } else {
+            init();
+        }
     }
 }
