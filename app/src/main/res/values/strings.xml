@@ -16,13 +16,9 @@
     <string name="main_setting">設定</string>
 
     <!--speak speed-->
-    <string name="name">姓名</string>
-    <string name="sex">性別</string>
-    <string name="status">狀態</string>
-    <string name="calculate_font">字數</string>
-    <string name="date">時間</string>
-    <string name="start">開始</string>
-    <string name="back">返回</string>
-    <string name="sex_male">男</string>
-    <string name="sex_female">女</string>
+    <string name="speak_good">非常好</string>
+    <string name="speak_slower">稍微在慢一點</string>
+    <string name="speak_too_fast">太快囉</string>
+    <string name="speak_calculate_font">字數/分鐘</string>
+    <string name="speak_start_hint">按下方按鈕開始監控</string>
 </resources>

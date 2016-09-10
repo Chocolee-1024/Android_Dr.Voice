@@ -4,40 +4,21 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.RadioGroup;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.imac.voice_app.R;
 import com.imac.voice_app.module.CheckDate;
 import com.imac.voice_app.module.SpeechKitModule;
 import com.imac.voice_app.module.WriteToText;
+import com.imac.voice_app.view.speakspeed.SpeakSpeedView;
 
 import java.util.ArrayList;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class SpeakSpeedActivity extends Activity {
-    @BindView(R.id.ed_name)
-    EditText mNameText;
-    @BindView(R.id.tv_status_text)
-    TextView mStatusText;
-    @BindView(R.id.tv_font_number_calculate)
-    TextView mCalculateFontNumber;
-    @BindView(R.id.btn_Check)
-    Button mCheckButton;
-    @BindView(R.id.btn_back)
-    Button mBackButton;
-    @BindView(R.id.rg_sex)
-    RadioGroup mSexGroup;
-
+    private SpeakSpeedView layout;
     private SpeechKitModule mSpeechModule;
     private Context mContext;
     private Handler mHandlerTime;
@@ -48,7 +29,6 @@ public class SpeakSpeedActivity extends Activity {
     private int secCoolDown;
     private int count;
     private int calculateFont;
-    private String sex;
     private ArrayList<String> textLogArray;
 
     private static final int SEC_MAX = 60 * 50;
@@ -64,20 +44,16 @@ public class SpeakSpeedActivity extends Activity {
     private static final int STATUS_COUNT_MAX = 4;
     private static final int STATUS_NOT_USING = 5;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_speak_speed);
-        ButterKnife.bind(this);
-
 
         //確認日期
         CheckDate checkDate = new CheckDate(this);
         checkDate.check();
 
         initSet();
-        devEnvironment();
     }
 
     @Override
@@ -87,6 +63,7 @@ public class SpeakSpeedActivity extends Activity {
     }
 
     private void initSet() {
+        layout = new SpeakSpeedView(this, callBackListener());
         mContext = this.getApplicationContext();
 
         mSpeechModule = new SpeechKitModule(mContext);
@@ -95,15 +72,38 @@ public class SpeakSpeedActivity extends Activity {
 
         calculateFont = 0;
         speechState = STATUS_NOT_USING;
-        mCalculateFontNumber.setText(String.valueOf(calculateFont));
 
-        mSexGroup.setOnCheckedChangeListener(RadioChangeListener());
         mSpeechModule.setTextUpdateListener(TextUpdateListener());
     }
 
-    private void devEnvironment() {
-        mNameText.setText(R.string.name);
-        mSexGroup.check(R.id.rb_boy);
+    private void calculateNumPerMinute(int wordCount) {
+        int percent = 0;
+        int wordNum = 0;
+        wordNum = wordCount / count * 2;
+        percent = wordCount / 3;
+        Log.e("wordCount",Integer.toString(wordCount));
+        Log.e("percent",Integer.toString(percent));
+        layout.setCalculateSpeedText(Integer.toString(wordNum), percent);
+    }
+
+    private void calculateUsedTime(int sec) {
+        int cauMin = sec / 60;
+        int cauSec = sec % 60;
+        String strMin;
+        String strSec;
+        if (cauMin > 10) {
+            strMin = Integer.toString(cauMin);
+        } else {
+            strMin = "0" + Integer.toString(cauMin);
+        }
+
+        if (cauSec > 10) {
+            strSec = Integer.toString(cauSec);
+        } else {
+            strSec = "0" + Integer.toString(cauSec);
+        }
+
+        layout.setTimeTextViewText(strMin + ":" + strSec);
     }
 
     private void speakSpeedEnd() {
@@ -116,7 +116,7 @@ public class SpeakSpeedActivity extends Activity {
     private final Runnable timerRun = new Runnable() {
         public void run() {
             ++sec;
-            Log.e("sec", sec + "");
+            calculateUsedTime(sec);
             switch (speechState) {
                 case STATUS_NEED_START:
                     mSpeechModule.recognizeStart();
@@ -158,67 +158,19 @@ public class SpeakSpeedActivity extends Activity {
         }
     };
 
-    @OnClick({R.id.btn_back, R.id.btn_Check})
-    public void buttonListener(Button button) {
-        switch (button.getId()) {
-            case R.id.btn_back:
-                this.finish();
-                break;
-            case R.id.btn_Check:
-                if (speechState == STATUS_NOT_USING) {
-                    if (TextUtils.isEmpty(mNameText.getText().toString())) {
-                        Toast.makeText(mContext, "Please enter your name", Toast.LENGTH_SHORT)
-                                .show();
-                    } else if (TextUtils.isEmpty(sex)) {
-                        Toast.makeText(mContext, "Please enter your sex", Toast.LENGTH_SHORT)
-                                .show();
-                    } else {
-                        speechState = STATUS_IDLE;
-                        sec = 0;
-                        secCoolDown = 0;
-                        secRecording = 0;
-                        calculateFont = 0;
-                        mSpeechModule.startCaculateDB();
-                        mHandlerTime.postDelayed(timerRun, 1000);
-                    }
-                }
-                break;
-        }
-    }
-
-    private RadioGroup.OnCheckedChangeListener RadioChangeListener() {
-        return new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId) {
-                    case R.id.rb_boy:
-                        sex = "男";
-                        break;
-                    case R.id.rb_girl:
-                        sex = "女";
-                        break;
-                }
-            }
-        };
-    }
-
     private SpeechKitModule.onTextUpdateListener TextUpdateListener() {
         return new SpeechKitModule.onTextUpdateListener() {
             @Override
             public void updateText(String str) {
                 textLogArray.add(str);
                 calculateFont = calculateFont + str.length();
-                mCalculateFontNumber.setText(String.valueOf(calculateFont));
-            }
-
-            @Override
-            public void updateLog(String log) {
-                mStatusText.setText(log);
+                calculateNumPerMinute(calculateFont);
             }
 
             @Override
             public void ErrorOccurred() {
                 textLogArray.add("");
+                calculateNumPerMinute(calculateFont);
             }
 
             @Override
@@ -230,11 +182,43 @@ public class SpeakSpeedActivity extends Activity {
         };
     }
 
-    public String getName() {
-        return mNameText.getText().toString();
-    }
+    private SpeakSpeedView.callBackListener callBackListener() {
+        return new SpeakSpeedView.callBackListener() {
+            @Override
+            public void checkButton() {
+                if (speechState == STATUS_NOT_USING) {
+                    speechState = STATUS_IDLE;
+                    sec = 0;
+                    secCoolDown = 0;
+                    secRecording = 0;
+                    calculateFont = 0;
+                    mSpeechModule.startCaculateDB();
+                    mHandlerTime.postDelayed(timerRun, 1000);
+                    layout.setButtonStatus(true);
+                } else {
+                    if (speechState == STATUS_RECORDING) {
+                        mSpeechModule.recognizeForceStop(true);
+                    } else {
+                        mSpeechModule.recognizeForceStop(false);
+                    }
+                    mHandlerTime.removeCallbacks(timerRun);
+                    speechState = STATUS_NOT_USING;
+                    layout.setButtonStatus(false);
+                    speakSpeedEnd();
+                }
+            }
 
-    public String getSex() {
-        return sex.equals("男") ? "0" : "1";
+            @Override
+            public void closeButton() {
+                if (speechState == STATUS_RECORDING) {
+                    mSpeechModule.recognizeForceStop(true);
+                } else {
+                    mSpeechModule.recognizeForceStop(false);
+                }
+                mHandlerTime.removeCallbacks(timerRun);
+                speechState = STATUS_NOT_USING;
+                SpeakSpeedActivity.this.finish();
+            }
+        };
     }
 }

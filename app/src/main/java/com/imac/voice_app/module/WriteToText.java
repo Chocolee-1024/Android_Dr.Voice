@@ -53,7 +53,7 @@ public class WriteToText {
             if (sdFile.listFiles().length == 0) {
                 Log.e("file exit", "檔案不存在");
                 //TODO  檔名可能會修改
-                file = new File(sdFile, dayFormatDate + "Name" + ((SpeakSpeedActivity) context).getName() + ".csv");
+                file = new File(sdFile, dayFormatDate + "Name" + ".csv");
             }
             //如果資料夾有檔案
             //把資料寫入第一個檔案中
@@ -71,8 +71,8 @@ public class WriteToText {
                 //字數累加
                 temp += textNumArrayList.get(i);
             }
-            printWriter.append("," + Integer.toString(temp));
-            printWriter.append("," + ((SpeakSpeedActivity) context).getSex() + ",");
+            printWriter.append("," + Integer.toString(temp) + ",");
+//            printWriter.append("," + ((SpeakSpeedActivity) context).getSex() + ",");
             printWriter.append("\n");
             printWriter.flush();
             printWriter.close();

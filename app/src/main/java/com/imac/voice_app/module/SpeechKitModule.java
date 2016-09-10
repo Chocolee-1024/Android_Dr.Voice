@@ -40,11 +40,10 @@ public class SpeechKitModule {
     private AudioRecord recorder = null;
     private Handler mHandlerTime;
     private int bufferSize = 0;
+    private boolean forceStop;
 
     public interface onTextUpdateListener {
         void updateText(String str);
-
-        void updateLog(String log);
 
         void ErrorOccurred();
 
@@ -57,36 +56,47 @@ public class SpeechKitModule {
         session = Session.Factory.session(context, SERVER_URI, APP_KEY);
         options = new Transaction.Options();
         mHandlerTime = new Handler();
+        forceStop = false;
     }
 
     private Transaction.Listener SpeechListener() {
         return new Transaction.Listener() {
             @Override
             public void onStartedRecording(Transaction transaction) {
-                mTextUpdateListener.updateLog("Started Recording");
+                if (!forceStop) {
+                    Log.d("SpeechKitModule", "Started Recording");
+                }
             }
 
             @Override
             public void onFinishedRecording(Transaction transaction) {
-                mTextUpdateListener.updateLog("Finished Recording");
+                if (!forceStop) {
+                    Log.d("SpeechKitModule", "Finished Recording");
+                }
             }
 
             @Override
             public void onRecognition(Transaction transaction, Recognition recognition) {
-                mTextUpdateListener.updateLog("Recognize");
-                mTextUpdateListener.updateText(recognition.getText());
+                if (!forceStop) {
+                    Log.d("SpeechKitModule", "Recognize");
+                    mTextUpdateListener.updateText(recognition.getText());
+                }
             }
 
             @Override
             public void onSuccess(Transaction transaction, String suggestion) {
-                mTextUpdateListener.updateLog("All Success");
+                if (!forceStop) {
+                    Log.d("SpeechKitModule", "All Success");
+                }
             }
 
             @Override
             public void onError(Transaction transaction, String suggestion, TransactionException e) {
-                mTextUpdateListener.updateLog("Recognizing Fail，" + suggestion);
-                mTextUpdateListener.ErrorOccurred();
-                Log.e("Error Message", "Message : " + e.getMessage());
+                if (!forceStop) {
+                    Log.d("SpeechKitModule", "Recognizing Fail，" + suggestion);
+                    Log.e("Error Message", "Message : " + e.getMessage());
+                    mTextUpdateListener.ErrorOccurred();
+                }
             }
         };
     }
@@ -109,12 +119,23 @@ public class SpeechKitModule {
         transaction.stopRecording();
     }
 
+    public void recognizeForceStop(boolean recognizeStatus) {
+        forceStop = true;
+        if (recognizeStatus) {
+            transaction.stopRecording();
+        }
+        if (recorder.getRecordingState() == AudioRecord.RECORDSTATE_RECORDING) {
+            recorder.stop();
+        }
+        mHandlerTime.removeCallbacks(recordRun);
+        recorder.release();
+    }
+
     public void setTextUpdateListener(onTextUpdateListener listener) {
         this.mTextUpdateListener = listener;
     }
 
-    public void startCaculateDB(){
-        //initial and start AudioRecord
+    public void startCaculateDB() {
         bufferSize = AudioRecord.getMinBufferSize(
                 RECORDER_SAMPLERATE,
                 RECORDER_CHANNELS,
@@ -127,31 +148,34 @@ public class SpeechKitModule {
                 RECORDER_AUDIO_ENCODING,
                 bufferSize
         );
+        //initial and start AudioRecord
         recorder.startRecording();
 
         //new a thread to run and log volume
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                short data[] = new short[bufferSize];
-                long read = recorder.read(data, 0, bufferSize);
-
-                long v = 0;
-                for (int i = 0; i < data.length; i++) {
-                    v += data[i] * data[i];
-                }
-                double mean = v / (double) read;
-                double volume = 10 * Math.log10(mean);
-                Log.e("db", "分貝值:" + volume);
-
-                if (volume > 60) {
-                    mTextUpdateListener.UserTalking();
-                    recorder.stop();
-                    recorder.release();
-                } else {
-                    mHandlerTime.postDelayed(this, 200);
-                }
-            }
-        },"AudioRecorder Thread").start();
+        mHandlerTime.post(recordRun);
     }
+
+    private final Runnable recordRun = new Runnable() {
+        @Override
+        public void run() {
+            short data[] = new short[bufferSize];
+            long read = recorder.read(data, 0, bufferSize);
+
+            long v = 0;
+            for (int i = 0; i < data.length; i++) {
+                v += data[i] * data[i];
+            }
+            double mean = v / (double) read;
+            double volume = 10 * Math.log10(mean);
+            Log.e("db", "分貝值:" + volume);
+
+            if (volume > 60) {
+                mTextUpdateListener.UserTalking();
+                recorder.stop();
+                recorder.release();
+            } else {
+                mHandlerTime.postDelayed(this, 200);
+            }
+        }
+    };
 }
