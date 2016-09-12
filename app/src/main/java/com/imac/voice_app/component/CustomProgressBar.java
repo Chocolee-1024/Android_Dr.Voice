@@ -2,21 +2,33 @@ package com.imac.voice_app.component;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
-import android.os.Build;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 
 import com.imac.voice_app.R;
 
+import butterknife.BindColor;
+import butterknife.ButterKnife;
+
 /*
 * 自定義類進度條
 * Created by flowmaHuang on 2016/9/7.
 */
 public class CustomProgressBar extends View {
+    @BindColor(R.color.speak_speed_idle)
+    int colorStatusIdle;
+    @BindColor(R.color.speak_speed_good)
+    int colorStatusGood;
+    @BindColor(R.color.speak_speed_too_fast)
+    int colorStatusTooFast;
+    @BindColor(R.color.speak_speed_slower)
+    int colorStatusSlower;
+    @BindColor(R.color.speak_speed_point)
+    int colorPoint;
+
     private int percent;
     private Paint insideCircle;
     private Paint outsideCircle;
@@ -27,6 +39,7 @@ public class CustomProgressBar extends View {
 
     public CustomProgressBar(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
+        ButterKnife.bind(this);
         mContext = context;
         initPaintSetting();
     }
@@ -35,22 +48,22 @@ public class CustomProgressBar extends View {
         percent = 0;
 
         insideCircle = new Paint();
-        insideCircle.setColor(getResources().getColor(R.color.speak_speed_idle));
+        insideCircle.setColor(colorStatusIdle);
         insideCircle.setStyle(Paint.Style.STROKE);
         insideCircle.setStrokeCap(Paint.Cap.ROUND);
         insideCircle.setStrokeWidth(15);
 
         outsideCircle = new Paint();
-        outsideCircle.setColor(Color.BLUE);
+        outsideCircle.setColor(colorStatusIdle);
         outsideCircle.setStyle(Paint.Style.STROKE);
         outsideCircle.setStrokeCap(Paint.Cap.ROUND);
         outsideCircle.setStrokeWidth(20);
 
         graduationPoint = new Paint();
-        graduationPoint.setColor(getResources().getColor(R.color.speak_speed_point));
+        graduationPoint.setColor(colorPoint);
 
         graduationText = new Paint();
-        graduationText.setColor(getResources().getColor(R.color.speak_speed_point));
+        graduationText.setColor(colorPoint);
         graduationText.setTextSize(sp2px(mContext, 12));
     }
 
@@ -91,23 +104,11 @@ public class CustomProgressBar extends View {
     public void setAnglePercent(int percent) {
         this.percent = percent;
         if (percent > 66) {
-            if (Build.VERSION.SDK_INT > 22) {
-                outsideCircle.setColor(getResources().getColor(R.color.speak_speed_slower, null));
-            } else {
-                outsideCircle.setColor(getResources().getColor(R.color.speak_speed_slower));
-            }
+            outsideCircle.setColor(colorStatusTooFast);
         } else if (percent > 53) {
-            if (Build.VERSION.SDK_INT > 22) {
-                outsideCircle.setColor(getResources().getColor(R.color.speak_speed_too_fast, null));
-            } else {
-                outsideCircle.setColor(getResources().getColor(R.color.speak_speed_too_fast));
-            }
+            outsideCircle.setColor(colorStatusSlower);
         } else {
-            if (Build.VERSION.SDK_INT > 22) {
-                outsideCircle.setColor(getResources().getColor(R.color.speak_speed_good, null));
-            } else {
-                outsideCircle.setColor(getResources().getColor(R.color.speak_speed_good));
-            }
+            outsideCircle.setColor(colorStatusGood);
         }
     }
 

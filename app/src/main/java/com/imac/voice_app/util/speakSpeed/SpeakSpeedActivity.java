@@ -15,7 +15,6 @@ import com.imac.voice_app.view.speakspeed.SpeakSpeedView;
 
 import java.util.ArrayList;
 
-import butterknife.ButterKnife;
 
 public class SpeakSpeedActivity extends Activity {
     private SpeakSpeedView layout;
@@ -48,6 +47,7 @@ public class SpeakSpeedActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_speak_speed);
+        mContext = this.getApplicationContext();
 
         //確認日期
         CheckDate checkDate = new CheckDate(this);
@@ -64,8 +64,6 @@ public class SpeakSpeedActivity extends Activity {
 
     private void initSet() {
         layout = new SpeakSpeedView(this, callBackListener());
-        mContext = this.getApplicationContext();
-
         mSpeechModule = new SpeechKitModule(mContext);
         mHandlerTime = new Handler();
         textLogArray = new ArrayList<>();
@@ -77,12 +75,10 @@ public class SpeakSpeedActivity extends Activity {
     }
 
     private void calculateNumPerMinute(int wordCount) {
-        int percent = 0;
-        int wordNum = 0;
+        int percent;
+        int wordNum;
         wordNum = wordCount / count * 2;
         percent = wordCount / 3;
-        Log.e("wordCount",Integer.toString(wordCount));
-        Log.e("percent",Integer.toString(percent));
         layout.setCalculateSpeedText(Integer.toString(wordNum), percent);
     }
 
@@ -204,6 +200,7 @@ public class SpeakSpeedActivity extends Activity {
                     mHandlerTime.removeCallbacks(timerRun);
                     speechState = STATUS_NOT_USING;
                     layout.setButtonStatus(false);
+                    layout.stopButtonResetView();
                     speakSpeedEnd();
                 }
             }

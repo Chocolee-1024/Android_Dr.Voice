@@ -22,9 +22,12 @@
     </string-array>
 
     <!--speak speed-->
+    <string name="zero">0</string>
+    <string name="speak_speed_time_default">00:00</string>
+    <string name="speak_speed_date_default">0000/00/00</string>
+    <string name="speak_start_hint_default">按下方按鈕開始監控</string>
     <string name="speak_good">非常好</string>
     <string name="speak_slower">稍微在慢一點</string>
     <string name="speak_too_fast">太快囉</string>
     <string name="speak_calculate_font">字數/分鐘</string>
-    <string name="speak_start_hint">按下方按鈕開始監控</string>
 </resources>
