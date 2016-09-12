@@ -11,6 +11,7 @@
 
     <!--Speak Speed-->
     <color name="speak_speed_point">#AC9994</color>
+    <color name="speak_speed_date">#B57985</color>
     <color name="speak_speed_idle">#C9B5B3</color>
     <color name="speak_speed_good">#00AF82</color>
     <color name="speak_speed_slower">#FFB464</color>
