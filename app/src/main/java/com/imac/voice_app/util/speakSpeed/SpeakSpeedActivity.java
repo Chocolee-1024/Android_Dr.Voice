@@ -91,13 +91,13 @@ public class SpeakSpeedActivity extends Activity {
         int cauSec = sec % 60;
         String strMin;
         String strSec;
-        if (cauMin > 10) {
+        if (cauMin > 9) {
             strMin = Integer.toString(cauMin);
         } else {
             strMin = "0" + Integer.toString(cauMin);
         }
 
-        if (cauSec > 10) {
+        if (cauSec > 9) {
             strSec = Integer.toString(cauSec);
         } else {
             strSec = "0" + Integer.toString(cauSec);
