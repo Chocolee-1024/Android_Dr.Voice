@@ -50,8 +50,8 @@ public class SpeakSpeedActivity extends Activity {
         setContentView(R.layout.activity_speak_speed);
 
         //確認日期
-        CheckDate checkDate = new CheckDate(this);
-        checkDate.check();
+//        CheckDate checkDate = new CheckDate(this);
+//        checkDate.check();
 
         initSet();
     }

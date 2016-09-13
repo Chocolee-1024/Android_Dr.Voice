@@ -11,7 +11,8 @@
         android:gravity="center"
         android:text="00:00"
         android:textSize="50sp"
-        app:layout_heightPercent="20%"
+        android:textColor="@color/black"
+        app:layout_heightPercent="18%"
         app:layout_widthPercent="100%" />
 
     <TextView
@@ -32,8 +33,9 @@
         android:layout_height="0dp"
         android:layout_below="@+id/tv_date"
         android:layout_centerHorizontal="true"
-        app:layout_heightPercent="45%"
-        app:layout_widthPercent="70%">
+        app:layout_heightPercent="43%"
+        app:layout_widthPercent="68%"
+        app:layout_marginTopPercent="3%">
 
         <com.imac.voice_app.component.CustomProgressBar
             android:id="@+id/bar_view"
@@ -58,18 +60,19 @@
             android:text="0"
             android:textSize="64sp"
             android:textColor="@color/speak_speed_idle"
-            app:layout_heightPercent="40%"/>
+            app:layout_heightPercent="30%"/>
 
         <TextView
             android:id="@+id/tv_status_hint"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_calculate_num"
             android:layout_centerHorizontal="true"
             android:gravity="center"
             android:text="@string/speak_start_hint"
             android:textColor="@color/speak_speed_idle"
-            app:layout_widthPercent="30%" />
+            android:textSize="16sp" />
+
     </android.support.percent.PercentRelativeLayout>
 
     <ImageView
@@ -80,8 +83,8 @@
         android:layout_centerHorizontal="true"
         android:src="@drawable/mike_button"
         android:scaleType="centerInside"
-        app:layout_marginTopPercent="5%"
-        app:layout_widthPercent="18%" />
+        app:layout_widthPercent="18%"
+        app:layout_heightPercent="20%"/>
 
     <ImageView
         android:id="@+id/btn_close"
@@ -92,7 +95,7 @@
         android:visibility="invisible"
         android:src="@drawable/close_button"
         android:scaleType="centerInside"
-        app:layout_marginLeftPercent="10%"
-        app:layout_marginTopPercent="8%"
-        app:layout_widthPercent="18%" />
+        app:layout_marginLeftPercent="7%"
+        app:layout_widthPercent="16%"
+        app:layout_heightPercent="20%"/>
 </android.support.percent.PercentRelativeLayout>
