@@ -1,14 +1,20 @@
 package com.imac.voice_app.util.speakSpeed;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.WindowManager;
 
 import com.imac.voice_app.R;
 import com.imac.voice_app.module.CheckDate;
+import com.imac.voice_app.module.PermissionsActivity;
+import com.imac.voice_app.module.PermissionsChecker;
 import com.imac.voice_app.module.SpeechKitModule;
 import com.imac.voice_app.module.WriteToText;
 import com.imac.voice_app.view.speakspeed.SpeakSpeedView;
@@ -19,6 +25,7 @@ import java.util.ArrayList;
 public class SpeakSpeedActivity extends Activity {
     private SpeakSpeedView layout;
     private SpeechKitModule mSpeechModule;
+    private PermissionsChecker permissionsChecker;
     private Context mContext;
     private Handler mHandlerTime;
 
@@ -30,6 +37,7 @@ public class SpeakSpeedActivity extends Activity {
     private int calculateFont;
     private ArrayList<String> textLogArray;
 
+    private static final int ASK_PERMISSION_CODE = 0;
     private static final int SEC_MAX = 60 * 50;
     private static final int SEC_RECORD = 30;
     private static final int SEC_COOL_DOWN = 30;
@@ -42,6 +50,10 @@ public class SpeakSpeedActivity extends Activity {
     private static final int STATUS_COOL_DOWN = 3;
     private static final int STATUS_COUNT_MAX = 4;
     private static final int STATUS_NOT_USING = 5;
+
+    private String[] checkPermission = new String[]{
+            Manifest.permission.RECORD_AUDIO,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +79,7 @@ public class SpeakSpeedActivity extends Activity {
         mSpeechModule = new SpeechKitModule(mContext);
         mHandlerTime = new Handler();
         textLogArray = new ArrayList<>();
+        permissionsChecker = new PermissionsChecker(this);
 
         calculateFont = 0;
         speechState = STATUS_NOT_USING;
@@ -79,6 +92,8 @@ public class SpeakSpeedActivity extends Activity {
         int wordNum;
         wordNum = wordCount / count * 2;
         percent = wordCount / 3;
+        Log.e("wordCount", Integer.toString(wordCount));
+        Log.e("percent", Integer.toString(percent));
         layout.setCalculateSpeedText(Integer.toString(wordNum), percent);
     }
 
@@ -183,14 +198,20 @@ public class SpeakSpeedActivity extends Activity {
             @Override
             public void checkButton() {
                 if (speechState == STATUS_NOT_USING) {
-                    speechState = STATUS_IDLE;
-                    sec = 0;
-                    secCoolDown = 0;
-                    secRecording = 0;
-                    calculateFont = 0;
-                    mSpeechModule.startCaculateDB();
-                    mHandlerTime.postDelayed(timerRun, 1000);
-                    layout.setButtonStatus(true);
+                    if (permissionsChecker.missingPermissions(checkPermission)) {
+                        PermissionsActivity.startPermissionsForResult(SpeakSpeedActivity.this,
+                                ASK_PERMISSION_CODE,
+                                checkPermission);
+                    } else {
+                        speechState = STATUS_IDLE;
+                        sec = 0;
+                        secCoolDown = 0;
+                        secRecording = 0;
+                        calculateFont = 0;
+                        mSpeechModule.startCaculateDB();
+                        mHandlerTime.postDelayed(timerRun, 1000);
+                        layout.setButtonStatus(true);
+                    }
                 } else {
                     if (speechState == STATUS_RECORDING) {
                         mSpeechModule.recognizeForceStop(true);
