@@ -2,8 +2,6 @@ package com.imac.voice_app.view.speakspeed;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Typeface;
-import android.os.Build;
 import android.support.percent.PercentRelativeLayout;
 import android.util.Log;
 import android.view.View;
@@ -12,10 +10,12 @@ import android.widget.TextView;
 
 import com.imac.voice_app.R;
 import com.imac.voice_app.component.CustomProgressBar;
+import com.imac.voice_app.module.FontManager;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import butterknife.BindColor;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -42,6 +42,15 @@ public class SpeakSpeedView {
     @BindView(R.id.btn_close)
     ImageView mCloseButton;
 
+    @BindColor(R.color.speak_speed_idle)
+    int colorStatusIdle;
+    @BindColor(R.color.speak_speed_good)
+    int colorStatusGood;
+    @BindColor(R.color.speak_speed_too_fast)
+    int colorStatusTooFast;
+    @BindColor(R.color.speak_speed_slower)
+    int colorStatusSlower;
+
     private Context mContext;
 
     public interface callBackListener {
@@ -56,32 +65,25 @@ public class SpeakSpeedView {
         ButterKnife.bind(this, activity);
         mContext = activity.getApplicationContext();
         this.listener = listener;
+        initViewSet();
+        Log.e("colorG",Integer.toString(colorStatusIdle));
+    }
 
+    private void initViewSet(){
         Date date = new Date();
         SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
         String todayDate = format.format(date);
-
         mDateText.setText(todayDate);
-        setSquareView();
-        setFontStyle();
-    }
 
-    private void setSquareView() {
         int viewLength;
-
         viewLength = mDetailContainer.getLayoutParams().width;
         mDetailContainer.getLayoutParams().height = viewLength;
         mDetailContainer.getLayoutParams().width = viewLength;
         Log.e("123", Integer.toString(viewLength));
-    }
 
-    private void setFontStyle() {
-        Typeface fontTypeMedium = Typeface.createFromAsset(mContext.getAssets(), "font/SourceHanSansTWHK-Medium.otf");
-        mTimeText.setTypeface(fontTypeMedium);
-        mDateText.setTypeface(fontTypeMedium);
-//        思源字體在數字使用上會造成上下間距變為極大
-//        mCalculateSpeed.setTypeface(fontTypeMedium);
-        mStatusHintText.setTypeface(fontTypeMedium);
+        //        思源字體在數字使用上會造成上下間距變為極大
+        FontManager.setFont(mContext,FontManager.MEDIUM,
+                mTimeText,mDateText,mStatusHintText);
     }
 
     @OnClick({R.id.btn_Check, R.id.btn_close})
@@ -113,35 +115,31 @@ public class SpeakSpeedView {
     public void setCalculateSpeedText(String s, int percent) {
         if (Integer.parseInt(s) > 200) {
             mStatusHintText.setText(R.string.speak_too_fast);
-            if (Build.VERSION.SDK_INT > 22) {
-                mStatusHintText.setTextColor(mContext.getResources().getColor(R.color.speak_speed_too_fast, null));
-                mCalculateSpeed.setTextColor(mContext.getResources().getColor(R.color.speak_speed_too_fast, null));
-            } else {
-                mStatusHintText.setTextColor(mContext.getResources().getColor(R.color.speak_speed_too_fast));
-                mCalculateSpeed.setTextColor(mContext.getResources().getColor(R.color.speak_speed_too_fast));
-            }
+            mStatusHintText.setTextColor(colorStatusTooFast);
+            mCalculateSpeed.setTextColor(colorStatusTooFast);
         } else if (Integer.parseInt(s) > 160) {
             mStatusHintText.setText(R.string.speak_slower);
-            if (Build.VERSION.SDK_INT > 22) {
-                mStatusHintText.setTextColor(mContext.getResources().getColor(R.color.speak_speed_slower, null));
-                mCalculateSpeed.setTextColor(mContext.getResources().getColor(R.color.speak_speed_slower, null));
-            } else {
-                mStatusHintText.setTextColor(mContext.getResources().getColor(R.color.speak_speed_slower));
-                mCalculateSpeed.setTextColor(mContext.getResources().getColor(R.color.speak_speed_slower));
-            }
+            mStatusHintText.setTextColor(colorStatusSlower);
+            mCalculateSpeed.setTextColor(colorStatusSlower);
         } else {
             mStatusHintText.setText(R.string.speak_good);
-            if (Build.VERSION.SDK_INT > 22) {
-                mStatusHintText.setTextColor(mContext.getResources().getColor(R.color.speak_speed_good, null));
-                mCalculateSpeed.setTextColor(mContext.getResources().getColor(R.color.speak_speed_good, null));
-            } else {
-                mStatusHintText.setTextColor(mContext.getResources().getColor(R.color.speak_speed_good));
-                mCalculateSpeed.setTextColor(mContext.getResources().getColor(R.color.speak_speed_good));
-            }
+            mStatusHintText.setTextColor(colorStatusGood);
+            mCalculateSpeed.setTextColor(colorStatusGood);
         }
         mCalculateSpeed.setText(s);
 
         mCustomBarView.setAnglePercent(percent);
         mCustomBarView.invalidate();
+    }
+
+    public void stopButtonResetView() {
+        mStatusHintText.setTextColor(colorStatusIdle);
+        mCalculateSpeed.setTextColor(colorStatusIdle);
+        mCustomBarView.setAnglePercent(0);
+        mCustomBarView.invalidate();
+        mTimeText.setText(mContext.getText(R.string.speak_speed_time_default));
+        mStatusHintText.setText(mContext.getText(R.string.speak_start_hint_default));
+        mCalculateSpeed.setText(mContext.getText(R.string.zero));
+
     }
 }
