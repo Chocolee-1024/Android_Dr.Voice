@@ -32,8 +32,6 @@ public class ToolbarView extends RelativeLayout {
     TextView titleTextView;
 
     public interface toolbarCallBack {
-        String titleText();
-
         void backButtonListener();
     }
 
@@ -77,12 +75,17 @@ public class ToolbarView extends RelativeLayout {
     public void onClick(ImageView iv) {
         switch (iv.getId()) {
             case R.id.iv_back_left_arrow:
-//                listener.backButtonListener();
-                titleTextView.setText("99999");
+                if (listener != null) {
+                    listener.backButtonListener();
+                }
                 break;
             case R.id.iv_menu:
                 ActivityLauncher.go(mContext, MainActivity.class, null);
                 break;
         }
+    }
+
+    public void setToolbarButtonCallBack(toolbarCallBack listener){
+        this.listener = listener;
     }
 }
