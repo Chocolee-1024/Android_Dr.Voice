@@ -1,22 +1,22 @@
 package com.imac.voice_app.util.speakSpeed;
 
 import android.Manifest;
+import android.accounts.AccountManager;
 import android.app.Activity;
 import android.content.Context;
-import android.content.pm.PackageManager;
-import android.os.Build;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.WindowManager;
 
 import com.imac.voice_app.R;
-import com.imac.voice_app.module.CheckDate;
+import com.imac.voice_app.module.FileUploader;
 import com.imac.voice_app.module.PermissionsActivity;
 import com.imac.voice_app.module.PermissionsChecker;
 import com.imac.voice_app.module.SpeechKitModule;
-import com.imac.voice_app.module.WriteToText;
+import com.imac.voice_app.module.FileWriter;
+import com.imac.voice_app.module.base.BaseGoogleDrive;
 import com.imac.voice_app.view.speakspeed.SpeakSpeedView;
 
 import java.util.ArrayList;
@@ -28,6 +28,7 @@ public class SpeakSpeedActivity extends Activity {
     private PermissionsChecker permissionsChecker;
     private Context mContext;
     private Handler mHandlerTime;
+    private FileWriter fileWriter;
 
     private int speechState;
     private int sec;
@@ -60,10 +61,7 @@ public class SpeakSpeedActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_speak_speed);
         mContext = this.getApplicationContext();
-
-        //確認日期
-//        CheckDate checkDate = new CheckDate(this);
-//        checkDate.check();
+        fileWriter = new FileWriter(this);
 
         initSet();
     }
@@ -119,8 +117,9 @@ public class SpeakSpeedActivity extends Activity {
 
     private void speakSpeedEnd() {
         //                    寫出
-        WriteToText write = new WriteToText(this, textLogArray);
-        write.write();
+        FileUploader uploader = new FileUploader(this);
+        fileWriter.write(textLogArray);
+        uploader.connect(fileWriter.getFile());
         speechState = STATUS_NOT_USING;
     }
 
@@ -238,5 +237,17 @@ public class SpeakSpeedActivity extends Activity {
                 SpeakSpeedActivity.this.finish();
             }
         };
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == BaseGoogleDrive.ASK_ACCOUNT && resultCode == RESULT_OK) {
+            String account = data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
+            FileUploader uploader = new FileUploader(this);
+            if (account.equals(FileUploader.ACCOUNT_NAME))
+                uploader.getCredential().setSelectedAccountName(account);
+            uploader.connect(fileWriter.getFile());
+        }
     }
 }

@@ -4,8 +4,6 @@ import android.content.Context;
 import android.os.Environment;
 import android.util.Log;
 
-import com.imac.voice_app.util.speakSpeed.SpeakSpeedActivity;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -17,25 +15,26 @@ import java.util.Date;
 /**
  * Created by user on 2016/6/29.
  */
-public class WriteToText {
+public class FileWriter {
     private Context context;
     private ArrayList<Integer> textNumArrayList;
     private int index = 0;
+    private File file;
 
-    public WriteToText(Context context, ArrayList<String> textArrayList) {
+    public FileWriter(Context context) {
         super();
         this.context = context;
         textNumArrayList = new ArrayList<>();
-        for (int i = 0; i < textArrayList.size(); i++) {
-            textNumArrayList.add(textArrayList.get(i).length());
-        }
     }
 
     /**
      * 寫入資料到儲存空間內
      * 以日期命名
      */
-    public void write() {
+    public void write(ArrayList<String> textArrayList) {
+        for (int i = 0; i < textArrayList.size(); i++) {
+            textNumArrayList.add(textArrayList.get(i).length());
+        }
         String path = Environment.getExternalStorageDirectory().getPath()
                 + "/" + context.getPackageName();
         File sdFile = new File(path);
@@ -48,7 +47,6 @@ public class WriteToText {
             SimpleDateFormat minFormat = new SimpleDateFormat("hh:mm");
             String dayFormatDate = dayFormat.format(date);
             String minFormatDate = minFormat.format(date);
-            File file;
             //如果資料夾沒檔案
             if (sdFile.listFiles().length == 0) {
                 Log.e("file exit", "檔案不存在");
@@ -80,5 +78,9 @@ public class WriteToText {
             e.printStackTrace();
             Log.e("FileNotFoundException", e.toString());
         }
+    }
+
+    public File getFile() {
+        return file;
     }
 }
