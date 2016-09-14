@@ -1,6 +1,7 @@
 package com.imac.voice_app.util.login;
 
 import android.Manifest;
+import android.accounts.AccountManager;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -17,6 +18,7 @@ import com.imac.voice_app.core.ActivityLauncher;
 import com.imac.voice_app.module.LoginChecker;
 import com.imac.voice_app.module.PermissionsActivity;
 import com.imac.voice_app.module.PermissionsChecker;
+import com.imac.voice_app.module.base.BaseGoogleDrive;
 import com.imac.voice_app.util.mainmenu.MainActivity;
 import com.imac.voice_app.view.login.DataChangeListener;
 import com.imac.voice_app.view.login.Login;
@@ -39,12 +41,7 @@ public class LoginActivity extends AppCompatActivity implements DataChangeListen
         setContentView(R.layout.activity_login_layout);
         ButterKnife.bind(this);
         permissionsChecker = new PermissionsChecker(this);
-        if (permissionsChecker.missingPermissions(permission)) {
-            PermissionsActivity.startPermissionsForResult(this, ASK_PERMISSION_CODE, permission);
-        } else {
-            init();
-        }
-
+        init();
     }
 
     private void init() {
@@ -84,17 +81,25 @@ public class LoginActivity extends AppCompatActivity implements DataChangeListen
 
     @Override
     public void onDataChange(View view) {
-        LoginChecker checker = new LoginChecker(LoginActivity.this, setEventCallBack());
-        checker.checkFile(((EditText) view).getText().toString());
+        if (permissionsChecker.missingPermissions(permission)) {
+            PermissionsActivity.startPermissionsForResult(this, ASK_PERMISSION_CODE, permission);
+        } else {
+            LoginChecker loginChecker = new LoginChecker(LoginActivity.this, setEventCallBack());
+            loginChecker.checkFile(((EditText) view).getText().toString());
+        }
+
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == ASK_PERMISSION_CODE && resultCode == PermissionsActivity.PERMISSIONS_REFUSE) {
-            finish();
-        } else {
-            init();
+        if (resultCode == RESULT_OK && requestCode == BaseGoogleDrive.ASK_ACCOUNT) {
+            String account = data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
+            LoginChecker loginChecker = new LoginChecker(LoginActivity.this, setEventCallBack());
+            if (account.equals(LoginChecker.ACCOUNT_NAME))
+                loginChecker.getCredential().setSelectedAccountName(account);
+            loginChecker.checkFile(login.getAccountEditText().getText().toString());
+
         }
     }
 }
