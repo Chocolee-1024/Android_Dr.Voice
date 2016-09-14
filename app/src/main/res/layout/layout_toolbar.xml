@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/activity_bg_color">
+
+    <ImageView
+        android:id="@+id/iv_back_left_arrow"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        app:layout_widthPercent="15%"
+        android:layout_alignParentLeft="true"
+        android:scaleType="center"
+        android:src="@drawable/arrow_left_button"/>
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="123"
+        android:textColor="@color/speak_speed_idle"
+        android:textSize="18sp"/>
+
+    <ImageView
+        android:id="@+id/iv_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        app:layout_widthPercent="15%"
+        android:layout_alignParentRight="true"
+        android:scaleType="center"
+        android:src="@drawable/hamburger_button"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_alignParentBottom="true"
+        android:background="#000000" />
+
+
+</android.support.percent.PercentRelativeLayout>
