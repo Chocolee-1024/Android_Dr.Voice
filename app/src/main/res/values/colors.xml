@@ -25,4 +25,7 @@
     <color name="no_color">#00FFFFFF</color>
     <color name="line_color">#808388</color>
     <color name="start_bt_color">#DCA59B</color>
+
+    <!--Toolbar-->
+    <color name="toolbar_line">#E9E8E3</color>
 </resources>
