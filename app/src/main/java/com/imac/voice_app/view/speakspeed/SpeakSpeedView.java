@@ -25,16 +25,16 @@ import butterknife.OnClick;
  * Created by flowmaHuang on 2016/9/5.
  */
 public class SpeakSpeedView {
-    @BindView(R.id.tv_time)
-    TextView mTimeText;
     @BindView(R.id.tv_date)
     TextView mDateText;
     @BindView(R.id.rl_detail_data)
     PercentRelativeLayout mDetailContainer;
     @BindView(R.id.bar_view)
     CustomProgressBar mCustomBarView;
-    @BindView(R.id.tv_calculate_num)
-    TextView mCalculateSpeed;
+    @BindView(R.id.iv_status_emoticon)
+    ImageView mEmoticonImageView;
+    @BindView(R.id.tv_explanation)
+    TextView mPleaseStartTextView;
     @BindView(R.id.tv_status_hint)
     TextView mStatusHintText;
     @BindView(R.id.btn_Check)
@@ -66,10 +66,10 @@ public class SpeakSpeedView {
         mContext = activity.getApplicationContext();
         this.listener = listener;
         initViewSet();
-        Log.e("colorG",Integer.toString(colorStatusIdle));
+        Log.e("colorG", Integer.toString(colorStatusIdle));
     }
 
-    private void initViewSet(){
+    private void initViewSet() {
         Date date = new Date();
         SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
         String todayDate = format.format(date);
@@ -82,25 +82,21 @@ public class SpeakSpeedView {
         Log.e("123", Integer.toString(viewLength));
 
         //        思源字體在數字使用上會造成上下間距變為極大
-        FontManager.setFont(mContext,FontManager.MEDIUM,
-                mTimeText,mDateText,mStatusHintText);
+        FontManager.setFont(mContext, FontManager.MEDIUM,
+                mDateText, mStatusHintText);
     }
 
-    @OnClick({R.id.btn_Check, R.id.btn_close})
-    public void startButtonListener(ImageView view) {
-        switch (view.getId()) {
-            case R.id.btn_Check:
-                listener.checkButton();
-                break;
-            case R.id.btn_close:
-                listener.closeButton();
-                break;
+        @OnClick({R.id.btn_Check, R.id.btn_close})
+        public void startButtonListener (ImageView view){
+            switch (view.getId()) {
+                case R.id.btn_Check:
+                    listener.checkButton();
+                    break;
+                case R.id.btn_close:
+                    listener.closeButton();
+                    break;
+            }
         }
-    }
-
-    public void setTimeTextViewText(String s) {
-        mTimeText.setText(s);
-    }
 
     public void setButtonStatus(boolean status) {
         if (status) {
@@ -115,31 +111,37 @@ public class SpeakSpeedView {
     public void setCalculateSpeedText(String s, int percent) {
         if (Integer.parseInt(s) > 200) {
             mStatusHintText.setText(R.string.speak_too_fast);
+            mEmoticonImageView.setImageResource(R.drawable.toofast);
             mStatusHintText.setTextColor(colorStatusTooFast);
-            mCalculateSpeed.setTextColor(colorStatusTooFast);
         } else if (Integer.parseInt(s) > 160) {
             mStatusHintText.setText(R.string.speak_slower);
             mStatusHintText.setTextColor(colorStatusSlower);
-            mCalculateSpeed.setTextColor(colorStatusSlower);
+            mEmoticonImageView.setImageResource(R.drawable.slower);
         } else {
             mStatusHintText.setText(R.string.speak_good);
+            mEmoticonImageView.setImageResource(R.drawable.good);
             mStatusHintText.setTextColor(colorStatusGood);
-            mCalculateSpeed.setTextColor(colorStatusGood);
         }
-        mCalculateSpeed.setText(s);
-
         mCustomBarView.setAnglePercent(percent);
         mCustomBarView.invalidate();
     }
 
     public void stopButtonResetView() {
         mStatusHintText.setTextColor(colorStatusIdle);
-        mCalculateSpeed.setTextColor(colorStatusIdle);
         mCustomBarView.setAnglePercent(0);
         mCustomBarView.invalidate();
-        mTimeText.setText(mContext.getText(R.string.speak_speed_time_default));
         mStatusHintText.setText(mContext.getText(R.string.speak_start_hint_default));
-        mCalculateSpeed.setText(mContext.getText(R.string.zero));
+    }
 
+    public void setStartTextViewVisibility(boolean viewVisibility) {
+        if (viewVisibility) {
+            mPleaseStartTextView.setVisibility(View.VISIBLE);
+        } else {
+            mPleaseStartTextView.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    public void setmStatusHintText(String text) {
+        mStatusHintText.setText(text);
     }
 }

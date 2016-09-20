@@ -5,26 +5,13 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/tv_time"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:gravity="center"
-        android:text="@string/speak_speed_time_default"
-        android:textSize="50sp"
-        android:textColor="@color/black"
-        app:layout_heightPercent="18%"
-        app:layout_widthPercent="100%" />
-
-    <TextView
         android:id="@+id/tv_date"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_below="@+id/tv_time"
         android:gravity="center"
-        android:textColor="@color/speak_speed_date"
-        android:text="@string/speak_speed_date_default"
-        android:textSize="12sp"
-        app:layout_heightPercent="5%"
+        android:text="2016/08/23"
+        android:textSize="16sp"
+        app:layout_heightPercent="20%"
         app:layout_widthPercent="100%" />
 
     <android.support.percent.PercentRelativeLayout
@@ -33,9 +20,8 @@
         android:layout_height="0dp"
         android:layout_below="@+id/tv_date"
         android:layout_centerHorizontal="true"
-        app:layout_heightPercent="43%"
-        app:layout_widthPercent="68%"
-        app:layout_marginTopPercent="3%">
+        app:layout_heightPercent="50%"
+        app:layout_widthPercent="80%">
 
         <com.imac.voice_app.component.CustomProgressBar
             android:id="@+id/bar_view"
@@ -47,32 +33,28 @@
             android:id="@+id/tv_explanation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/tv_calculate_num"
-            android:layout_centerHorizontal="true"
-            android:text="@string/speak_calculate_font"
+            android:layout_centerInParent="true"
+            android:text="@string/speak_start_hint"
+            android:textSize="22sp"
             android:textColor="@color/speak_speed_idle"/>
 
-        <TextView
-            android:id="@+id/tv_calculate_num"
-            android:layout_width="wrap_content"
+        <ImageView
+            android:id="@+id/iv_status_emoticon"
+            android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_centerInParent="true"
-            android:text="@string/zero"
-            android:textSize="64sp"
-            android:textColor="@color/speak_speed_idle"
-            app:layout_heightPercent="30%"/>
+            android:scaleType="centerInside"
+            app:layout_heightPercent="40%"
+            app:layout_widthPercent="40%" />
 
         <TextView
             android:id="@+id/tv_status_hint"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_calculate_num"
+            android:layout_below="@+id/iv_status_emoticon"
             android:layout_centerHorizontal="true"
             android:gravity="center"
-            android:text="@string/speak_start_hint_default"
-            android:textColor="@color/speak_speed_idle"
-            android:textSize="16sp" />
-
+            android:textColor="@color/speak_speed_idle" />
     </android.support.percent.PercentRelativeLayout>
 
     <ImageView
