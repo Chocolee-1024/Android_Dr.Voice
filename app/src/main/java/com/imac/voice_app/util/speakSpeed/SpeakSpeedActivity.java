@@ -50,8 +50,8 @@ public class SpeakSpeedActivity extends Activity {
         setContentView(R.layout.activity_speak_speed);
 
         //確認日期
-        CheckDate checkDate = new CheckDate(this);
-        checkDate.check();
+//        CheckDate checkDate = new CheckDate(this);
+//        checkDate.check();
 
         initSet();
     }
@@ -86,25 +86,26 @@ public class SpeakSpeedActivity extends Activity {
         layout.setCalculateSpeedText(Integer.toString(wordNum), percent);
     }
 
-    private void calculateUsedTime(int sec) {
-        int cauMin = sec / 60;
-        int cauSec = sec % 60;
-        String strMin;
-        String strSec;
-        if (cauMin > 10) {
-            strMin = Integer.toString(cauMin);
-        } else {
-            strMin = "0" + Integer.toString(cauMin);
-        }
-
-        if (cauSec > 10) {
-            strSec = Integer.toString(cauSec);
-        } else {
-            strSec = "0" + Integer.toString(cauSec);
-        }
-
-        layout.setTimeTextViewText(strMin + ":" + strSec);
-    }
+//    TODO：需要討論介面
+//    private void calculateUsedTime(int sec) {
+//        int cauMin = sec / 60;
+//        int cauSec = sec % 60;
+//        String strMin;
+//        String strSec;
+//        if (cauMin > 10) {
+//            strMin = Integer.toString(cauMin);
+//        } else {
+//            strMin = "0" + Integer.toString(cauMin);
+//        }
+//
+//        if (cauSec > 10) {
+//            strSec = Integer.toString(cauSec);
+//        } else {
+//            strSec = "0" + Integer.toString(cauSec);
+//        }
+//
+//        layout.setTimeTextViewText(strMin + ":" + strSec);
+//    }
 
     private void speakSpeedEnd() {
         //                    寫出
@@ -116,7 +117,7 @@ public class SpeakSpeedActivity extends Activity {
     private final Runnable timerRun = new Runnable() {
         public void run() {
             ++sec;
-            calculateUsedTime(sec);
+//            calculateUsedTime(sec);
             switch (speechState) {
                 case STATUS_NEED_START:
                     mSpeechModule.recognizeStart();
@@ -195,6 +196,8 @@ public class SpeakSpeedActivity extends Activity {
                     mSpeechModule.startCaculateDB();
                     mHandlerTime.postDelayed(timerRun, 1000);
                     layout.setButtonStatus(true);
+                    layout.setmStatusHintText("");
+                    layout.setStartTextViewVisibility(false);
                 } else {
                     if (speechState == STATUS_RECORDING) {
                         mSpeechModule.recognizeForceStop(true);

@@ -25,16 +25,16 @@ import butterknife.OnClick;
  * Created by flowmaHuang on 2016/9/5.
  */
 public class SpeakSpeedView {
-    @BindView(R.id.tv_time)
-    TextView mTimeText;
     @BindView(R.id.tv_date)
     TextView mDateText;
     @BindView(R.id.rl_detail_data)
     PercentRelativeLayout mDetailContainer;
     @BindView(R.id.bar_view)
     CustomProgressBar mCustomBarView;
-    @BindView(R.id.tv_calculate_num)
-    TextView mCalculateSpeed;
+    @BindView(R.id.iv_status_emoticon)
+    ImageView mEmoticonImageView;
+    @BindView(R.id.tv_explanation)
+    TextView mPleaseStartTextView;
     @BindView(R.id.tv_status_hint)
     TextView mStatusHintText;
     @BindView(R.id.btn_Check)
@@ -77,7 +77,6 @@ public class SpeakSpeedView {
 
     private void setFontStyle() {
         Typeface fontTypeMedium = Typeface.createFromAsset(mContext.getAssets(), "font/SourceHanSansTWHK-Medium.otf");
-        mTimeText.setTypeface(fontTypeMedium);
         mDateText.setTypeface(fontTypeMedium);
 //        思源字體在數字使用上會造成上下間距變為極大
 //        mCalculateSpeed.setTypeface(fontTypeMedium);
@@ -96,10 +95,6 @@ public class SpeakSpeedView {
         }
     }
 
-    public void setTimeTextViewText(String s) {
-        mTimeText.setText(s);
-    }
-
     public void setButtonStatus(boolean status) {
         if (status) {
             mCheckButton.setImageResource(R.drawable.stop_button);
@@ -113,35 +108,42 @@ public class SpeakSpeedView {
     public void setCalculateSpeedText(String s, int percent) {
         if (Integer.parseInt(s) > 200) {
             mStatusHintText.setText(R.string.speak_too_fast);
+            mEmoticonImageView.setImageResource(R.drawable.toofast);
             if (Build.VERSION.SDK_INT > 22) {
                 mStatusHintText.setTextColor(mContext.getResources().getColor(R.color.speak_speed_too_fast, null));
-                mCalculateSpeed.setTextColor(mContext.getResources().getColor(R.color.speak_speed_too_fast, null));
             } else {
                 mStatusHintText.setTextColor(mContext.getResources().getColor(R.color.speak_speed_too_fast));
-                mCalculateSpeed.setTextColor(mContext.getResources().getColor(R.color.speak_speed_too_fast));
             }
         } else if (Integer.parseInt(s) > 160) {
             mStatusHintText.setText(R.string.speak_slower);
+            mEmoticonImageView.setImageResource(R.drawable.slower);
             if (Build.VERSION.SDK_INT > 22) {
                 mStatusHintText.setTextColor(mContext.getResources().getColor(R.color.speak_speed_slower, null));
-                mCalculateSpeed.setTextColor(mContext.getResources().getColor(R.color.speak_speed_slower, null));
             } else {
                 mStatusHintText.setTextColor(mContext.getResources().getColor(R.color.speak_speed_slower));
-                mCalculateSpeed.setTextColor(mContext.getResources().getColor(R.color.speak_speed_slower));
             }
         } else {
             mStatusHintText.setText(R.string.speak_good);
+            mEmoticonImageView.setImageResource(R.drawable.good);
             if (Build.VERSION.SDK_INT > 22) {
                 mStatusHintText.setTextColor(mContext.getResources().getColor(R.color.speak_speed_good, null));
-                mCalculateSpeed.setTextColor(mContext.getResources().getColor(R.color.speak_speed_good, null));
             } else {
                 mStatusHintText.setTextColor(mContext.getResources().getColor(R.color.speak_speed_good));
-                mCalculateSpeed.setTextColor(mContext.getResources().getColor(R.color.speak_speed_good));
             }
         }
-        mCalculateSpeed.setText(s);
-
         mCustomBarView.setAnglePercent(percent);
         mCustomBarView.invalidate();
+    }
+
+    public void setStartTextViewVisibility (boolean viewVisibility){
+        if (viewVisibility) {
+            mPleaseStartTextView.setVisibility(View.VISIBLE);
+        } else {
+            mPleaseStartTextView.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    public void setmStatusHintText(String text){
+        mStatusHintText.setText(text);
     }
 }
