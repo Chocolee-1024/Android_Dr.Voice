@@ -20,6 +20,7 @@ public class FileWriter {
     private ArrayList<Integer> textNumArrayList;
     private int index = 0;
     private File file;
+    private Date startDate;
 
     public FileWriter(Context context) {
         super();
@@ -31,9 +32,12 @@ public class FileWriter {
      * 寫入資料到儲存空間內
      * 以日期命名
      */
-    public void write(ArrayList<String> textArrayList) {
+    public void write(String name, ArrayList<String> textArrayList) {
         for (int i = 0; i < textArrayList.size(); i++) {
             textNumArrayList.add(textArrayList.get(i).length());
+        }
+        if (textNumArrayList.size() == 0) {
+            return;
         }
         String path = Environment.getExternalStorageDirectory().getPath()
                 + "/" + context.getPackageName();
@@ -43,15 +47,21 @@ public class FileWriter {
         try {
             int temp = 0;
             Date date = new Date();
-            SimpleDateFormat dayFormat = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat dayFormat = new SimpleDateFormat("MM-dd");
             SimpleDateFormat minFormat = new SimpleDateFormat("hh:mm");
+            SimpleDateFormat secFormat = new SimpleDateFormat("hh:mm:ss");
+
+            String yearFormatDate = yearFormat.format(date);
             String dayFormatDate = dayFormat.format(date);
             String minFormatDate = minFormat.format(date);
+            String startMinFormatDate = secFormat.format(startDate);
+            String secFormatDate = secFormat.format(date);
             //如果資料夾沒檔案
             if (sdFile.listFiles().length == 0) {
                 Log.e("file exit", "檔案不存在");
                 //TODO  檔名可能會修改
-                file = new File(sdFile, dayFormatDate + "Name" + ".csv");
+                file = new File(sdFile, dayFormatDate + " " + minFormatDate + ".csv");
             }
             //如果資料夾有檔案
             //把資料寫入第一個檔案中
@@ -61,16 +71,17 @@ public class FileWriter {
             }
             PrintWriter printWriter = new PrintWriter(new FileOutputStream(file, true));
             //TODO 寫入的項目可能會再變
-            printWriter.append("," + dayFormatDate);
-            printWriter.append("," + minFormatDate);
-//            printWriter.write("," + ((MainActivity) context).getName());
+            printWriter.write("," + name);
+            printWriter.append("," + yearFormatDate);
+            printWriter.append("," + startMinFormatDate);
+            printWriter.append("," + secFormatDate);
             for (int i = 0; i < textNumArrayList.size(); i++) {
                 Log.e("temp", "字數累加 :  " + temp);
                 //字數累加
                 temp += textNumArrayList.get(i);
             }
-            printWriter.append("," + Integer.toString(temp) + ",");
-//            printWriter.append("," + ((SpeakSpeedActivity) context).getSex() + ",");
+            printWriter.append("," + Integer.toString(temp));
+            printWriter.append("," + Integer.toString(temp / textNumArrayList.size() * 2) + ",");
             printWriter.append("\n");
             printWriter.flush();
             printWriter.close();
@@ -78,6 +89,10 @@ public class FileWriter {
             e.printStackTrace();
             Log.e("FileNotFoundException", e.toString());
         }
+    }
+
+    public void setStartTime(Date date) {
+        this.startDate = date;
     }
 
     public File getFile() {

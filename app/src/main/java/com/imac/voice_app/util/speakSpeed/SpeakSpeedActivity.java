@@ -12,14 +12,16 @@ import android.view.WindowManager;
 
 import com.imac.voice_app.R;
 import com.imac.voice_app.module.FileUploader;
+import com.imac.voice_app.module.FileWriter;
 import com.imac.voice_app.module.PermissionsActivity;
 import com.imac.voice_app.module.PermissionsChecker;
 import com.imac.voice_app.module.SpeechKitModule;
-import com.imac.voice_app.module.FileWriter;
 import com.imac.voice_app.module.base.BaseGoogleDrive;
+import com.imac.voice_app.util.login.LoginActivity;
 import com.imac.voice_app.view.speakspeed.SpeakSpeedView;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 
 public class SpeakSpeedActivity extends Activity {
@@ -29,6 +31,8 @@ public class SpeakSpeedActivity extends Activity {
     private Context mContext;
     private Handler mHandlerTime;
     private FileWriter fileWriter;
+    private String loginAccount;
+    private String loginName;
 
     private int speechState;
     private int sec;
@@ -62,7 +66,6 @@ public class SpeakSpeedActivity extends Activity {
         setContentView(R.layout.activity_speak_speed);
         mContext = this.getApplicationContext();
         fileWriter = new FileWriter(this);
-
         initSet();
     }
 
@@ -83,6 +86,13 @@ public class SpeakSpeedActivity extends Activity {
         speechState = STATUS_NOT_USING;
 
         mSpeechModule.setTextUpdateListener(TextUpdateListener());
+        getBundle();
+    }
+
+    private void getBundle() {
+        Bundle bundle = getIntent().getExtras();
+        loginAccount = bundle.getString(LoginActivity.KEY_LOGIN_ACCOUNT);
+        loginName = bundle.getString(LoginActivity.KEY_LOGIN_NAME);
     }
 
     private void calculateNumPerMinute(int wordCount) {
@@ -119,10 +129,11 @@ public class SpeakSpeedActivity extends Activity {
 
     private void speakSpeedEnd() {
         //                    寫出
-        FileUploader uploader = new FileUploader(this);
-        fileWriter.write(textLogArray);
+        FileUploader uploader = new FileUploader(this,loginName,loginAccount);
+        fileWriter.write(loginName, textLogArray);
         uploader.connect(fileWriter.getFile());
         speechState = STATUS_NOT_USING;
+
     }
 
     private final Runnable timerRun = new Runnable() {
@@ -214,6 +225,8 @@ public class SpeakSpeedActivity extends Activity {
                         layout.setButtonStatus(true);
                         layout.setmStatusHintText("");
                         layout.setStartTextViewVisibility(false);
+                        Date date = new Date();
+                        fileWriter.setStartTime(date);
                     }
                 } else {
                     if (speechState == STATUS_RECORDING) {
@@ -248,7 +261,7 @@ public class SpeakSpeedActivity extends Activity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == BaseGoogleDrive.ASK_ACCOUNT && resultCode == RESULT_OK) {
             String account = data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
-            FileUploader uploader = new FileUploader(this);
+            FileUploader uploader = new FileUploader(this,loginName,loginAccount);
             if (account.equals(FileUploader.ACCOUNT_NAME))
                 uploader.getCredential().setSelectedAccountName(account);
             uploader.connect(fileWriter.getFile());

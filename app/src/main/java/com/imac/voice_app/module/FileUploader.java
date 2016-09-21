@@ -15,18 +15,20 @@ import java.util.Collections;
 
 public class FileUploader extends BaseGoogleDrive {
     private final static String TAG = "result";
-    public final static String ACCOUNT_NAME = "willin14687@gmail.com";
+    public final static String ACCOUNT_NAME = "voice.dr.wang@gmail.com";
     public final static int ASK_ACCESS_ACCOUNT_PERMISSION = 123;
     public final static int SET_ACCOUNT = 321;
-    private String fileName = "測試資料夾";
+    private String fileName = "0919333333(林毅鑫)";
+    private String name = "";
+    private String account = "";
 
     private Activity activity;
     private File file;
 
-    public FileUploader(Activity activity) {
+    public FileUploader(Activity activity, String name, String account) {
         super(activity);
         this.activity = activity;
-
+        fileName = account + "(" + name + ")";
     }
 
     @Override
@@ -37,40 +39,31 @@ public class FileUploader extends BaseGoogleDrive {
     protected boolean onAccess() {
         FileList result = null;
         String folderId = null;
-        boolean isSuccess=false;
+        boolean isSuccess = false;
         String path = Environment.getExternalStorageDirectory().getPath()
                 + "/" + activity.getPackageName() + "/" + file.getName();
         try {
             if (credential.getSelectedAccountName() == null) {
-                 activity.startActivityForResult(credential.newChooseAccountIntent(), SET_ACCOUNT);
+                activity.startActivityForResult(credential.newChooseAccountIntent(), SET_ACCOUNT);
                 return false;
             }
             result = drive.files().list()
                     .setQ("name='" + fileName + "'")
                     .execute();
-            if (result.getFiles().size() == 0) {
-                com.google.api.services.drive.model.File fileMetadata = new com.google.api.services.drive.model.File();
-                fileMetadata.setName(fileName);
-                fileMetadata.setMimeType("application/vnd.google-apps.folder");
-
-                com.google.api.services.drive.model.File folder = drive.files().create(fileMetadata)
-                        .setFields("id")
-                        .execute();
-
-                folderId = folder.getId();
-            } else {
+            if (result.getFiles().size() != 0) {
                 folderId = result.getFiles().get(0).getId();
+                com.google.api.services.drive.model.File fileMetadata = new com.google.api.services.drive.model.File();
+                fileMetadata.setName(file.getName());
+                fileMetadata.setParents(Collections.singletonList(folderId));
+                java.io.File filePath = new java.io.File(path);
+                FileContent mediaContent = new FileContent("text/csv", filePath);
+                com.google.api.services.drive.model.File uploadFile = drive.files().create(fileMetadata, mediaContent)
+                        .setFields("id, parents")
+                        .execute();
+                file.delete();
+                isSuccess = true;
             }
-            com.google.api.services.drive.model.File fileMetadata = new com.google.api.services.drive.model.File();
-            fileMetadata.setName(file.getName());
-            fileMetadata.setParents(Collections.singletonList(folderId));
-            java.io.File filePath = new java.io.File(path);
-            FileContent mediaContent = new FileContent("text/csv", filePath);
-            com.google.api.services.drive.model.File uploadFile = drive.files().create(fileMetadata, mediaContent)
-                    .setFields("id, parents")
-                    .execute();
-            file.delete();
-            isSuccess =true;
+
         } catch (UserRecoverableAuthIOException e) {
             //跳出權限dialog
             activity.startActivityForResult(e.getIntent(), ASK_ACCESS_ACCOUNT_PERMISSION);
@@ -98,8 +91,9 @@ public class FileUploader extends BaseGoogleDrive {
         return ACCOUNT_NAME;
     }
 
-    public void connect( File file) {
+    public void connect(File file) {
         this.file = file;
-        execute();
+        if (file != null)
+            execute();
     }
 }

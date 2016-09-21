@@ -17,25 +17,31 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
         <activity android:name=".util.TemporaryDevelopActivity">
+            <!--<intent-filter>-->
+            <!--<action android:name="android.intent.action.MAIN" />-->
+
+            <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
+
+
+        <activity
+            android:name=".util.speakSpeed.SpeakSpeedActivity"
+            android:windowSoftInputMode="adjustPan">
+            <meta-data
+                android:name="com.google.android.apps.drive.APP_ID"
+                android:value="@string/key" />
+        </activity>
+        <activity android:name=".util.homepage.HomePageActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-
-
-        <activity android:name=".util.speakSpeed.SpeakSpeedActivity"
-            android:windowSoftInputMode="adjustPan">
-            <meta-data
-                android:name="com.google.android.apps.drive.APP_ID"
-                android:value="@string/key" />
-        </activity>
-        <activity android:name=".util.homepage.HomePageActivity"></activity>
         <activity android:name=".util.login.LoginActivity" />
         <activity android:name=".util.mainmenu.MainActivity"></activity>
-        <activity android:name=".module.PermissionsActivity"/>
+        <activity android:name=".module.PermissionsActivity" />
     </application>
 
 </manifest>
