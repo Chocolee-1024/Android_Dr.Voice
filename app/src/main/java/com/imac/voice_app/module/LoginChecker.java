@@ -26,6 +26,7 @@ public class LoginChecker extends BaseGoogleDrive {
 
     @Override
     protected boolean onAccess() {
+
         FileList result = null;
         boolean isSuccess = false;
         try {
@@ -61,7 +62,7 @@ public class LoginChecker extends BaseGoogleDrive {
     @Override
     protected void successAccess() {
         event.hideProgress();
-        event.onSuccessful();
+        event.onSuccessful(account);
     }
 
     @Override
@@ -79,7 +80,6 @@ public class LoginChecker extends BaseGoogleDrive {
         super(activity);
         this.activity = activity;
         this.event = event;
-
     }
 
     public void checkFile(final String account) {
@@ -87,7 +87,7 @@ public class LoginChecker extends BaseGoogleDrive {
         execute();
     }
     public interface eventCallBack {
-        public void onSuccessful();
+        public void onSuccessful(String account);
 
         public void onFail();
 

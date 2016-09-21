@@ -18,6 +18,7 @@ import com.imac.voice_app.core.ActivityLauncher;
 import com.imac.voice_app.module.LoginChecker;
 import com.imac.voice_app.module.PermissionsActivity;
 import com.imac.voice_app.module.PermissionsChecker;
+import com.imac.voice_app.module.SearchName;
 import com.imac.voice_app.module.base.BaseGoogleDrive;
 import com.imac.voice_app.util.mainmenu.MainActivity;
 import com.imac.voice_app.view.login.DataChangeListener;
@@ -34,6 +35,8 @@ public class LoginActivity extends AppCompatActivity implements DataChangeListen
     private final String[] permission = new String[]{
             Manifest.permission.GET_ACCOUNTS
     };
+    public final static  String KEY_LOGIN_ACCOUNT="key_login_account";
+    public final static  String KEY_LOGIN_NAME="key_login_name";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,13 +57,31 @@ public class LoginActivity extends AppCompatActivity implements DataChangeListen
     private LoginChecker.eventCallBack setEventCallBack() {
         return new LoginChecker.eventCallBack() {
             @Override
-            public void onSuccessful() {
-                ActivityLauncher.go(LoginActivity.this, MainActivity.class, null);
+            public void onSuccessful(final String account) {
+                SearchName search=new SearchName(LoginActivity.this, account, new SearchName.onCallBackEvent() {
+                    @Override
+                    public void onSearchResult(String search) {
+                        Bundle bundle =new Bundle();
+                        bundle.putString(KEY_LOGIN_ACCOUNT,account);
+                        bundle.putString(KEY_LOGIN_NAME,search);
+                        ActivityLauncher.go(LoginActivity.this, MainActivity.class, bundle);
+                        progressDialog.dismiss();
+                    }
+
+                    @Override
+                    public void onSearchFail() {
+                        Toast.makeText(LoginActivity.this,"此帳號未設定姓名",Toast.LENGTH_SHORT).show();
+                        progressDialog.dismiss();
+                    }
+                });
+                search.execute();
+
             }
 
             @Override
             public void onFail() {
                 Toast.makeText(LoginActivity.this, getString(R.string.login_fail), Toast.LENGTH_SHORT).show();
+                progressDialog.dismiss();
             }
 
             @Override
@@ -74,7 +95,6 @@ public class LoginActivity extends AppCompatActivity implements DataChangeListen
 
             @Override
             public void hideProgress() {
-                progressDialog.dismiss();
             }
         };
     }
