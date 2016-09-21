@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.WindowManager;
 
 import com.imac.voice_app.R;
+import com.imac.voice_app.component.ToolbarView;
 import com.imac.voice_app.module.FileUploader;
 import com.imac.voice_app.module.FileWriter;
 import com.imac.voice_app.module.PermissionsActivity;
@@ -18,6 +19,7 @@ import com.imac.voice_app.module.PermissionsChecker;
 import com.imac.voice_app.module.SpeechKitModule;
 import com.imac.voice_app.module.base.BaseGoogleDrive;
 import com.imac.voice_app.util.login.LoginActivity;
+import com.imac.voice_app.util.mainmenu.MainActivity;
 import com.imac.voice_app.view.speakspeed.SpeakSpeedView;
 
 import java.util.ArrayList;
@@ -43,10 +45,16 @@ public class SpeakSpeedActivity extends Activity {
     private ArrayList<String> textLogArray;
 
     private static final int ASK_PERMISSION_CODE = 0;
-    private static final int SEC_MAX = 60 * 50;
-    private static final int SEC_RECORD = 30;
-    private static final int SEC_COOL_DOWN = 30;
-    private static final int COUNT_MAX = 16;
+//    private static final int SEC_MAX = 60 * 50;
+//    private static final int SEC_RECORD = 30;
+//    private static final int SEC_COOL_DOWN = 30;
+//    private static final int COUNT_MAX = 16;
+
+    //test build setting
+    private static final int SEC_MAX = 60 * 5;
+    private static final int SEC_RECORD = 15;
+    private static final int SEC_COOL_DOWN = 3;
+    private static final int COUNT_MAX = 8;
 
     //speechStatus status code
     private static final int STATUS_IDLE = 0;
@@ -86,6 +94,7 @@ public class SpeakSpeedActivity extends Activity {
         speechState = STATUS_NOT_USING;
 
         mSpeechModule.setTextUpdateListener(TextUpdateListener());
+        layout.setToolbarViewCallBack(toolbarCallBack());
         getBundle();
     }
 
@@ -96,10 +105,8 @@ public class SpeakSpeedActivity extends Activity {
     }
 
     private void calculateNumPerMinute(int wordCount) {
-        int percent;
-        int wordNum;
-        wordNum = wordCount / count * 2;
-        percent = wordCount / 3;
+        int wordNum = wordCount * 4;
+        int percent = wordNum / 3;
         Log.e("wordCount", Integer.toString(wordCount));
         Log.e("percent", Integer.toString(percent));
         layout.setCalculateSpeedText(Integer.toString(wordNum), percent);
@@ -238,6 +245,7 @@ public class SpeakSpeedActivity extends Activity {
                     speechState = STATUS_NOT_USING;
                     layout.setButtonStatus(false);
                     layout.stopButtonResetView();
+                    layout.setStartTextViewVisibility(true);
                     speakSpeedEnd();
                 }
             }
@@ -252,6 +260,24 @@ public class SpeakSpeedActivity extends Activity {
                 mHandlerTime.removeCallbacks(timerRun);
                 speechState = STATUS_NOT_USING;
                 SpeakSpeedActivity.this.finish();
+            }
+        };
+    }
+
+    private ToolbarView.toolbarCallBack toolbarCallBack(){
+        return new ToolbarView.toolbarCallBack() {
+            @Override
+            public void backButtonListener() {
+
+            }
+
+            @Override
+            public void menuButtonListener() {
+                Intent intent = new Intent(mContext, MainActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.anim_zoom_in_top,R.anim.anim_zoom_out_top);
+
+                finish();
             }
         };
     }

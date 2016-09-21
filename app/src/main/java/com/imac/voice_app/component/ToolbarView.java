@@ -1,6 +1,8 @@
 package com.imac.voice_app.component;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -33,10 +35,13 @@ public class ToolbarView extends RelativeLayout {
 
     public interface toolbarCallBack {
         void backButtonListener();
+
+        void menuButtonListener();
     }
 
     private toolbarCallBack listener = null;
     private Context mContext;
+    private Activity mActivity;
     private View view;
 
     public ToolbarView(Context context, AttributeSet attributeSet) {
@@ -80,7 +85,9 @@ public class ToolbarView extends RelativeLayout {
                 }
                 break;
             case R.id.iv_menu:
-                ActivityLauncher.go(mContext, MainActivity.class, null);
+                if (listener != null) {
+                    listener.menuButtonListener();
+                }
                 break;
         }
     }

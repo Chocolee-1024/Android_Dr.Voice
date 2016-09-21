@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        getBundle();
+//        getBundle();
         MainMenu mainMenu = new MainMenu(this, new MainMenu.OnClickEvent() {
             @Override
             public void onClick(View view, int position) {
