@@ -47,7 +47,7 @@ public class FileWriter {
         try {
             int temp = 0;
             Date date = new Date();
-            SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy/MM/dd");
             SimpleDateFormat dayFormat = new SimpleDateFormat("MM-dd");
             SimpleDateFormat minFormat = new SimpleDateFormat("hh:mm");
             SimpleDateFormat secFormat = new SimpleDateFormat("hh:mm:ss");
