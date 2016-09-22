@@ -21,10 +21,10 @@ import com.nuance.speechkit.TransactionException;
  * Speech kit Module used to Nuance's ASR feature
  */
 public class SpeechKitModule {
-    //至官方網站申請帳號取得開發用授權如下列String與Uri
-    public static final String APP_KEY = "d826a3aae3a5193336c77888738fbcc10cc40e0011cefbeaf6b193827298784abe1bf5a1c00ed4f6d64d7e49dc3a0ae9ff18e910e6e4fadc958d5f0826d752e4";
-    public static final String APP_ID = "NMDPTRIAL_u07f08_gmail_com20160621234119";
-    public static final String SERVER_HOST = "sslsandbox.nmdp.nuancemobility.net";
+    //至官方網站申請帳號取得開發用授權如下列String與Uri，目前授權使用王醫師自行申請的付費授權
+    public static final String APP_KEY = "7c1245f7b3e7cac9fb860188bef9a560d36fe8bc9614210c67bac5443d5863b96aa8b01e8f7ae78b00e813bfe1b81fb4270870bd1c91c9834b8ec788e72a4151";
+    public static final String APP_ID = "NMDPPRODUCTION_Chi_Te_Wang_Voice_20160531062809";
+    public static final String SERVER_HOST = "jcx.nmdp.nuancemobility.net";
     public static final String SERVER_PORT = "443";
     public static final Uri SERVER_URI = Uri.parse("nmsps://" + APP_ID + "@" + SERVER_HOST + ":" + SERVER_PORT);
 

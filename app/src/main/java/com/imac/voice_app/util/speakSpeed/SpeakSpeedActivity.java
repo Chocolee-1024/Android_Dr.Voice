@@ -136,7 +136,7 @@ public class SpeakSpeedActivity extends Activity {
 
     private void speakSpeedEnd() {
         //                    寫出
-        FileUploader uploader = new FileUploader(this,loginName,loginAccount);
+        FileUploader uploader = new FileUploader(this, loginName, loginAccount);
         fileWriter.write(loginName, textLogArray);
         uploader.connect(fileWriter.getFile());
         speechState = STATUS_NOT_USING;
@@ -163,9 +163,7 @@ public class SpeakSpeedActivity extends Activity {
             }
 
             if (secCoolDown == SEC_COOL_DOWN) {
-                speechState = STATUS_IDLE;
                 secCoolDown = 0;
-                mSpeechModule.startCaculateDB();
                 Log.e("secCoolDown", "secCoolDown end");
             }
 
@@ -194,13 +192,17 @@ public class SpeakSpeedActivity extends Activity {
             public void updateText(String str) {
                 textLogArray.add(str);
                 calculateFont = calculateFont + str.length();
-                calculateNumPerMinute(calculateFont);
+                calculateNumPerMinute(str.length());
+                speechState = STATUS_IDLE;
+                mSpeechModule.startCaculateDB();
             }
 
             @Override
             public void ErrorOccurred() {
                 textLogArray.add("");
-                calculateNumPerMinute(calculateFont);
+                calculateNumPerMinute(0);
+                speechState = STATUS_IDLE;
+                mSpeechModule.startCaculateDB();
             }
 
             @Override
@@ -264,7 +266,7 @@ public class SpeakSpeedActivity extends Activity {
         };
     }
 
-    private ToolbarView.toolbarCallBack toolbarCallBack(){
+    private ToolbarView.toolbarCallBack toolbarCallBack() {
         return new ToolbarView.toolbarCallBack() {
             @Override
             public void backButtonListener() {
@@ -273,9 +275,8 @@ public class SpeakSpeedActivity extends Activity {
 
             @Override
             public void menuButtonListener() {
-                Intent intent = new Intent(mContext, MainActivity.class);
-                startActivity(intent);
-                overridePendingTransition(R.anim.anim_zoom_in_top,R.anim.anim_zoom_out_top);
+                finish();
+                overridePendingTransition(R.anim.anim_zoom_in_top, R.anim.anim_zoom_out_top);
 
                 finish();
             }
@@ -287,7 +288,7 @@ public class SpeakSpeedActivity extends Activity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == BaseGoogleDrive.ASK_ACCOUNT && resultCode == RESULT_OK) {
             String account = data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
-            FileUploader uploader = new FileUploader(this,loginName,loginAccount);
+            FileUploader uploader = new FileUploader(this, loginName, loginAccount);
             if (account.equals(FileUploader.ACCOUNT_NAME))
                 uploader.getCredential().setSelectedAccountName(account);
             uploader.connect(fileWriter.getFile());
