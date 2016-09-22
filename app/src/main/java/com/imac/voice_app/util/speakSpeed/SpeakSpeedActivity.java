@@ -50,11 +50,11 @@ public class SpeakSpeedActivity extends Activity {
 //    private static final int SEC_COOL_DOWN = 30;
 //    private static final int COUNT_MAX = 16;
 
-    //test build setting
-    private static final int SEC_MAX = 60 * 5;
-    private static final int SEC_RECORD = 15;
+    //spring1 release ver 3min
+    private static final int SEC_MAX = 60 * 3;
+    private static final int SEC_RECORD = 10;
     private static final int SEC_COOL_DOWN = 3;
-    private static final int COUNT_MAX = 8;
+    private static final int COUNT_MAX = 6;
 
     //speechStatus status code
     private static final int STATUS_IDLE = 0;
