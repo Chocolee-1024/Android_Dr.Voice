@@ -47,7 +47,7 @@ public class FileWriter {
         try {
             int temp = 0;
             Date date = new Date();
-            SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy/MM/dd");
             SimpleDateFormat dayFormat = new SimpleDateFormat("MM-dd");
             SimpleDateFormat minFormat = new SimpleDateFormat("hh:mm");
             SimpleDateFormat secFormat = new SimpleDateFormat("hh:mm:ss");
@@ -81,7 +81,7 @@ public class FileWriter {
                 temp += textNumArrayList.get(i);
             }
             printWriter.append("," + Integer.toString(temp));
-            printWriter.append("," + Integer.toString(temp / textNumArrayList.size() * 6) + ",");
+            printWriter.append("," + Integer.toString(temp / textNumArrayList.size() * 2) + ",");
             printWriter.append("\n");
             printWriter.flush();
             printWriter.close();
