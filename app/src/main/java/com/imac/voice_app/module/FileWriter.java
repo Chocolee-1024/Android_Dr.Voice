@@ -81,7 +81,7 @@ public class FileWriter {
                 temp += textNumArrayList.get(i);
             }
             printWriter.append("," + Integer.toString(temp));
-            printWriter.append("," + Integer.toString(temp / textNumArrayList.size() * 6) + ",");
+            printWriter.append("," + Integer.toString(temp / textNumArrayList.size() * 2) + ",");
             printWriter.append("\n");
             printWriter.flush();
             printWriter.close();

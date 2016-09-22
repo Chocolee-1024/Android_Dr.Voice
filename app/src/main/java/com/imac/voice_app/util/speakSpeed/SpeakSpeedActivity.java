@@ -45,16 +45,11 @@ public class SpeakSpeedActivity extends Activity {
     private ArrayList<String> textLogArray;
 
     private static final int ASK_PERMISSION_CODE = 0;
-//    private static final int SEC_MAX = 60 * 50;
-//    private static final int SEC_RECORD = 30;
-//    private static final int SEC_COOL_DOWN = 30;
-//    private static final int COUNT_MAX = 16;
 
-    //spring1 release ver 3min
-    private static final int SEC_MAX = 60 * 3;
-    private static final int SEC_RECORD = 10;
-    private static final int SEC_COOL_DOWN = 3;
-    private static final int COUNT_MAX = 6;
+    private static final int SEC_MAX = 60 * 50;
+    private static final int SEC_RECORD = 30;
+    private static final int SEC_COOL_DOWN = 30;
+    private static final int COUNT_MAX = 16;
 
     //speechStatus status code
     private static final int STATUS_IDLE = 0;
