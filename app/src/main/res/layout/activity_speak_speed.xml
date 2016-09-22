@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/activity_bg_color">
+
+    <com.imac.voice_app.component.ToolbarView
+        android:id="@+id/toolbar_speak_speed"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_heightPercent="10%"
+        app:backButtonVisibility="false"
+        app:titleText="@string/speak_speed_title"/>
+
+    <TextView
+        android:id="@+id/tv_date"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:layout_below="@+id/toolbar_speak_speed"
+        android:text="2016/08/23"
+        android:textSize="16sp"
+        app:layout_heightPercent="20%"
+        app:layout_widthPercent="100%" />
+
+    <android.support.percent.PercentRelativeLayout
+        android:id="@+id/rl_detail_data"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_below="@+id/tv_date"
+        android:layout_centerHorizontal="true"
+        app:layout_heightPercent="50%"
+        app:layout_widthPercent="80%">
+
+        <com.imac.voice_app.component.CustomProgressBar
+            android:id="@+id/bar_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"/>
+
+        <TextView
+            android:id="@+id/tv_explanation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/speak_start_hint"
+            android:textSize="22sp"
+            android:textColor="@color/speak_speed_idle"/>
+
+        <ImageView
+            android:id="@+id/iv_status_emoticon"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_centerInParent="true"
+            android:scaleType="centerInside"
+            android:visibility="invisible"
+            app:layout_heightPercent="40%"
+            app:layout_widthPercent="40%" />
+
+        <TextView
+            android:id="@+id/tv_status_hint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/iv_status_emoticon"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:textColor="@color/speak_speed_idle" />
+    </android.support.percent.PercentRelativeLayout>
+
+    <ImageView
+        android:id="@+id/btn_Check"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_below="@+id/rl_detail_data"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/mike_button"
+        android:scaleType="centerInside"
+        app:layout_widthPercent="18%"
+        app:layout_heightPercent="20%"/>
+
+    <ImageView
+        android:id="@+id/btn_close"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_below="@+id/rl_detail_data"
+        android:layout_toRightOf="@+id/btn_Check"
+        android:visibility="invisible"
+        android:src="@drawable/close_button"
+        android:scaleType="centerInside"
+        app:layout_marginLeftPercent="7%"
+        app:layout_widthPercent="16%"
+        app:layout_heightPercent="20%"/>
+</android.support.percent.PercentRelativeLayout>
