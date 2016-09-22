@@ -112,14 +112,18 @@ public class SpeakSpeedView {
     }
 
     public void setCalculateSpeedText(String s, int percent) {
+        if (mEmoticonImageView.getVisibility() == View.INVISIBLE) {
+            mEmoticonImageView.setVisibility(View.VISIBLE);
+        }
+
         if (Integer.parseInt(s) > 200) {
             mStatusHintText.setText(R.string.speak_too_fast);
-            mEmoticonImageView.setImageResource(R.drawable.toofast);
+            mEmoticonImageView.setImageResource(R.drawable.too_fast);
             mStatusHintText.setTextColor(colorStatusTooFast);
         } else if (Integer.parseInt(s) > 160) {
             mStatusHintText.setText(R.string.speak_slower);
             mStatusHintText.setTextColor(colorStatusSlower);
-            mEmoticonImageView.setImageResource(R.drawable.slower);
+            mEmoticonImageView.setImageResource(R.drawable.be_slow);
         } else {
             mStatusHintText.setText(R.string.speak_good);
             mEmoticonImageView.setImageResource(R.drawable.good);
@@ -142,7 +146,6 @@ public class SpeakSpeedView {
             mEmoticonImageView.setVisibility(View.INVISIBLE);
         } else {
             mPleaseStartTextView.setVisibility(View.INVISIBLE);
-            mEmoticonImageView.setVisibility(View.VISIBLE);
         }
     }
 
