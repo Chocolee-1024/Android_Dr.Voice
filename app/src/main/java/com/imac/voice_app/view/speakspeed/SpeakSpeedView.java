@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.imac.voice_app.R;
 import com.imac.voice_app.component.CustomProgressBar;
+import com.imac.voice_app.component.ToolbarView;
 import com.imac.voice_app.module.FontManager;
 
 import java.text.SimpleDateFormat;
@@ -25,6 +26,8 @@ import butterknife.OnClick;
  * Created by flowmaHuang on 2016/9/5.
  */
 public class SpeakSpeedView {
+    @BindView(R.id.toolbar_speak_speed)
+    ToolbarView mToolbarView;
     @BindView(R.id.tv_date)
     TextView mDateText;
     @BindView(R.id.rl_detail_data)
@@ -130,18 +133,24 @@ public class SpeakSpeedView {
         mStatusHintText.setTextColor(colorStatusIdle);
         mCustomBarView.setAnglePercent(0);
         mCustomBarView.invalidate();
-        mStatusHintText.setText(mContext.getText(R.string.speak_start_hint_default));
+        mStatusHintText.setText("");
     }
 
     public void setStartTextViewVisibility(boolean viewVisibility) {
         if (viewVisibility) {
             mPleaseStartTextView.setVisibility(View.VISIBLE);
+            mEmoticonImageView.setVisibility(View.INVISIBLE);
         } else {
             mPleaseStartTextView.setVisibility(View.INVISIBLE);
+            mEmoticonImageView.setVisibility(View.VISIBLE);
         }
     }
 
     public void setmStatusHintText(String text) {
         mStatusHintText.setText(text);
+    }
+
+    public void setToolbarViewCallBack(ToolbarView.toolbarCallBack callBack){
+        mToolbarView.setToolbarButtonCallBack(callBack);
     }
 }
