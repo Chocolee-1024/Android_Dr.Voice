@@ -53,7 +53,7 @@ public class FileUploader extends BaseGoogleDrive {
             if (result.getFiles().size() != 0) {
                 folderId = result.getFiles().get(0).getId();
                 com.google.api.services.drive.model.File fileMetadata = new com.google.api.services.drive.model.File();
-                fileMetadata.setName(file.getName());
+                fileMetadata.setName(file.getName().replace("-","/"));
                 fileMetadata.setParents(Collections.singletonList(folderId));
                 java.io.File filePath = new java.io.File(path);
                 FileContent mediaContent = new FileContent("text/csv", filePath);
