@@ -1,11 +1,11 @@
-package com.imac.voice_app.module;
+package com.imac.voice_app.module.net;
 
 import android.app.Activity;
 import android.util.Log;
 
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
 import com.google.api.services.drive.model.FileList;
-import com.imac.voice_app.module.base.BaseGoogleDrive;
+import com.imac.voice_app.module.net.base.BaseGoogleDrive;
 
 import java.io.BufferedReader;
 import java.io.IOException;

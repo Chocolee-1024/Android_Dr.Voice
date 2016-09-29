@@ -8,21 +8,22 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.imac.voice_app.R;
 import com.imac.voice_app.core.ActivityLauncher;
-import com.imac.voice_app.module.LoginChecker;
-import com.imac.voice_app.module.PermissionsActivity;
-import com.imac.voice_app.module.PermissionsChecker;
-import com.imac.voice_app.module.SearchName;
-import com.imac.voice_app.module.base.BaseGoogleDrive;
+import com.imac.voice_app.module.net.LoginChecker;
+import com.imac.voice_app.module.permission.PermissionsActivity;
+import com.imac.voice_app.module.permission.PermissionsChecker;
+import com.imac.voice_app.module.net.SearchName;
+import com.imac.voice_app.module.net.base.BaseGoogleDrive;
 import com.imac.voice_app.util.mainmenu.MainActivity;
 import com.imac.voice_app.view.login.DataChangeListener;
 import com.imac.voice_app.view.login.Login;
+
+import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 
@@ -35,8 +36,9 @@ public class LoginActivity extends AppCompatActivity implements DataChangeListen
     private final String[] permission = new String[]{
             Manifest.permission.GET_ACCOUNTS
     };
-    public final static  String KEY_LOGIN_ACCOUNT="key_login_account";
-    public final static  String KEY_LOGIN_NAME="key_login_name";
+    public final static String KEY_LOGIN_ACCOUNT = "key_login_account";
+    public final static String KEY_LOGIN_NAME = "key_login_name";
+    public final static String KEY_DAILY_EXERCISE = "key_daily_exercise";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,29 +50,41 @@ public class LoginActivity extends AppCompatActivity implements DataChangeListen
     }
 
     private void init() {
-        LayoutInflater inflater = LayoutInflater.from(this);
-        View view = inflater.inflate(R.layout.activity_main, null);
         activity = this;
-        login = new Login(activity, this, view);
+        login = new Login(activity, this);
     }
 
     private LoginChecker.eventCallBack setEventCallBack() {
         return new LoginChecker.eventCallBack() {
             @Override
             public void onSuccessful(final String account) {
-                SearchName search=new SearchName(LoginActivity.this, account, new SearchName.onCallBackEvent() {
+                SearchName search = new SearchName(LoginActivity.this, account, new SearchName.onCallBackEvent() {
                     @Override
-                    public void onSearchResult(String search) {
-                        Bundle bundle =new Bundle();
-                        bundle.putString(KEY_LOGIN_ACCOUNT,account);
-                        bundle.putString(KEY_LOGIN_NAME,search);
-                        ActivityLauncher.go(LoginActivity.this, MainActivity.class, bundle);
-                        progressDialog.dismiss();
+                    public void onSearchResult(ArrayList<String> search) {
+                        String fileName = "每日練習" + account;
+                        final Bundle bundle = new Bundle();
+                        bundle.putString(KEY_LOGIN_ACCOUNT, account);
+                        bundle.putString(KEY_LOGIN_NAME, search.get(0));
+                        SearchName searchDailyTopic = new SearchName(LoginActivity.this, fileName, new SearchName.onCallBackEvent() {
+                            @Override
+                            public void onSearchResult(ArrayList<String> search) {
+                                bundle.putSerializable(KEY_DAILY_EXERCISE, search);
+                                ActivityLauncher.go(LoginActivity.this, MainActivity.class, bundle);
+                                progressDialog.dismiss();
+                            }
+
+                            @Override
+                            public void onSearchFail() {
+                                Toast.makeText(LoginActivity.this, "此帳號每日練習題目", Toast.LENGTH_SHORT).show();
+                                progressDialog.dismiss();
+                            }
+                        });
+                        searchDailyTopic.execute();
                     }
 
                     @Override
                     public void onSearchFail() {
-                        Toast.makeText(LoginActivity.this,"此帳號未設定姓名",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, "此帳號未設定姓名", Toast.LENGTH_SHORT).show();
                         progressDialog.dismiss();
                     }
                 });
@@ -121,5 +135,25 @@ public class LoginActivity extends AppCompatActivity implements DataChangeListen
             loginChecker.checkFile(login.getAccountEditText().getText().toString());
 
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        login.getAccountEditText().setText("");
+    }
+
+    private SearchName.onCallBackEvent onSearchDailyTopicEvent() {
+        return new SearchName.onCallBackEvent() {
+            @Override
+            public void onSearchResult(ArrayList<String> search) {
+
+            }
+
+            @Override
+            public void onSearchFail() {
+
+            }
+        };
     }
 }

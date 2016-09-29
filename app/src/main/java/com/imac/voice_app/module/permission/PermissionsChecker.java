@@ -1,4 +1,4 @@
-package com.imac.voice_app.module;
+package com.imac.voice_app.module.permission;
 
 import android.content.Context;
 import android.content.pm.PackageManager;

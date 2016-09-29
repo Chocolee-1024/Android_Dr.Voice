@@ -1,4 +1,4 @@
-package com.imac.voice_app.module.base;
+package com.imac.voice_app.module.net.base;
 
 import android.app.Activity;
 import android.os.AsyncTask;

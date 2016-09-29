@@ -40,8 +40,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".util.login.LoginActivity" />
-        <activity android:name=".util.mainmenu.MainActivity"></activity>
-        <activity android:name=".module.PermissionsActivity" />
+        <activity android:name=".util.mainmenu.MainActivity"/>
+        <activity android:name=".module.permission.PermissionsActivity" />
+        <activity android:name=".util.dailyexercise.DailyExerciseActivity"/>
     </application>
 
 </manifest>

@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.percent.PercentRelativeLayout
+        android:id="@+id/daily_exercise_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        app:layout_heightPercent="20%">
+
+        <ImageView
+            android:id="@+id/daily_exercise_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@drawable/menu_1_button" />
+
+        <TextView
+            android:id="@+id/daily_exercise_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/daily_exercise_icon"
+            android:text="@string/main_menu_daily_exercise"
+            android:textSize="30sp"
+            app:layout_marginLeftPercent="15%" />
+
+
+    </android.support.percent.PercentRelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/daily_exercise_container"
+        android:background="@color/black"
+        app:layout_heightPercent="0.1%" />
+
+    <android.support.percent.PercentRelativeLayout
+        android:id="@+id/weekly_assessment_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/daily_exercise_container"
+        android:gravity="center_horizontal"
+        app:layout_heightPercent="20%">
+
+
+        <ImageView
+            android:id="@+id/weekly_assessment_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@drawable/menu_2_button" />
+
+        <TextView
+            android:id="@+id/weekly_assessment_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/weekly_assessment_icon"
+            android:text="@string/main_menu_weekly_assessment"
+            android:textSize="30sp"
+            app:layout_marginLeftPercent="15%" />
+
+    </android.support.percent.PercentRelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/weekly_assessment_container"
+        android:background="@color/black"
+        app:layout_heightPercent="0.1%" />
+
+    <android.support.percent.PercentRelativeLayout
+        android:id="@+id/history_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/weekly_assessment_container"
+        android:gravity="center_horizontal"
+        app:layout_heightPercent="20%">
+
+
+        <ImageView
+            android:id="@+id/history_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@drawable/menu_3_button" />
+
+        <TextView
+            android:id="@+id/history_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/history_icon"
+            android:text="@string/main_menu_history"
+            android:textSize="30sp"
+            app:layout_marginLeftPercent="15%" />
+
+    </android.support.percent.PercentRelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/history_container"
+        android:background="@color/black"
+        app:layout_heightPercent="0.1%" />
+
+    <android.support.percent.PercentRelativeLayout
+        android:id="@+id/speak_speed_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/history_container"
+        android:gravity="center_horizontal"
+        app:layout_heightPercent="20%">
+
+
+        <ImageView
+            android:id="@+id/speak_speed_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@drawable/menu_4_button" />
+
+        <TextView
+            android:id="@+id/speak_speed_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/speak_speed_icon"
+            android:text="@string/main_menu_speak_speed"
+            android:textSize="30sp"
+            app:layout_marginLeftPercent="15%" />
+
+    </android.support.percent.PercentRelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/speak_speed_container"
+        android:background="@color/black"
+        app:layout_heightPercent="0.1%" />
+
+    <android.support.percent.PercentRelativeLayout
+        android:id="@+id/setting_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/speak_speed_container"
+        android:gravity="center_horizontal"
+        app:layout_heightPercent="20%">
+
+
+        <ImageView
+            android:id="@+id/setting_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@drawable/menu_5_button" />
+
+        <TextView
+            android:id="@+id/setting_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/setting_icon"
+            android:text="@string/main_menu_setting"
+            android:textSize="30sp"
+            app:layout_marginLeftPercent="15%" />
+
+    </android.support.percent.PercentRelativeLayout>
+
+
+</android.support.percent.PercentRelativeLayout>

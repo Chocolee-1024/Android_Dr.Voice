@@ -20,6 +20,12 @@
         <item>語速監控</item>
         <item>設"        "定</item>
     </string-array>
+    <string name="main_menu_daily_exercise">每日練習</string>
+    <string name="main_menu_weekly_assessment">每週評量</string>
+    <string name="main_menu_history">歷史紀錄</string>
+    <string name="main_menu_speak_speed">語速監控</string>
+    <string name="main_menu_setting">設"        "定</string>
+
 
     <!--speak speed-->
     <string name="zero">0</string>
@@ -34,4 +40,24 @@
     <string name="speak_graduation_faster">稍快</string>
     <string name="speak_calculate_font">字數/分鐘</string>
     <string name="speak_start_hint">請按鈕開始</string>
+    <!--每日練習-->
+    <string name="daily_exercise_toolbar_title">每日練習</string>
+    <string-array name="daily_exercise_title_item">
+        <item>腹式呼吸練習</item>
+        <item>吹水發聲練習</item>
+        <item>高低音吟唱練習</item>
+        <item>放鬆運動練習</item>
+        <item>前置共鳴練習</item>
+        <item>軟起音練習</item>
+    </string-array>
+    <string name="daily_exercise_next_step">下一步</string>
+    <string name="daily_exercise_previous_step">上一步</string>
+    <string name="daily_exercise_start_button">開始</string>
+    <string name="daily_exercise_finish_title">練習結束休息</string>
+    <string name="daily_exercise_complete">恭喜完成</string>
+    <string name="daily_exercise_back_menu">回主選單</string>
+    <string name="daily_exercise_practice4_action_a">聳肩後放鬆</string>
+    <string name="daily_exercise_practice4_action_b">慢慢低頭再回來</string>
+    <string name="daily_exercise_practice4_action_c">頭往左邊側躺在換邊</string>
+    <string name="daily_exercise_practice4_action_d">雙手用力推再放鬆</string>
 </resources>

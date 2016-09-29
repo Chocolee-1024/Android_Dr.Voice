@@ -5,6 +5,7 @@
     <color name="colorAccent">#FF4081</color>
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
+    <color name="transparent">#00FFFFFF</color>
 
 
     <color name="button_bg">#67B5C2</color>
@@ -28,4 +29,9 @@
 
     <!--Toolbar-->
     <color name="toolbar_line">#E9E8E3</color>
+    <!--每日練習-->
+    <color name="daily_exercise_step_button_text">#BD7580</color>
+    <color name="daily_exercise_start_button_bg">#DCA59B</color>
+    <color name="daily_exercise_page_count_down">#8A8A8A8A</color>
+    <color name="daily_exercise_page_indicator">#7EAE83</color>
 </resources>
