@@ -25,7 +25,7 @@ public class Login {
     private Activity activity;
     private DataChangeListener dataChangeListener;
 
-    public Login( Activity activity, DataChangeListener dataChangeListener,View view) {
+    public Login( Activity activity, DataChangeListener dataChangeListener) {
         this.activity = activity;
         this.dataChangeListener = dataChangeListener;
 
@@ -52,4 +52,5 @@ public class Login {
     public EditText getAccountEditText() {
         return this.accountEditText;
     }
+
 }

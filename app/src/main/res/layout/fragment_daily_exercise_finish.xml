@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <TextView
+        android:id="@+id/daily_exercise_finish_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="@string/daily_exercise_complete"
+        android:textSize="30sp"
+        app:layout_marginTopPercent="10%" />
+
+    <ImageView
+        android:id="@+id/daily_exercise_finish_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/daily_exercise_finish_title"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/complete_icon"
+        app:layout_marginTopPercent="10%" />
+
+
+    <Button
+        android:id="@+id/daily_exercise_finish_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/daily_exercise_finish_image"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/drawable_daily_exercise_start_button"
+        android:text="@string/daily_exercise_back_menu"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:layout_marginTopPercent="20%"
+        app:layout_widthPercent="80%" />
+
+</android.support.percent.PercentRelativeLayout>

@@ -12,14 +12,13 @@ import android.view.WindowManager;
 
 import com.imac.voice_app.R;
 import com.imac.voice_app.component.ToolbarView;
-import com.imac.voice_app.module.FileUploader;
+import com.imac.voice_app.module.net.FileUploader;
 import com.imac.voice_app.module.FileWriter;
-import com.imac.voice_app.module.PermissionsActivity;
-import com.imac.voice_app.module.PermissionsChecker;
+import com.imac.voice_app.module.permission.PermissionsActivity;
+import com.imac.voice_app.module.permission.PermissionsChecker;
 import com.imac.voice_app.module.SpeechKitModule;
-import com.imac.voice_app.module.base.BaseGoogleDrive;
+import com.imac.voice_app.module.net.base.BaseGoogleDrive;
 import com.imac.voice_app.util.login.LoginActivity;
-import com.imac.voice_app.util.mainmenu.MainActivity;
 import com.imac.voice_app.view.speakspeed.SpeakSpeedView;
 
 import java.util.ArrayList;
