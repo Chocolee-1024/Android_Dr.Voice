@@ -24,7 +24,7 @@
     <!--speak speed-->
     <string name="zero">0</string>
     <string name="speak_speed_title">語速監控</string>
-    <string name="speak_speed_time_default">00:00</string>
+    <string name="speak_speed_time_default">00 : 00</string>
     <string name="speak_speed_date_default">0000/00/00</string>
     <string name="speak_start_hint_default">按下方按鈕開始監控</string>
     <string name="speak_good">非常好</string>
@@ -34,4 +34,22 @@
     <string name="speak_graduation_faster">稍快</string>
     <string name="speak_calculate_font">字數/分鐘</string>
     <string name="speak_start_hint">請按鈕開始</string>
+
+    <!--setting-->
+    <string name="setting_title">設定</string>
+    <string name="setting_please_set">請設定練習提醒時間</string>
+    <string name="setting_daily_notice">每日練習提醒</string>
+    <string name="setting_weekly_notice">每周評量提醒</string>
+    <string name="setting_connection_us">聯絡信箱</string>
+    <string name="setting_repeat">重"  "複</string>
+    <string-array name="week_array">
+        <item>星期日</item>
+        <item>星期一</item>
+        <item>星期二</item>
+        <item>星期三</item>
+        <item>星期四</item>
+        <item>星期五</item>
+        <item>星期六</item>
+    </string-array>
+
 </resources>

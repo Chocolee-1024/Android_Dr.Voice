@@ -5,6 +5,7 @@ import android.os.Bundle;
 import com.imac.voice_app.core.SeparateDeveloperActivity;
 import com.imac.voice_app.util.homepage.HomePageActivity;
 import com.imac.voice_app.util.login.LoginActivity;
+import com.imac.voice_app.util.setting.SettingActivity;
 import com.imac.voice_app.util.speakSpeed.SpeakSpeedActivity;
 import com.imac.voice_app.util.mainmenu.MainActivity;
 
@@ -18,5 +19,6 @@ public class TemporaryDevelopActivity extends SeparateDeveloperActivity {
         addActivityButton(LoginActivity.class,null);
         addActivityButton(SpeakSpeedActivity.class,null);
         addActivityButton(MainActivity.class,null);
+        addActivityButton(SettingActivity.class,null);
     }
 }

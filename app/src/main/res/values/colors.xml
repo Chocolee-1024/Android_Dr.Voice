@@ -28,4 +28,7 @@
 
     <!--Toolbar-->
     <color name="toolbar_line">#E9E8E3</color>
+
+    <!--setting-->
+    <color name="setting_connection_us">#dca59b</color>
 </resources>
