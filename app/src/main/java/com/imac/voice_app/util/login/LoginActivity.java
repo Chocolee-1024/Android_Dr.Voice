@@ -15,10 +15,10 @@ import android.widget.Toast;
 import com.imac.voice_app.R;
 import com.imac.voice_app.core.ActivityLauncher;
 import com.imac.voice_app.module.net.LoginChecker;
-import com.imac.voice_app.module.permission.PermissionsActivity;
-import com.imac.voice_app.module.permission.PermissionsChecker;
 import com.imac.voice_app.module.net.SearchName;
 import com.imac.voice_app.module.net.base.BaseGoogleDrive;
+import com.imac.voice_app.module.permission.PermissionsActivity;
+import com.imac.voice_app.module.permission.PermissionsChecker;
 import com.imac.voice_app.util.mainmenu.MainActivity;
 import com.imac.voice_app.view.login.DataChangeListener;
 import com.imac.voice_app.view.login.Login;
@@ -57,39 +57,8 @@ public class LoginActivity extends AppCompatActivity implements DataChangeListen
     private LoginChecker.eventCallBack setEventCallBack() {
         return new LoginChecker.eventCallBack() {
             @Override
-            public void onSuccessful(final String account) {
-                SearchName search = new SearchName(LoginActivity.this, account, new SearchName.onCallBackEvent() {
-                    @Override
-                    public void onSearchResult(ArrayList<String> search) {
-                        String fileName = "每日練習" + account;
-                        final Bundle bundle = new Bundle();
-                        bundle.putString(KEY_LOGIN_ACCOUNT, account);
-                        bundle.putString(KEY_LOGIN_NAME, search.get(0));
-                        SearchName searchDailyTopic = new SearchName(LoginActivity.this, fileName, new SearchName.onCallBackEvent() {
-                            @Override
-                            public void onSearchResult(ArrayList<String> search) {
-                                bundle.putSerializable(KEY_DAILY_EXERCISE, search);
-                                ActivityLauncher.go(LoginActivity.this, MainActivity.class, bundle);
-                                progressDialog.dismiss();
-                            }
-
-                            @Override
-                            public void onSearchFail() {
-                                Toast.makeText(LoginActivity.this, "此帳號每日練習題目", Toast.LENGTH_SHORT).show();
-                                progressDialog.dismiss();
-                            }
-                        });
-                        searchDailyTopic.execute();
-                    }
-
-                    @Override
-                    public void onSearchFail() {
-                        Toast.makeText(LoginActivity.this, "此帳號未設定姓名", Toast.LENGTH_SHORT).show();
-                        progressDialog.dismiss();
-                    }
-                });
-                search.execute();
-
+            public void onSuccessful(String account) {
+                searchUserName(account);
             }
 
             @Override
@@ -121,19 +90,22 @@ public class LoginActivity extends AppCompatActivity implements DataChangeListen
             LoginChecker loginChecker = new LoginChecker(LoginActivity.this, setEventCallBack());
             loginChecker.checkFile(((EditText) view).getText().toString());
         }
-
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == PermissionsActivity.PERMISSIONS_ACCEPT && requestCode == ASK_PERMISSION_CODE) {
+            LoginChecker loginChecker = new LoginChecker(LoginActivity.this, setEventCallBack());
+            loginChecker.checkFile(login.getAccountEditText().getText().toString());
+        }
+
         if (resultCode == RESULT_OK && requestCode == BaseGoogleDrive.ASK_ACCOUNT) {
             String account = data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
             LoginChecker loginChecker = new LoginChecker(LoginActivity.this, setEventCallBack());
             if (account.equals(LoginChecker.ACCOUNT_NAME))
                 loginChecker.getCredential().setSelectedAccountName(account);
             loginChecker.checkFile(login.getAccountEditText().getText().toString());
-
         }
     }
 
@@ -143,17 +115,42 @@ public class LoginActivity extends AppCompatActivity implements DataChangeListen
         login.getAccountEditText().setText("");
     }
 
-    private SearchName.onCallBackEvent onSearchDailyTopicEvent() {
-        return new SearchName.onCallBackEvent() {
+    private void searchUserName(final String account) {
+        SearchName search = new SearchName(LoginActivity.this, account, new SearchName.onCallBackEvent() {
             @Override
             public void onSearchResult(ArrayList<String> search) {
-
+                Bundle bundle = new Bundle();
+                bundle.putString(KEY_LOGIN_ACCOUNT, account);
+                bundle.putString(KEY_LOGIN_NAME, search.get(0));
+                searchDailyTopic(account, bundle);
             }
 
             @Override
             public void onSearchFail() {
-
+                Toast.makeText(LoginActivity.this, "此帳號未設定姓名", Toast.LENGTH_SHORT).show();
+                progressDialog.dismiss();
             }
-        };
+        });
+        search.execute();
     }
+
+    private void searchDailyTopic(String account, final Bundle bundle) {
+        String fileName = "每日練習" + account;
+        SearchName searchDailyTopic = new SearchName(LoginActivity.this, fileName, new SearchName.onCallBackEvent() {
+            @Override
+            public void onSearchResult(ArrayList<String> search) {
+                bundle.putSerializable(KEY_DAILY_EXERCISE, search);
+                ActivityLauncher.go(LoginActivity.this, MainActivity.class, bundle);
+                progressDialog.dismiss();
+            }
+
+            @Override
+            public void onSearchFail() {
+                Toast.makeText(LoginActivity.this, "此帳號每日練習題目", Toast.LENGTH_SHORT).show();
+                progressDialog.dismiss();
+            }
+        });
+        searchDailyTopic.execute();
+    }
+
 }

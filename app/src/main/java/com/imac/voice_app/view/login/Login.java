@@ -52,4 +52,5 @@ public class Login {
     public EditText getAccountEditText() {
         return this.accountEditText;
     }
+
 }

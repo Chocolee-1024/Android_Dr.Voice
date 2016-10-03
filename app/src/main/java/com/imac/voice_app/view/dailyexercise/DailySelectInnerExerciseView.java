@@ -109,7 +109,7 @@ public class DailySelectInnerExerciseView {
     }
 
     public void startCount() {
-        countSecond.startCountWithCountDown(10);
+        countSecond.startCountWithCountDown(120);
     }
 
     private void pictureTurnPlay() {
