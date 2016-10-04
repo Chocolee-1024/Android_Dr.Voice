@@ -15,6 +15,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        <receiver android:name=".broadcastreceiver.AlarmReceiver"/>
 
         <activity android:name=".util.TemporaryDevelopActivity">
             <!--<intent-filter>-->
@@ -43,6 +44,7 @@
         <activity android:name=".util.mainmenu.MainActivity"/>
         <activity android:name=".module.permission.PermissionsActivity" />
         <activity android:name=".util.dailyexercise.DailyExerciseActivity"/>
+        <activity android:name=".util.setting.SettingActivity"/>
     </application>
 
 </manifest>

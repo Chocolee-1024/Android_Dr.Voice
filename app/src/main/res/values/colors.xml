@@ -34,4 +34,7 @@
     <color name="daily_exercise_start_button_bg">#DCA59B</color>
     <color name="daily_exercise_page_count_down">#8A8A8A8A</color>
     <color name="daily_exercise_page_indicator">#7EAE83</color>
+
+    <!--setting-->
+    <color name="setting_connection_us">#dca59b</color>
 </resources>

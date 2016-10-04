@@ -93,7 +93,23 @@ public class ToolbarView extends RelativeLayout {
         this.listener = listener;
     }
 
-    public void setBackButtonVisibility(boolean isVisibility) {
-        backButton.setVisibility(isVisibility ? VISIBLE : INVISIBLE);
+    public void setTitleTextViewText(String text){
+        this.titleTextView.setText(text);
+    }
+
+    public String getTitleTextViewText (){
+        return (String) this.titleTextView.getText();
+    }
+
+    public void setBackButtonVisibility(boolean visibility){
+        if (visibility) {
+            backButton.setVisibility(VISIBLE);
+        } else {
+            backButton.setVisibility(INVISIBLE);
+        }
+    }
+
+    public boolean getBackButtonVisibility () {
+        return backButton.getVisibility() == VISIBLE;
     }
 }
