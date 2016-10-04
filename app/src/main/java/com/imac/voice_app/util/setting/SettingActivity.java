@@ -180,8 +180,7 @@ public class SettingActivity extends Activity {
             @Override
             public void setSendMail() {
                 Intent sendMail = new Intent(android.content.Intent.ACTION_SEND);
-                sendMail.putExtra(Intent.EXTRA_EMAIL,new String[] {"wong1123123@gmail.com"});
-                sendMail.putExtra(Intent.EXTRA_SUBJECT, "The email subject text");
+                sendMail.putExtra(Intent.EXTRA_EMAIL,new String[] {"voice.dr.wang@gmail.com"});
                 sendMail.setType("message/rfc822");
                 sendMail.setClassName("com.google.android.gm",
                         "com.google.android.gm.ComposeActivityGmail");
