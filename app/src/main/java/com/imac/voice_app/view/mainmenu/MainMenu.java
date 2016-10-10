@@ -1,12 +1,22 @@
 package com.imac.voice_app.view.mainmenu;
 
 import android.app.Activity;
+import android.graphics.Color;
+import android.os.Bundle;
 import android.support.percent.PercentRelativeLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.imac.voice_app.R;
+import com.imac.voice_app.core.PreferencesHelper;
+import com.imac.voice_app.module.DataAppend;
+import com.imac.voice_app.module.DateChecker;
 import com.imac.voice_app.module.FontManager;
+import com.imac.voice_app.util.login.LoginActivity;
+import com.imac.voice_app.util.weeklyassessment.WeeklyAssessmentActivity;
+
+import java.util.ArrayList;
+import java.util.Calendar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -15,7 +25,7 @@ import butterknife.OnClick;
 /**
  * Created by isa on 2016/9/8.
  */
-public class MainMenu {
+public class MainMenu extends PreferencesHelper {
     private Activity activity;
     @BindView(R.id.daily_exercise_icon)
     ImageView dailyExerciseIcon;
@@ -47,13 +57,48 @@ public class MainMenu {
     TextView settingText;
     @BindView(R.id.setting_container)
     PercentRelativeLayout settingContainer;
+    private Bundle bundle;
+    private MenuClickListener menuClickListener;
 
-    private  MenuClickListener menuClickListener;
-    public MainMenu(Activity activity,MenuClickListener menuClickListener) {
+    public MainMenu(Activity activity, MenuClickListener menuClickListener, Bundle bundle) {
+        super(activity);
         this.activity = activity;
+        this.bundle = bundle;
         ButterKnife.bind(this, activity);
-        this.menuClickListener=menuClickListener;
+        this.menuClickListener = menuClickListener;
+        getBundle();
         setFontType();
+    }
+
+    public void weeklyAssessmentEnabler() {
+        DateChecker dateChecker = new DateChecker(activity);
+        boolean isOverDay = dateChecker.isOverDay(Calendar.getInstance());
+        if (isOverDay) {
+            save(Type.BOOLEAN, WeeklyAssessmentActivity.KEY_COMPLETE, false);
+            weeklyAssessmentContainer.setClickable(true);
+            weeklyAssessmentText.setTextColor(Color.BLACK);
+        } else {
+            if ((Boolean) get(WeeklyAssessmentActivity.KEY_COMPLETE, Type.BOOLEAN)) {
+                weeklyAssessmentContainer.setClickable(false);
+                weeklyAssessmentText.setTextColor(Color.GRAY);
+            } else {
+                weeklyAssessmentContainer.setClickable(true);
+                weeklyAssessmentText.setTextColor(Color.BLACK);
+            }
+        }
+    }
+
+    private void getBundle() {
+        if ("".equals(get(LoginActivity.KEY_LOGIN_ACCOUNT, Type.STRING))) {
+            String loginAccount = bundle.getString(LoginActivity.KEY_LOGIN_ACCOUNT);
+            String loginName = bundle.getString(LoginActivity.KEY_LOGIN_NAME);
+            ArrayList<String> topicList = (ArrayList<String>) bundle.getSerializable(LoginActivity.KEY_DAILY_EXERCISE);
+
+            DataAppend dataAppend = new DataAppend();
+            save(Type.STRING, LoginActivity.KEY_LOGIN_ACCOUNT, loginAccount);
+            save(Type.STRING, LoginActivity.KEY_LOGIN_NAME, loginName);
+            save(Type.STRING, LoginActivity.KEY_DAILY_EXERCISE, dataAppend.append(topicList));
+        }
     }
 
     private void setFontType() {
@@ -85,4 +130,8 @@ public class MainMenu {
         menuClickListener.onSettingClick();
     }
 
+    @Override
+    public String getClassName() {
+        return activity.getPackageName();
+    }
 }

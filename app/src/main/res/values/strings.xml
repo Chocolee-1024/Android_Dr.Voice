@@ -77,5 +77,92 @@
         <item>星期五</item>
         <item>星期六</item>
     </string-array>
-
+    <!--每週評量-->
+    <string name="weekly_assessment_toolbar_title">每週評量</string>
+    <string name="weekly_assessment_sound_title">每週用聲紀錄</string>
+    <string name="weekly_assessment_start">開始</string>
+    <string-array name="weekly_assessment_sound_topic">
+        <item>不適當的說話行為\n如大叫、壓低音、\n連續說話(超過20分鐘)</item>
+        <item>一天的說話量</item>
+        <item>清喉嚨的次數</item>
+        <item>喝濃茶/咖啡的行為\n(平均每天)</item>
+        <item>抽煙的行為\n(平均每天)</item>
+        <item>喝水的頻率\n(平均每天)</item>
+        <item>嗓音練習次數</item>
+    </string-array>
+    <string-array name="weekly_assessment_sound_topic_option_1">
+        <item>常常</item>
+        <item>有時候</item>
+        <item>偶爾</item>
+        <item>幾乎沒有</item>
+    </string-array>
+    <string-array name="weekly_assessment_sound_topic_option_2">
+        <item>完全沒說話</item>
+        <item>有說幾句</item>
+        <item>說一些</item>
+        <item>說(或唱)很多</item>
+    </string-array>
+    <string-array name="weekly_assessment_sound_topic_option_3">
+        <item>常常</item>
+        <item>有一些</item>
+        <item>很少</item>
+        <item>幾乎沒有</item>
+    </string-array>
+    <string-array name="weekly_assessment_sound_topic_option_4">
+        <item>超過3杯</item>
+        <item>2~3杯</item>
+        <item>1杯</item>
+        <item>幾乎沒有</item>
+    </string-array>
+    <string-array name="weekly_assessment_sound_topic_option_5">
+        <item>1包或更多</item>
+        <item>半包左右</item>
+        <item>1~5根</item>
+        <item>幾乎沒有</item>
+    </string-array>
+    <string-array name="weekly_assessment_sound_topic_option_6">
+        <item>整天只喝一兩次或更少</item>
+        <item>半天喝一次</item>
+        <item>每1小時喝一次</item>
+        <item>每半小時喝一次</item>
+    </string-array>
+    <string-array name="weekly_assessment_sound_topic_option_7">
+        <item>0次</item>
+        <item>1次</item>
+        <item>2次</item>
+        <item>3次</item>
+    </string-array>
+    <string name="weekly_assessment_self_assessment_title">自我評估表</string>
+    <string-array name="weekly_assessment_self_assessment_topic">
+        <item>我的嗓音\n很難讓人聽清楚</item>
+        <item>在吵雜室內\n別人很難聽懂我說什麼</item>
+        <item>嗓音問題限制了\n我的個人與社交行為</item>
+        <item>嗓音問題\n使我無法與人順利交談</item>
+        <item>發出聲音或是說話\n讓我讓我覺得很吃力</item>
+        <item>我無法預測\n什麼時候嗓音會清楚</item>
+        <item>我的嗓音問題\n讓我很困擾</item>
+        <item>我的嗓音問題\n使我覺得有障礙</item>
+        <item>別人常問\n你的聲音怎麼了</item>
+        <item>我的聲音問題\n影響了我的收入</item>
+    </string-array>
+    <string-array name="weekly_assessment_self_assessment_topic_option">
+        <item>總是如此</item>
+        <item>經常</item>
+        <item>有時候</item>
+        <item>很少</item>
+        <item>從來沒有</item>
+    </string-array>
+    <string-array name="weekly_assessment_topic_number">
+        <item>第一題</item>
+        <item>第二題</item>
+        <item>第三題</item>
+        <item>第四題</item>
+        <item>第五題</item>
+        <item>第六題</item>
+        <item>第七題</item>
+        <item>第八題</item>
+        <item>第九題</item>
+        <item>第十題</item>
+    </string-array>
+    <string name="weekly_assessment_successful">完成</string>
 </resources>

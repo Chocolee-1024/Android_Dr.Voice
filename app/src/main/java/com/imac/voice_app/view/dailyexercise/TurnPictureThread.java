@@ -22,7 +22,7 @@ public class TurnPictureThread implements Runnable {
         witchPictureIndex = witchPictureIndex % 4;
         event.onImageChangeEvent(witchPictureIndex);
         witchPictureIndex++;
-        handler.postDelayed(this, 1000);
+        handler.postDelayed(this, 2000);
     }
 
     public interface ImageChangeEvent {

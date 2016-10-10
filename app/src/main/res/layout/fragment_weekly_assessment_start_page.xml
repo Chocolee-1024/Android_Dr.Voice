@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:textColor="@color/black"
+        android:id="@+id/weekly_assessment_sound_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="@string/weekly_assessment_sound_title"
+        android:textSize="30sp"
+        app:layout_marginTopPercent="20%" />
+
+    <ImageView
+        android:id="@+id/weekly_assessment_sound_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/weekly_assessment_sound_title"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/history_1_icon"
+        app:layout_heightPercent="40%"
+        app:layout_widthPercent="40%" />
+
+    <Button
+        android:id="@+id/weekly_assessment_sound_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/weekly_assessment_sound_img"
+        android:layout_centerHorizontal="true"
+        android:text="@string/weekly_assessment_start"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:background="@drawable/drawable_weekly_assessment_start_button"
+        app:layout_widthPercent="70%"
+        app:layout_marginTopPercent="5%" />
+</android.support.percent.PercentRelativeLayout>

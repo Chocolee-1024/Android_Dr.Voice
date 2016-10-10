@@ -5,10 +5,12 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.imac.voice_app.R;
 import com.imac.voice_app.core.ActivityLauncher;
+import com.imac.voice_app.module.SqliteManger;
 import com.imac.voice_app.util.dailyexercise.DailyExerciseActivity;
 import com.imac.voice_app.util.login.LoginActivity;
 import com.imac.voice_app.util.setting.SettingActivity;
 import com.imac.voice_app.util.speakSpeed.SpeakSpeedActivity;
+import com.imac.voice_app.util.weeklyassessment.WeeklyAssessmentActivity;
 import com.imac.voice_app.view.mainmenu.MainMenu;
 import com.imac.voice_app.view.mainmenu.MenuClickListener;
 
@@ -18,6 +20,7 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
 
+    private MainMenu mainMenu;
     private String loginAccount;
     private String loginName;
     private ArrayList<String> topicList;
@@ -28,7 +31,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main_menu);
         ButterKnife.bind(this);
         getBundle();
-        MainMenu mainMenu = new MainMenu(this, onMenuClick());
+        mainMenu = new MainMenu(this, onMenuClick(), getIntent().getExtras());
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mainMenu.weeklyAssessmentEnabler();
+        show();
     }
 
     private void getBundle() {
@@ -50,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onWeeklyAssessmentClick() {
+                ActivityLauncher.go(MainActivity.this, WeeklyAssessmentActivity.class, null);
 
             }
 
@@ -71,5 +82,11 @@ public class MainActivity extends AppCompatActivity {
                 ActivityLauncher.go(MainActivity.this, SettingActivity.class, null);
             }
         };
+    }
+//TODO 先show DataBase 資料
+    private void show() {
+        SqliteManger manger=new SqliteManger(this);
+        manger.selectSoundPoint();
+        manger.selectAssessmentPoint();
     }
 }

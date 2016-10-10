@@ -1,0 +1,30 @@
+package com.imac.voice_app.util.weeklyassessment;
+
+import android.app.Fragment;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import com.imac.voice_app.R;
+import com.imac.voice_app.view.weeklyassessment.WeeklyAssessmentStartView;
+
+/**
+ * Created by isa on 2016/10/3.
+ */
+public class WeeklyAssessmentStartFragment extends Fragment {
+    private WeeklyAssessmentStartView weeklyAssessmentStartView;
+    private String status;
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        getIntent();
+        View view = inflater.inflate(R.layout.fragment_weekly_assessment_start_page, container, false);
+        weeklyAssessmentStartView = new WeeklyAssessmentStartView(getActivity(), view,status);
+        return view;
+    }
+    private void getIntent(){
+        status= getArguments().getString(WeeklyAssessmentActivity.KEY_STATUS);
+    }
+}

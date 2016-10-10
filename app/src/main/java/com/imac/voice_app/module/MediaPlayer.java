@@ -23,18 +23,25 @@ public class MediaPlayer {
     }
 
     public void startPlay() {
-        player.start();
-        status = Status.PLAY;
+        if (player != null) {
+            player.start();
+            status = Status.PLAY;
+        }
     }
 
     public void pausePlay() {
-        player.pause();
-        status = Status.PAUSE;
+        if (player != null && status == Status.PLAY) {
+            player.pause();
+            status = Status.PAUSE;
+        }
     }
 
     public void stopPlay() {
-        player.stop();
-        status = Status.STOP;
+        if (player != null && status == Status.PAUSE) {
+            player.stop();
+            player.release();
+            status = Status.STOP;
+        }
     }
 
     public Status getStatus() {

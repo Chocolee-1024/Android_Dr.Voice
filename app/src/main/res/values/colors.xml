@@ -37,4 +37,7 @@
 
     <!--setting-->
     <color name="setting_connection_us">#dca59b</color>
+    <!--每週評量-->
+    <color name="weekly_assessment_topic_content">#3C3C3C</color>
+    <color name="weekly_assessment_topic_number">#BD7580</color>
 </resources>
