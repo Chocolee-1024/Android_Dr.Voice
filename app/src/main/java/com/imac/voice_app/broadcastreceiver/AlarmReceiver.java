@@ -6,9 +6,10 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 
 import com.imac.voice_app.R;
-import com.imac.voice_app.util.login.LoginActivity;
+import com.imac.voice_app.util.homepage.HomePageActivity;
 
 public class AlarmReceiver extends BroadcastReceiver {
     public static final String INTENT_MODE = "mode";
@@ -21,8 +22,11 @@ public class AlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         String mode = intent.getStringExtra(INTENT_MODE);
-        Intent gotoMainActivity = new Intent(context, LoginActivity.class);
+        Intent gotoMainActivity = new Intent(context, HomePageActivity.class);
+        Bundle whichMde = new Bundle();
         gotoMainActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        whichMde.putString(INTENT_MODE, mode);
+        gotoMainActivity.putExtras(whichMde);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, gotoMainActivity, PendingIntent.FLAG_ONE_SHOT);
         NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         Notification.Builder builder = new Notification.Builder(context);
@@ -32,15 +36,16 @@ public class AlarmReceiver extends BroadcastReceiver {
                     .setContentText(context.getResources().getString(R.string.setting_weekly_notice))
                     .setAutoCancel(true)
                     .setContentIntent(pendingIntent);
+            Notification notification = builder.build();
+            manager.notify(ID_WEEKLY_ALARM, notification);
         } else if (mode.equals(MODE_DAILY)) {
             builder.setSmallIcon(R.mipmap.ic_launcher)
                     .setContentTitle("Voice 嗓音自我照護")
                     .setContentText(context.getResources().getString(R.string.setting_daily_notice))
                     .setAutoCancel(true)
                     .setContentIntent(pendingIntent);
+            Notification notification = builder.build();
+            manager.notify(ID_DAILY_ALARM, notification);
         }
-
-        Notification notification = builder.build();
-        manager.notify(0x01, notification);
     }
 }

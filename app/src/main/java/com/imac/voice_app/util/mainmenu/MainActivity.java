@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.imac.voice_app.R;
 import com.imac.voice_app.core.ActivityLauncher;
-import com.imac.voice_app.module.SqliteManger;
+import com.imac.voice_app.module.database.SqliteManger;
 import com.imac.voice_app.util.dailyexercise.DailyExerciseActivity;
 import com.imac.voice_app.util.login.LoginActivity;
 import com.imac.voice_app.util.setting.SettingActivity;
@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        mainMenu.weeklyAssessmentEnabler();
+//        mainMenu.weeklyAssessmentEnabler();
         show();
     }
 
@@ -83,10 +83,10 @@ public class MainActivity extends AppCompatActivity {
             }
         };
     }
-//TODO 先show DataBase 資料
+
+    //TODO 先show DataBase 資料
     private void show() {
-        SqliteManger manger=new SqliteManger(this);
-        manger.selectSoundPoint();
-        manger.selectAssessmentPoint();
+        SqliteManger manger = new SqliteManger(this);
+        manger.select();
     }
 }

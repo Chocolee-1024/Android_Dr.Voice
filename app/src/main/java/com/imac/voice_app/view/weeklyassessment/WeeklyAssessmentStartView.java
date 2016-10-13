@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.imac.voice_app.R;
+import com.imac.voice_app.component.ToolbarView;
 import com.imac.voice_app.core.FragmentLauncher;
 import com.imac.voice_app.util.weeklyassessment.WeeklyAssessmentActivity;
 import com.imac.voice_app.util.weeklyassessment.WeeklyAssessmentContainerFragment;
@@ -28,6 +29,7 @@ public class WeeklyAssessmentStartView {
     Button weeklyAssessmentSoundButton;
     private Activity activity;
     private String status;
+    private String soundTopic;
 
     public WeeklyAssessmentStartView(Activity activity, View view, String status) {
         this.activity = activity;
@@ -37,6 +39,7 @@ public class WeeklyAssessmentStartView {
     }
 
     private void init() {
+        ((ToolbarView)activity.findViewById(R.id.toolbar)).setTitleTextViewText(activity.getResources().getString(R.string.weekly_assessment_toolbar_title));
         if (status.equals(WeeklyAssessmentActivity.SOUND_RECORDING)) {
             weeklyAssessmentSoundTitle.setText(R.string.weekly_assessment_sound_title);
             weeklyAssessmentSoundImg.setImageResource(R.drawable.history_1_icon);
@@ -52,11 +55,18 @@ public class WeeklyAssessmentStartView {
     }
 
     private void change() {
-        Bundle bundle =new Bundle();
-        bundle.putString(WeeklyAssessmentActivity.KEY_STATUS,status);
+        Bundle bundle = new Bundle();
+        bundle.putString(WeeklyAssessmentActivity.KEY_STATUS, status);
+        if (status.equals(WeeklyAssessmentActivity.SELF_ASSESSMENT)){
+            bundle.putString(WeeklyAssessmentActivity.KEY_SOUND_TOPIC,soundTopic);
+        }
         FragmentLauncher.change(activity,
                 R.id.weekly_assessment_container,
                 bundle,
                 new WeeklyAssessmentContainerFragment().getClass().getName());
+    }
+
+    public void setSoundTopic(String soundTopic) {
+        this.soundTopic = soundTopic;
     }
 }

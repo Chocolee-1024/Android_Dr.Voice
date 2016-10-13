@@ -18,6 +18,7 @@ import butterknife.ButterKnife;
 public class WeeklyAssessmentContainerFragment extends Fragment {
     private WeeklyAssessmentContainerView weeklyAssessmentContainerView;
     private String status;
+    private String soundTopic;
 
     @Nullable
     @Override
@@ -25,11 +26,15 @@ public class WeeklyAssessmentContainerFragment extends Fragment {
         getIntent();
         View view = inflater.inflate(R.layout.fragment_weekly_assessment_select_page_container, container, false);
         weeklyAssessmentContainerView = new WeeklyAssessmentContainerView(getActivity(), view, status);
+        weeklyAssessmentContainerView.setSoundTopic(soundTopic);
         ButterKnife.bind(this, view);
         return view;
     }
 
     private void getIntent() {
         status = getArguments().getString(WeeklyAssessmentActivity.KEY_STATUS);
+        if (status.equals(WeeklyAssessmentActivity.SELF_ASSESSMENT)) {
+            soundTopic = getArguments().getString(WeeklyAssessmentActivity.KEY_SOUND_TOPIC);
+        }
     }
 }

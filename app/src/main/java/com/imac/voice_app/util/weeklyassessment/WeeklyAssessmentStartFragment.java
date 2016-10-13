@@ -16,15 +16,22 @@ import com.imac.voice_app.view.weeklyassessment.WeeklyAssessmentStartView;
 public class WeeklyAssessmentStartFragment extends Fragment {
     private WeeklyAssessmentStartView weeklyAssessmentStartView;
     private String status;
+    private String soundTopic;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         getIntent();
         View view = inflater.inflate(R.layout.fragment_weekly_assessment_start_page, container, false);
-        weeklyAssessmentStartView = new WeeklyAssessmentStartView(getActivity(), view,status);
+        weeklyAssessmentStartView = new WeeklyAssessmentStartView(getActivity(), view, status);
+        weeklyAssessmentStartView.setSoundTopic(soundTopic);
         return view;
     }
-    private void getIntent(){
-        status= getArguments().getString(WeeklyAssessmentActivity.KEY_STATUS);
+
+    private void getIntent() {
+        status = getArguments().getString(WeeklyAssessmentActivity.KEY_STATUS);
+        if (status.equals(WeeklyAssessmentActivity.SELF_ASSESSMENT)){
+             soundTopic = getArguments().getString(WeeklyAssessmentActivity.KEY_SOUND_TOPIC);
+        }
     }
 }

@@ -43,7 +43,7 @@
         android:layout_alignParentRight="true"
         android:layout_below="@id/daily_exercise_selected_description"
         android:src="@drawable/close_button"
-        app:layout_marginRightPercent="15%"
+        app:layout_marginRightPercent="20%"
         app:layout_marginTopPercent="5%" />
 
     <ImageView
@@ -52,7 +52,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/daily_exercise_selected_description"
         android:src="@drawable/play_button"
-        app:layout_marginLeftPercent="15%"
+        app:layout_marginLeftPercent="20%"
         app:layout_marginTopPercent="5%" />
 
     <ImageView
@@ -61,6 +61,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/daily_exercise_selected_description"
         android:src="@drawable/stop_button"
-        app:layout_marginLeftPercent="15%"
+        app:layout_marginLeftPercent="20%"
         app:layout_marginTopPercent="5%" />
 </android.support.percent.PercentRelativeLayout>

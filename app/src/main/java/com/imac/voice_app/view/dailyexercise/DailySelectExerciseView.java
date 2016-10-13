@@ -24,7 +24,7 @@ import butterknife.OnTouch;
 /**
  * Created by isa on 2016/9/20.
  */
-public class DailySelectExerciseView {
+public class DailySelectExerciseView implements ViewPager.OnPageChangeListener {
     public static final String KEY_INNER_FRAGMENT_INDEX = "key_inner_fragment_index";
     private Activity activity;
     @BindView(R.id.fragment_container)
@@ -54,6 +54,7 @@ public class DailySelectExerciseView {
         setFont();
         adapter = new DailySelectExerciseAdapter(activity, topic);
         fragmentContainer.setAdapter(adapter);
+        fragmentContainer.addOnPageChangeListener(this);
         indicator.setIsFinish(isFinish);
         indicator.setViewPager(fragmentContainer);
         previousStepButton.setVisibility(View.INVISIBLE);
@@ -70,26 +71,12 @@ public class DailySelectExerciseView {
 
     @OnClick(R.id.next_step_button)
     public void onNextButtonClick() {
-        if (fragmentContainer.getCurrentItem() == adapter.getCount() - 2) {
-            fragmentContainer.setCurrentItem(fragmentContainer.getCurrentItem() + 1, true);
-            nextStepButton.setVisibility(View.INVISIBLE);
-            previousStepButton.setVisibility(View.VISIBLE);
-        } else if (fragmentContainer.getCurrentItem() < adapter.getCount() - 1) {
-            previousStepButton.setVisibility(View.VISIBLE);
-            fragmentContainer.setCurrentItem(fragmentContainer.getCurrentItem() + 1, true);
-        }
+        fragmentContainer.setCurrentItem(fragmentContainer.getCurrentItem() + 1, true);
     }
 
     @OnClick(R.id.previous_step_button)
     public void onPreviousButtonClick() {
-        if (fragmentContainer.getCurrentItem() == 1) {
-            fragmentContainer.setCurrentItem(fragmentContainer.getCurrentItem() - 1, true);
-            previousStepButton.setVisibility(View.INVISIBLE);
-            nextStepButton.setVisibility(View.VISIBLE);
-        } else if (fragmentContainer.getCurrentItem() > 0) {
-            nextStepButton.setVisibility(View.VISIBLE);
-            fragmentContainer.setCurrentItem(fragmentContainer.getCurrentItem() - 1, true);
-        }
+        fragmentContainer.setCurrentItem(fragmentContainer.getCurrentItem() - 1, true);
     }
 
     @OnClick(R.id.start_button)
@@ -118,4 +105,27 @@ public class DailySelectExerciseView {
         activity.getFragmentManager().beginTransaction().addToBackStack(stackName).commit();
     }
 
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        if (position == adapter.getCount() - 1) {
+            nextStepButton.setVisibility(View.INVISIBLE);
+            previousStepButton.setVisibility(View.VISIBLE);
+        } else if (position == 0) {
+            nextStepButton.setVisibility(View.VISIBLE);
+            previousStepButton.setVisibility(View.INVISIBLE);
+        } else {
+            nextStepButton.setVisibility(View.VISIBLE);
+            previousStepButton.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
+    }
 }

@@ -12,6 +12,7 @@ import com.imac.voice_app.core.PreferencesHelper;
 import com.imac.voice_app.module.DataAppend;
 import com.imac.voice_app.module.DateChecker;
 import com.imac.voice_app.module.FontManager;
+import com.imac.voice_app.module.SharePreferencesManager;
 import com.imac.voice_app.util.login.LoginActivity;
 import com.imac.voice_app.util.weeklyassessment.WeeklyAssessmentActivity;
 
@@ -25,7 +26,7 @@ import butterknife.OnClick;
 /**
  * Created by isa on 2016/9/8.
  */
-public class MainMenu extends PreferencesHelper {
+public class MainMenu {
     private Activity activity;
     @BindView(R.id.daily_exercise_icon)
     ImageView dailyExerciseIcon;
@@ -59,11 +60,12 @@ public class MainMenu extends PreferencesHelper {
     PercentRelativeLayout settingContainer;
     private Bundle bundle;
     private MenuClickListener menuClickListener;
+    private SharePreferencesManager sharePreferencesManager;
 
     public MainMenu(Activity activity, MenuClickListener menuClickListener, Bundle bundle) {
-        super(activity);
         this.activity = activity;
         this.bundle = bundle;
+        sharePreferencesManager = SharePreferencesManager.getInstance(activity);
         ButterKnife.bind(this, activity);
         this.menuClickListener = menuClickListener;
         getBundle();
@@ -72,13 +74,13 @@ public class MainMenu extends PreferencesHelper {
 
     public void weeklyAssessmentEnabler() {
         DateChecker dateChecker = new DateChecker(activity);
-        boolean isOverDay = dateChecker.isOverDay(Calendar.getInstance());
-        if (isOverDay) {
-            save(Type.BOOLEAN, WeeklyAssessmentActivity.KEY_COMPLETE, false);
+        boolean isOverWeek = dateChecker.isOverWeek(Calendar.getInstance());
+        if (isOverWeek) {
+            sharePreferencesManager.save(PreferencesHelper.Type.BOOLEAN, WeeklyAssessmentActivity.KEY_COMPLETE, false);
             weeklyAssessmentContainer.setClickable(true);
             weeklyAssessmentText.setTextColor(Color.BLACK);
         } else {
-            if ((Boolean) get(WeeklyAssessmentActivity.KEY_COMPLETE, Type.BOOLEAN)) {
+            if ((Boolean) sharePreferencesManager.get(WeeklyAssessmentActivity.KEY_COMPLETE, PreferencesHelper.Type.BOOLEAN)) {
                 weeklyAssessmentContainer.setClickable(false);
                 weeklyAssessmentText.setTextColor(Color.GRAY);
             } else {
@@ -89,15 +91,15 @@ public class MainMenu extends PreferencesHelper {
     }
 
     private void getBundle() {
-        if ("".equals(get(LoginActivity.KEY_LOGIN_ACCOUNT, Type.STRING))) {
+        if ("".equals(sharePreferencesManager.get(LoginActivity.KEY_LOGIN_ACCOUNT, PreferencesHelper.Type.STRING))) {
             String loginAccount = bundle.getString(LoginActivity.KEY_LOGIN_ACCOUNT);
             String loginName = bundle.getString(LoginActivity.KEY_LOGIN_NAME);
             ArrayList<String> topicList = (ArrayList<String>) bundle.getSerializable(LoginActivity.KEY_DAILY_EXERCISE);
 
             DataAppend dataAppend = new DataAppend();
-            save(Type.STRING, LoginActivity.KEY_LOGIN_ACCOUNT, loginAccount);
-            save(Type.STRING, LoginActivity.KEY_LOGIN_NAME, loginName);
-            save(Type.STRING, LoginActivity.KEY_DAILY_EXERCISE, dataAppend.append(topicList));
+            sharePreferencesManager.save(PreferencesHelper.Type.STRING, LoginActivity.KEY_LOGIN_ACCOUNT, loginAccount);
+            sharePreferencesManager.save(PreferencesHelper.Type.STRING, LoginActivity.KEY_LOGIN_NAME, loginName);
+            sharePreferencesManager.save(PreferencesHelper.Type.STRING, LoginActivity.KEY_DAILY_EXERCISE, dataAppend.append(topicList));
         }
     }
 
@@ -128,10 +130,5 @@ public class MainMenu extends PreferencesHelper {
     @OnClick(R.id.setting_container)
     public void onSettingClick() {
         menuClickListener.onSettingClick();
-    }
-
-    @Override
-    public String getClassName() {
-        return activity.getPackageName();
     }
 }

@@ -1,6 +1,7 @@
 package com.imac.voice_app.view.weeklyassessment;
 
 import android.app.Activity;
+import android.support.percent.PercentRelativeLayout;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,47 +17,53 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * Created by isa on 2016/10/4.
  */
 public class WeeklyAssessmentViewPagerAdapter extends PagerAdapter implements RadioGroup.OnCheckedChangeListener {
+    @BindView(R.id.weekly_assessment_topic_number)
+    TextView weeklyAssessmentTopicNumber;
+    @BindView(R.id.weekly_assessment_date)
+    TextView weeklyAssessmentDate;
+    @BindView(R.id.weekly_assessment_topic_content)
+    TextView weeklyAssessmentTopicContent;
+    @BindView(R.id.weekly_assessment_container)
+    PercentRelativeLayout weeklyAssessmentContainer;
+    @BindView(R.id.option_one)
+    RadioButton optionOne;
+    @BindView(R.id.option_two)
+    RadioButton optionTwo;
+    @BindView(R.id.option_three)
+    RadioButton optionThree;
+    @BindView(R.id.option_four)
+    RadioButton optionFour;
+    @BindView(R.id.option_five)
+    RadioButton optionFive;
+    @BindView(R.id.bottom_line)
+    View bottomLine;
+    @BindView(R.id.weekly_assessment_select_container)
+    RadioGroup weeklyAssessmentSelectContainer;
     private Activity activity;
-    private ArrayList<View> views;
     private String status;
-    private String optionPoint = "0";
+    private ArrayList<String> topic;
+    private int position;
 
     public WeeklyAssessmentViewPagerAdapter(Activity activity, String status) {
         this.activity = activity;
         this.status = status;
-        init();
-    }
-
-    private void init() {
-        LayoutInflater layoutInflater = LayoutInflater.from(activity);
-        views = new ArrayList<>();
-        if (status.equals(WeeklyAssessmentActivity.SOUND_RECORDING)) {
-            for (int i = 0; i < 7; i++) {
-                View view = layoutInflater.inflate(R.layout.fragment_weekly_assessment_self_assessment, null);
-                view.findViewById(R.id.option_five).setVisibility(View.GONE);
-                view.findViewById(R.id.bottom_line).setVisibility(View.GONE);
-                views.add(view);
-            }
-        } else if (status.equals(WeeklyAssessmentActivity.SELF_ASSESSMENT)) {
-            for (int i = 0; i < 10; i++) {
-                View view = layoutInflater.inflate(R.layout.fragment_weekly_assessment_self_assessment, null);
-                views.add(view);
-            }
-        }
     }
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
-        container.removeView(views.get(position));
+        container.removeView((View) object);
     }
 
     @Override
     public int getCount() {
-        return views.size();
+        return topic.size();
     }
 
     @Override
@@ -66,18 +73,19 @@ public class WeeklyAssessmentViewPagerAdapter extends PagerAdapter implements Ra
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        TextView topicNumText = (TextView) views.get(position).findViewById(R.id.weekly_assessment_topic_number);
-        TextView dateText = (TextView) views.get(position).findViewById(R.id.weekly_assessment_date);
-        TextView contentText = (TextView) views.get(position).findViewById(R.id.weekly_assessment_topic_content);
-        RadioGroup optionGroup = (RadioGroup) views.get(position).findViewById(R.id.weekly_assessment_select_container);
-        RadioButton option1 = (RadioButton) views.get(position).findViewById(R.id.option_one);
-        RadioButton option2 = (RadioButton) views.get(position).findViewById(R.id.option_two);
-        RadioButton option3 = (RadioButton) views.get(position).findViewById(R.id.option_three);
-        RadioButton option4 = (RadioButton) views.get(position).findViewById(R.id.option_four);
-        RadioButton option5 = (RadioButton) views.get(position).findViewById(R.id.option_five);
-        optionGroup.setOnCheckedChangeListener(this);
+        LayoutInflater layoutInflater = LayoutInflater.from(activity);
+        View view = layoutInflater.inflate(R.layout.fragment_weekly_assessment_self_assessment, null);
+        ButterKnife.bind(this, view);
 
-
+        if (status.equals(WeeklyAssessmentActivity.SOUND_RECORDING)) {
+            optionFive.setVisibility(View.GONE);
+            bottomLine.setVisibility(View.GONE);
+        } else if (status.equals(WeeklyAssessmentActivity.SELF_ASSESSMENT)) {
+            optionFive.setVisibility(View.VISIBLE);
+            bottomLine.setVisibility(View.VISIBLE);
+        } else {
+            throw new RuntimeException("Status must SOUND_RECORDING or SELF_ASSESSMENT");
+        }
         String[] optionArray;
         String[] contentArray;
         String[] topicNumberArray = activity.getResources().getStringArray(R.array.weekly_assessment_topic_number);
@@ -86,21 +94,22 @@ public class WeeklyAssessmentViewPagerAdapter extends PagerAdapter implements Ra
             contentArray = activity.getResources().getStringArray(R.array.weekly_assessment_sound_topic);
         } else if (status.equals(WeeklyAssessmentActivity.SELF_ASSESSMENT)) {
             optionArray = activity.getResources().getStringArray(R.array.weekly_assessment_self_assessment_topic_option);
-            option5.setText(optionArray[4]);
+            optionFive.setText(optionArray[4]);
             contentArray = activity.getResources().getStringArray(R.array.weekly_assessment_self_assessment_topic);
         } else {
             throw new RuntimeException("Status must SOUND_RECORDING or SELF_ASSESSMENT");
         }
-        topicNumText.setText(topicNumberArray[position]);
-        dateText.setText(formatDateText());
-        contentText.setText(contentArray[position]);
-        option1.setText(optionArray[0]);
-        option2.setText(optionArray[1]);
-        option3.setText(optionArray[2]);
-        option4.setText(optionArray[3]);
-
-        container.addView(views.get(position));
-        return views.get(position);
+        weeklyAssessmentTopicNumber.setText(topicNumberArray[position]);
+        weeklyAssessmentDate.setText(formatDateText());
+        weeklyAssessmentTopicContent.setText(contentArray[position]);
+        optionOne.setText(optionArray[0]);
+        optionTwo.setText(optionArray[1]);
+        optionThree.setText(optionArray[2]);
+        optionFour.setText(optionArray[3]);
+        setRadioButtonStatus(position);
+        weeklyAssessmentSelectContainer.setOnCheckedChangeListener(this);
+        container.addView(view);
+        return view;
     }
 
     private int getSoundOptionId(int position) {
@@ -143,23 +152,48 @@ public class WeeklyAssessmentViewPagerAdapter extends PagerAdapter implements Ra
     @Override
     public void onCheckedChanged(RadioGroup radioGroup, int i) {
         if (i == R.id.option_one) {
-            optionPoint = "0";
+            topic.set(position, "0");
         } else if (i == R.id.option_two) {
-            optionPoint = "1";
+            topic.set(position, "1");
         } else if (i == R.id.option_three) {
-            optionPoint = "2";
+            topic.set(position, "2");
         } else if (i == R.id.option_four) {
-            optionPoint = "3";
+            topic.set(position, "3");
         } else if (i == R.id.option_five) {
-            optionPoint = "4";
+            topic.set(position, "4");
         }
     }
 
-    public String getOptionPoint() {
-        return optionPoint;
+    private void setRadioButtonStatus(int position) {
+        int topicInt = Integer.valueOf(topic.get(position));
+        switch (topicInt) {
+            case 0:
+                optionOne.setChecked(true);
+                break;
+            case 1:
+                optionTwo.setChecked(true);
+                break;
+            case 2:
+                optionThree.setChecked(true);
+                break;
+            case 3:
+                optionFour.setChecked(true);
+                break;
+            case 4:
+                optionFive.setChecked(true);
+                break;
+        }
     }
 
-    public void setOptionPoint(String input) {
-        this.optionPoint = input;
+    public void setRadioButtonArray(ArrayList<String> topic) {
+        this.topic = topic;
+    }
+
+    public ArrayList<String> getRadioButtonArray() {
+        return topic;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
     }
 }

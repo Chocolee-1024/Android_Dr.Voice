@@ -7,7 +7,7 @@ import android.widget.FrameLayout;
 import com.imac.voice_app.R;
 import com.imac.voice_app.component.ToolbarView;
 import com.imac.voice_app.core.FragmentLauncher;
-import com.imac.voice_app.core.PreferencesHelper;
+import com.imac.voice_app.module.SharePreferencesManager;
 import com.imac.voice_app.util.weeklyassessment.WeeklyAssessmentActivity;
 import com.imac.voice_app.util.weeklyassessment.WeeklyAssessmentStartFragment;
 
@@ -17,21 +17,17 @@ import butterknife.ButterKnife;
 /**
  * Created by isa on 2016/10/3.
  */
-public class WeeklyAssessmentView extends PreferencesHelper {
+public class WeeklyAssessmentView {
     private Activity activity;
     @BindView(R.id.toolbar)
     ToolbarView toolbar;
     @BindView(R.id.weekly_assessment_container)
     FrameLayout weeklyAssessmentContainer;
-    private String whichFragment;
+    private SharePreferencesManager sharePreferencesManager;
 
     public WeeklyAssessmentView(Activity activity) {
-        super(activity);
+        sharePreferencesManager = SharePreferencesManager.getInstance(activity);
         this.activity = activity;
-        this.whichFragment = (!"".equals(get(WeeklyAssessmentActivity.KEY_WHICH_FRAGMENT, Type.STRING)) ?
-                (String) get(WeeklyAssessmentActivity.KEY_WHICH_FRAGMENT, Type.STRING) :
-                WeeklyAssessmentActivity.SOUND_RECORDING);
-
         ButterKnife.bind(this, activity);
         init();
     }
@@ -43,7 +39,7 @@ public class WeeklyAssessmentView extends PreferencesHelper {
 
     private void change() {
         Bundle bundle = new Bundle();
-        bundle.putString(WeeklyAssessmentActivity.KEY_STATUS, whichFragment);
+        bundle.putString(WeeklyAssessmentActivity.KEY_STATUS, WeeklyAssessmentActivity.SOUND_RECORDING);
         FragmentLauncher.change(activity,
                 R.id.weekly_assessment_container,
                 bundle,
@@ -56,17 +52,11 @@ public class WeeklyAssessmentView extends PreferencesHelper {
             public void backButtonListener() {
 
             }
-
             @Override
             public void menuButtonListener() {
                 activity.finish();
                 activity.overridePendingTransition(R.anim.anim_zoom_in_top, R.anim.anim_zoom_out_top);
             }
         };
-    }
-
-    @Override
-    public String getClassName() {
-        return activity.getPackageName();
     }
 }

@@ -2,9 +2,11 @@ package com.imac.voice_app.util.homepage;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 
 import com.imac.voice_app.R;
+import com.imac.voice_app.broadcastreceiver.AlarmReceiver;
 import com.imac.voice_app.core.ActivityLauncher;
 import com.imac.voice_app.module.DataAppend;
 import com.imac.voice_app.util.login.LoginActivity;
@@ -18,13 +20,22 @@ import butterknife.ButterKnife;
  */
 public class HomePageActivity extends AppCompatActivity {
 
+    private String mode="";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page_layout);
         ButterKnife.bind(this);
+        getBundle();
         init();
+    }
+
+    private void getBundle() {
+        Bundle whichMode = getIntent().getExtras();
+        if (null != whichMode) {
+            mode = whichMode.getString(AlarmReceiver.INTENT_MODE, "");
+        }
     }
 
     private void init() {
@@ -45,6 +56,22 @@ public class HomePageActivity extends AppCompatActivity {
             }
 
         });
+
+        if (!"".equals(mode)) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            if (mode.equals(AlarmReceiver.MODE_DAILY)) {
+                AlertDialog alertDialog = builder.
+                        setTitle("Voice 嗓音自我照護").
+                        setMessage("開始做每日練習").
+                        show();
+
+            } else if (mode.equals(AlarmReceiver.MODE_WEEK)) {
+                AlertDialog alertDialog = builder.
+                        setTitle("Voice 嗓音自我照護").
+                        setMessage("開始做每週練習").
+                        show();
+            }
+        }
     }
 
 }
