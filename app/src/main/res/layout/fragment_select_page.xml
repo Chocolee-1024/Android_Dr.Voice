@@ -18,51 +18,46 @@
         android:id="@+id/start_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/fragment_container"
+        android:layout_above="@+id/next_step_button"
         android:layout_centerHorizontal="true"
         android:background="@drawable/drawable_daily_exercise_start_button"
         android:text="@string/daily_exercise_start_button"
         android:textColor="@color/white"
         android:textSize="20sp"
-        app:layout_widthPercent="80%" />
+        app:layout_widthPercent="80%"
+        app:layout_marginBottomPercent="5%"
+        />
 
-    <android.support.percent.PercentRelativeLayout
+    <Button
+        android:id="@+id/next_step_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_below="@+id/start_button">
+        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@+id/indicator"
+        android:background="@color/transparent"
+        android:text="@string/daily_exercise_next_step"
+        android:textColor="@color/daily_exercise_step_button_text"
+        android:textSize="16sp" />
 
-        <Button
-            android:id="@+id/next_step_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_toRightOf="@+id/indicator"
-            android:background="@color/transparent"
-            android:text="@string/daily_exercise_next_step"
-            android:textColor="@color/daily_exercise_step_button_text"
-            android:textSize="16sp" />
+    <Button
+        android:id="@+id/previous_step_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@+id/indicator"
+        android:background="@color/transparent"
+        android:text="@string/daily_exercise_previous_step"
+        android:textColor="@color/daily_exercise_step_button_text"
+        android:textSize="16sp" />
 
-        <Button
-            android:id="@+id/previous_step_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_toLeftOf="@+id/indicator"
-            android:background="@color/transparent"
-            android:text="@string/daily_exercise_previous_step"
-            android:textColor="@color/daily_exercise_step_button_text"
-            android:textSize="16sp" />
-
-        <com.imac.voice_app.component.CustomIndicator
-            android:id="@+id/indicator"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/next_step_button"
-            android:layout_alignTop="@+id/next_step_button"
-            android:layout_centerInParent="true"
-            android:gravity="center_vertical" />
-    </android.support.percent.PercentRelativeLayout>
+    <com.imac.voice_app.component.CustomIndicator
+        android:id="@+id/indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/next_step_button"
+        android:layout_alignTop="@+id/next_step_button"
+        android:layout_centerInParent="true"
+        android:gravity="center_vertical" />
 </android.support.percent.PercentRelativeLayout>

@@ -45,6 +45,7 @@
         <activity android:name=".module.permission.PermissionsActivity" />
         <activity android:name=".util.dailyexercise.DailyExerciseActivity"/>
         <activity android:name=".util.setting.SettingActivity"/>
+        <activity android:name=".util.weeklyassessment.WeeklyAssessmentActivity"/>
     </application>
 
 </manifest>

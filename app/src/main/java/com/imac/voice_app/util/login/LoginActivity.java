@@ -36,10 +36,10 @@ public class LoginActivity extends AppCompatActivity implements DataChangeListen
     private final String[] permission = new String[]{
             Manifest.permission.GET_ACCOUNTS
     };
+    public final  static  String NAME_SHAREPREFERENCE="name_share_preference";
     public final static String KEY_LOGIN_ACCOUNT = "key_login_account";
     public final static String KEY_LOGIN_NAME = "key_login_name";
     public final static String KEY_DAILY_EXERCISE = "key_daily_exercise";
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -152,5 +152,4 @@ public class LoginActivity extends AppCompatActivity implements DataChangeListen
         });
         searchDailyTopic.execute();
     }
-
 }

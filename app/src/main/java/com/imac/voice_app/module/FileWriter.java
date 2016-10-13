@@ -60,7 +60,6 @@ public class FileWriter {
             //如果資料夾沒檔案
             if (sdFile.listFiles().length == 0) {
                 Log.e("file exit", "檔案不存在");
-                //TODO  檔名可能會修改
                 file = new File(sdFile, dayFormatDate + " " + minFormatDate + ".csv");
             }
             //如果資料夾有檔案
@@ -70,7 +69,6 @@ public class FileWriter {
                 file = sdFile.listFiles()[0];
             }
             PrintWriter printWriter = new PrintWriter(new FileOutputStream(file, true));
-            //TODO 寫入的項目可能會再變
             printWriter.write("," + name);
             printWriter.append("," + yearFormatDate);
             printWriter.append("," + startMinFormatDate);

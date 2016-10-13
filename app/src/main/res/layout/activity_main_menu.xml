@@ -25,6 +25,7 @@
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/daily_exercise_icon"
             android:text="@string/main_menu_daily_exercise"
+            android:textColor="@color/black"
             android:textSize="30sp"
             app:layout_marginLeftPercent="15%" />
 
@@ -61,6 +62,7 @@
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/weekly_assessment_icon"
             android:text="@string/main_menu_weekly_assessment"
+            android:textColor="@color/black"
             android:textSize="30sp"
             app:layout_marginLeftPercent="15%" />
 
@@ -96,6 +98,7 @@
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/history_icon"
             android:text="@string/main_menu_history"
+            android:textColor="@color/black"
             android:textSize="30sp"
             app:layout_marginLeftPercent="15%" />
 
@@ -131,6 +134,7 @@
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/speak_speed_icon"
             android:text="@string/main_menu_speak_speed"
+            android:textColor="@color/black"
             android:textSize="30sp"
             app:layout_marginLeftPercent="15%" />
 
@@ -166,6 +170,7 @@
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/setting_icon"
             android:text="@string/main_menu_setting"
+            android:textColor="@color/black"
             android:textSize="30sp"
             app:layout_marginLeftPercent="15%" />
 
