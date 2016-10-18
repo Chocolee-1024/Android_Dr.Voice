@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/activity_bg_color">
+
+    <Spinner
+        android:id="@+id/history_detail_date_spinner"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_alignParentRight="true"
+        app:layout_heightPercent="5%"
+        app:layout_marginRightPercent="5%"
+        app:layout_marginTopPercent="5%"
+        app:layout_widthPercent="20%" />
+
+    <ImageView
+        android:id="@+id/history_detail_good_icon"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/good_chart_icon"
+        app:layout_heightPercent="5%"
+        app:layout_marginTopPercent="5%"
+        app:layout_widthPercent="10%" />
+
+    <TextView
+        android:id="@+id/history_detail_good_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/history_detail_good_icon"
+        android:gravity="center_horizontal"
+        android:text="@string/history_detail_good_text"
+        android:textSize="@dimen/history_detail_icon_text"
+        app:layout_widthPercent="10%" />
+
+    <TextView
+        android:id="@+id/history_detail_bad_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/history_detail_good_text"
+        android:gravity="center_horizontal"
+        android:text="@string/history_detail_good_text"
+        android:textSize="@dimen/history_detail_icon_text"
+        app:layout_marginTopPercent="30%"
+        app:layout_widthPercent="10%" />
+
+    <ImageView
+        android:id="@+id/history_detail_bad_icon"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_below="@+id/history_detail_bad_text"
+        android:scaleType="centerInside"
+        android:src="@drawable/good_chart_icon"
+        app:layout_heightPercent="5%"
+        app:layout_widthPercent="10%" />
+
+    <View
+        android:id="@+id/history_detail_chart"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/history_detail_date_spinner"
+        android:background="@color/black"
+        app:layout_heightPercent="55%"
+        app:layout_marginRightPercent="1%"
+        app:layout_marginTopPercent="5%"
+        app:layout_widthPercent="87%" />
+
+    <View
+        android:id="@+id/history_detail_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/history_detail_chart"
+        android:background="@color/black"
+        app:layout_marginTopPercent="2%" />
+
+    <android.support.percent.PercentRelativeLayout
+        android:id="@+id/history_detail_category_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_alignParentBottom="true"
+        app:layout_heightPercent="28%">
+
+        <TextView
+            android:id="@+id/history_detail_category_sound"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/history_voice_history"
+            android:textSize="@dimen/history_detail_category"
+            app:layout_marginLeftPercent="15%" />
+
+        <Switch
+            android:id="@+id/history_detail_category_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:switchMinWidth="50dp" />
+
+        <TextView
+            android:id="@+id/history_detail_category_exercise"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="@string/history_exercise_history"
+            android:textSize="@dimen/history_detail_category"
+            app:layout_marginRightPercent="15%" />
+
+
+    </android.support.percent.PercentRelativeLayout>
+
+</android.support.percent.PercentRelativeLayout>

@@ -166,4 +166,12 @@
         <item>第十題</item>
     </string-array>
     <string name="weekly_assessment_successful">完成</string>
+
+    <!--歷史紀錄-->
+    <string name="history_message_title">歷史紀錄</string>
+    <string name="history_voice_history">用"  "聲\n紀"  "錄</string>
+    <string name="history_exercise_history">自"  "我\n評"  "估</string>
+
+    <string name="history_detail_good_text">接\n近\n完\n美</string>
+    <string name="history_detail_bad_text">有待加強</string>
 </resources>
