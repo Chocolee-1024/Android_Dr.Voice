@@ -3,6 +3,7 @@ package com.imac.voice_app.view.setting;
 import android.app.Activity;
 import android.content.Context;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -49,6 +50,8 @@ public class SettingView {
     Switch mWeeklyRepeatSwitch;
     @BindView(R.id.iv_connection_us)
     ImageView mConnectionUsImageView;
+    @BindView(R.id.setting_logout)
+    Button mLogoutButton;
 
     @BindString(R.string.speak_speed_time_default)
     String mTimeDefaultText;
@@ -56,6 +59,8 @@ public class SettingView {
     String[] mWeekDayTextArray;
 
     public interface settingRepeatCallBack {
+        void setLogout();
+
         void setSendMail();
 
         void setDailyRepeat(boolean isChecked);
@@ -142,9 +147,14 @@ public class SettingView {
         }
     }
 
-    @OnClick({R.id.iv_connection_us, R.id.tv_weekly_notice_week, R.id.tv_daily_notice_time, R.id.tv_weekly_notice_time})
+    @OnClick({R.id.setting_logout,R.id.iv_connection_us,
+            R.id.tv_weekly_notice_week, R.id.tv_daily_notice_time,
+            R.id.tv_weekly_notice_time})
     public void connectionClickListener(View v) {
         switch (v.getId()) {
+            case R.id.setting_logout:
+                callBack.setLogout();
+                break;
             case R.id.iv_connection_us:
                 callBack.setSendMail();
                 break;

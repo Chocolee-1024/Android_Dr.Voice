@@ -68,6 +68,7 @@
     <string name="setting_weekly_notice">每周評量提醒</string>
     <string name="setting_connection_us">聯絡信箱</string>
     <string name="setting_repeat">重"  "複</string>
+    <string name="setting_logout">登出</string>
     <string-array name="week_array">
         <item>星期日</item>
         <item>星期一</item>

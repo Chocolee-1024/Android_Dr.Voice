@@ -9,43 +9,37 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.imac.voice_app.R;
+import com.imac.voice_app.module.AlarmConstantManager;
 import com.imac.voice_app.util.homepage.HomePageActivity;
 
 public class AlarmReceiver extends BroadcastReceiver {
-    public static final String INTENT_MODE = "mode";
-    public static final String WEEK_DAY = "week_day";
-    public static final String MODE_WEEK = "mode_week";
-    public static final String MODE_DAILY = "mode_daily";
-    public static final int ID_DAILY_ALARM = 0x01;
-    public static final int ID_WEEKLY_ALARM = 0x10;
-
     @Override
     public void onReceive(Context context, Intent intent) {
-        String mode = intent.getStringExtra(INTENT_MODE);
+        String mode = intent.getStringExtra(AlarmConstantManager.INTENT_MODE);
         Intent gotoMainActivity = new Intent(context, HomePageActivity.class);
         Bundle whichMde = new Bundle();
         gotoMainActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-        whichMde.putString(INTENT_MODE, mode);
+        whichMde.putString(AlarmConstantManager.INTENT_MODE, mode);
         gotoMainActivity.putExtras(whichMde);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, gotoMainActivity, PendingIntent.FLAG_ONE_SHOT);
         NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         Notification.Builder builder = new Notification.Builder(context);
-        if (mode.equals(MODE_WEEK)) {
+        if (mode.equals(AlarmConstantManager.MODE_WEEK)) {
             builder.setSmallIcon(R.mipmap.ic_launcher)
                     .setContentTitle("Voice 嗓音自我照護")
                     .setContentText(context.getResources().getString(R.string.setting_weekly_notice))
                     .setAutoCancel(true)
                     .setContentIntent(pendingIntent);
             Notification notification = builder.build();
-            manager.notify(ID_WEEKLY_ALARM, notification);
-        } else if (mode.equals(MODE_DAILY)) {
+            manager.notify(AlarmConstantManager.ID_WEEKLY_ALARM, notification);
+        } else if (mode.equals(AlarmConstantManager.MODE_DAILY)) {
             builder.setSmallIcon(R.mipmap.ic_launcher)
                     .setContentTitle("Voice 嗓音自我照護")
                     .setContentText(context.getResources().getString(R.string.setting_daily_notice))
                     .setAutoCancel(true)
                     .setContentIntent(pendingIntent);
             Notification notification = builder.build();
-            manager.notify(ID_DAILY_ALARM, notification);
+            manager.notify(AlarmConstantManager.ID_DAILY_ALARM, notification);
         }
     }
 }
