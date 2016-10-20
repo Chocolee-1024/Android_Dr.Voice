@@ -20,7 +20,7 @@ import butterknife.ButterKnife;
  */
 public class HomePageActivity extends AppCompatActivity {
 
-    private String mode="";
+    private String mode = "";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,7 +41,7 @@ public class HomePageActivity extends AppCompatActivity {
     private void init() {
         HomePage homePage = new HomePage(this, new HomePage.OnClickEvent() {
             @Override
-            public void onClick(boolean isLogin, String account, String name, String dailyExercise) {
+            public void onClick(boolean isLogin, String account, String name, String dailyExercise, String weeklyExercise) {
                 if (!isLogin) {
                     ActivityLauncher.go(HomePageActivity.this, LoginActivity.class, null);
                 } else {
@@ -51,6 +51,7 @@ public class HomePageActivity extends AppCompatActivity {
                     bundle.putString(LoginActivity.KEY_LOGIN_ACCOUNT, account);
                     bundle.putString(LoginActivity.KEY_LOGIN_NAME, name);
                     bundle.putSerializable(LoginActivity.KEY_DAILY_EXERCISE, dataAppend.split(dailyExercise));
+                    bundle.putSerializable(LoginActivity.KEY_WEEKLY_EXERCISE, dataAppend.split(weeklyExercise));
                     ActivityLauncher.go(HomePageActivity.this, MainActivity.class, bundle);
                 }
             }

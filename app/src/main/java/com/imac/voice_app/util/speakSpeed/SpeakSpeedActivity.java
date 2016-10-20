@@ -21,11 +21,12 @@ import com.imac.voice_app.module.net.base.BaseGoogleDrive;
 import com.imac.voice_app.util.login.LoginActivity;
 import com.imac.voice_app.view.speakspeed.SpeakSpeedView;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 
 
-public class SpeakSpeedActivity extends Activity {
+public class SpeakSpeedActivity extends Activity implements FileWriter.WriterCallBack {
     private SpeakSpeedView layout;
     private SpeechKitModule mSpeechModule;
     private PermissionsChecker permissionsChecker;
@@ -130,9 +131,9 @@ public class SpeakSpeedActivity extends Activity {
 
     private void speakSpeedEnd() {
         //                    寫出
-        FileUploader uploader = new FileUploader(this, loginName, loginAccount);
+        fileWriter.setWriterCallBack(this);
         fileWriter.write(loginName, textLogArray);
-        uploader.connect(fileWriter.getFile());
+
         speechState = STATUS_NOT_USING;
 
     }
@@ -287,5 +288,16 @@ public class SpeakSpeedActivity extends Activity {
                 uploader.getCredential().setSelectedAccountName(account);
             uploader.connect(fileWriter.getFile());
         }
+    }
+
+    @Override
+    public void onWriteSuccessful(File file) {
+        FileUploader uploader = new FileUploader(this, loginName, loginAccount);
+        uploader.connect(file);
+    }
+
+    @Override
+    public void onWriteFail() {
+
     }
 }

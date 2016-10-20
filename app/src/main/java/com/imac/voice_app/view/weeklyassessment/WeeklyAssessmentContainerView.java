@@ -44,6 +44,8 @@ public class WeeklyAssessmentContainerView implements ViewPager.OnPageChangeList
     private ArrayList<String> assessmentPointArray = new ArrayList<>();
     private SharePreferencesManager sharePreferencesManager;
     private String soundTopic;
+    private DataWriteEvent dataWriteEvent = null;
+    private ArrayList<String> weeklyTopic = null;
 
     public WeeklyAssessmentContainerView(Activity activity, View view, String status) {
         this.activity = activity;
@@ -55,7 +57,8 @@ public class WeeklyAssessmentContainerView implements ViewPager.OnPageChangeList
     }
 
     private void init() {
-        for (int i = 0; i < 7; i++) {
+        weeklyTopic = ((WeeklyAssessmentActivity) activity).getWeeklyTopic();
+        for (int i = 0; i < weeklyTopic.size(); i++) {
             soundPointArray.add("0");
         }
         for (int i = 0; i < 10; i++) {
@@ -102,6 +105,10 @@ public class WeeklyAssessmentContainerView implements ViewPager.OnPageChangeList
                 sharePreferencesManager.save(PreferencesHelper.Type.BOOLEAN, WeeklyAssessmentActivity.KEY_COMPLETE, isComplete);
                 sharePreferencesManager.save(PreferencesHelper.Type.LONG, WeeklyAssessmentActivity.KEY_WEEKLY_ENABLE_DATE, new DateChecker(activity).getNextWeekFirstDayTime());
                 saveDataToDataBase();
+                dataWriteEvent.onDataWrite(soundPointArray,
+                        weeklyTopic,
+                        assessmentPointArray
+                        );
                 change(null);
             }
         } else {
@@ -152,6 +159,7 @@ public class WeeklyAssessmentContainerView implements ViewPager.OnPageChangeList
     public void onPageScrollStateChanged(int state) {
     }
 
+    //TODO  database save 方式需修改
     private void saveDataToDataBase() {
         DataAppend dataAppend = new DataAppend();
         SqliteManger sqliteManger = new SqliteManger(activity);
@@ -163,4 +171,7 @@ public class WeeklyAssessmentContainerView implements ViewPager.OnPageChangeList
         this.soundTopic = soundTopic;
     }
 
+    public void setDataWriteEvent(DataWriteEvent event) {
+        dataWriteEvent = event;
+    }
 }
