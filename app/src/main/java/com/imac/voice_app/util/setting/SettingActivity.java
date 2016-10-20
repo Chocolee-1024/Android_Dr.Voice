@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
+import android.app.Service;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,7 +15,9 @@ import android.widget.TimePicker;
 import com.imac.voice_app.R;
 import com.imac.voice_app.broadcastreceiver.AlarmReceiver;
 import com.imac.voice_app.component.ToolbarView;
+import com.imac.voice_app.module.AlarmConstantManager;
 import com.imac.voice_app.module.AlarmPreferences;
+import com.imac.voice_app.service.AlarmService;
 import com.imac.voice_app.view.setting.SettingView;
 
 import java.util.Calendar;
@@ -27,13 +30,7 @@ import java.util.GregorianCalendar;
 public class SettingActivity extends Activity {
     private SettingView mSettingLayout;
     private AlertDialog mWeekPickDialog;
-    private AlarmManager mAlarmManager;
     private AlarmPreferences mAlarmPreferences;
-
-    private final String MODE_WEEK = AlarmReceiver.MODE_WEEK;
-    private final String MODE_DAILY = AlarmReceiver.MODE_DAILY;
-    private final int NOTIFICATION_ID_DAILY = AlarmReceiver.ID_DAILY_ALARM;
-    private final int NOTIFICATION_ID_WEEKLY = AlarmReceiver.ID_WEEKLY_ALARM;
 
     private static boolean logOpen = true;
 
@@ -46,7 +43,6 @@ public class SettingActivity extends Activity {
     }
 
     private void init() {
-        mAlarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         mAlarmPreferences = new AlarmPreferences(this);
         mSettingLayout = new SettingView(this, settingViewCallBack(), mAlarmPreferences);
         mWeekPickDialog = getMultiItemDialog();
@@ -77,7 +73,7 @@ public class SettingActivity extends Activity {
                     mAlarmPreferences.saveDailyTime(hour, min);
 
                     if (mAlarmPreferences.getDailyRepeat()) {
-                        setAlarmManagerOpen(MODE_DAILY);
+                        setAlarmManagerOpen(AlarmConstantManager.MODE_DAILY);
                     }
                     showLog("Time Picker", "Daily" + "/" + hour + ":" + min);
                 }
@@ -94,9 +90,9 @@ public class SettingActivity extends Activity {
                     mAlarmPreferences.saveWeeklyTime(hour, min);
 
                     if (mAlarmPreferences.getWeeklyRepeat()) {
-                        setAlarmManagerOpen(MODE_WEEK);
+                        setAlarmManagerOpen(AlarmConstantManager.MODE_WEEK);
                     }
-                    showLog("Time Picker" , "Weekly" + "/" + hour + ":" + min);
+                    showLog("Time Picker", "Weekly" + "/" + hour + ":" + min);
                 }
             };
         }
@@ -107,47 +103,19 @@ public class SettingActivity extends Activity {
     }
 
     private void setAlarmManagerOpen(String type) {
-        Intent intent = new Intent(SettingActivity.this, AlarmReceiver.class);
-        Calendar calendar = Calendar.getInstance();
-        PendingIntent pendingIntent;
-        int settingHour;
-        int settingMin;
-        int nowHour = calendar.get(Calendar.HOUR_OF_DAY);
-        int nowMin = calendar.get(Calendar.MINUTE);
-        if (type.equals(MODE_DAILY)) {
-            intent.putExtra(AlarmReceiver.INTENT_MODE, MODE_DAILY);
-            settingHour = Integer.valueOf(mAlarmPreferences.getDailyHour());
-            settingMin = Integer.valueOf(mAlarmPreferences.getDailyMin());
-            pendingIntent = PendingIntent.getBroadcast(this, NOTIFICATION_ID_DAILY, intent, PendingIntent.FLAG_ONE_SHOT);
-        } else {
-            intent.putExtra(AlarmReceiver.INTENT_MODE, MODE_WEEK);
-            intent.putExtra(AlarmReceiver.WEEK_DAY, mAlarmPreferences.getWeeklyDay());
-            settingHour = Integer.valueOf(mAlarmPreferences.getWeeklyHour());
-            settingMin = Integer.valueOf(mAlarmPreferences.getWeeklyMin());
-            pendingIntent = PendingIntent.getBroadcast(this, NOTIFICATION_ID_WEEKLY, intent, PendingIntent.FLAG_ONE_SHOT);
-        }
-
-        calendar.set(Calendar.HOUR_OF_DAY, settingHour);
-        calendar.set(Calendar.MINUTE, settingMin);
-        if (nowHour >= settingHour && nowMin >= settingMin) {
-            calendar.add(Calendar.DAY_OF_MONTH, 1);
-        }
-        mAlarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                86400000, pendingIntent);
+        Intent intent = new Intent(this, AlarmService.class);
+        intent.putExtra(AlarmConstantManager.ACTION_MODE, AlarmConstantManager.ACTION_OPEN);
+        intent.putExtra(AlarmConstantManager.INTENT_MODE, type);
+        startService(intent);
 
         showLog("Alarm Open", type);
     }
 
     private void setAlarmManagerClose(String type) {
-        Intent intent = new Intent(SettingActivity.this, AlarmReceiver.class);
-        PendingIntent pendingIntent;
-        if (type.equals(MODE_DAILY)) {
-            pendingIntent = PendingIntent.getBroadcast(this, NOTIFICATION_ID_DAILY, intent, PendingIntent.FLAG_ONE_SHOT);
-        } else {
-            pendingIntent = PendingIntent.getBroadcast(this, NOTIFICATION_ID_WEEKLY, intent, PendingIntent.FLAG_ONE_SHOT);
-        }
-
-        mAlarmManager.cancel(pendingIntent);
+        Intent intent = new Intent(this, AlarmService.class);
+        intent.putExtra(AlarmConstantManager.ACTION_MODE, AlarmConstantManager.ACTION_CLOSE);
+        intent.putExtra(AlarmConstantManager.INTENT_MODE, type);
+        startService(intent);
         showLog("Alarm Close", type);
     }
 
@@ -178,9 +146,14 @@ public class SettingActivity extends Activity {
     private SettingView.settingRepeatCallBack settingViewCallBack() {
         return new SettingView.settingRepeatCallBack() {
             @Override
+            public void setLogout() {
+
+            }
+
+            @Override
             public void setSendMail() {
                 Intent sendMail = new Intent(android.content.Intent.ACTION_SEND);
-                sendMail.putExtra(Intent.EXTRA_EMAIL,new String[] {"voice.dr.wang@gmail.com"});
+                sendMail.putExtra(Intent.EXTRA_EMAIL, new String[]{"voice.dr.wang@gmail.com"});
                 sendMail.setType("message/rfc822");
                 sendMail.setClassName("com.google.android.gm",
                         "com.google.android.gm.ComposeActivityGmail");
@@ -193,9 +166,9 @@ public class SettingActivity extends Activity {
                 mAlarmPreferences.saveDailyRepeat(isChecked);
                 showLog("Daily Switch", String.valueOf(isChecked));
                 if (isChecked) {
-                    setAlarmManagerOpen(MODE_DAILY);
+                    setAlarmManagerOpen(AlarmConstantManager.MODE_DAILY);
                 } else {
-                    setAlarmManagerClose(MODE_DAILY);
+                    setAlarmManagerClose(AlarmConstantManager.MODE_DAILY);
                 }
             }
 
@@ -204,9 +177,9 @@ public class SettingActivity extends Activity {
                 mAlarmPreferences.saveWeeklyRepeat(isChecked);
                 showLog("Weekly Switch", String.valueOf(isChecked));
                 if (isChecked) {
-                    setAlarmManagerOpen(MODE_WEEK);
+                    setAlarmManagerOpen(AlarmConstantManager.MODE_WEEK);
                 } else {
-                    setAlarmManagerClose(MODE_WEEK);
+                    setAlarmManagerClose(AlarmConstantManager.MODE_WEEK);
                 }
             }
 

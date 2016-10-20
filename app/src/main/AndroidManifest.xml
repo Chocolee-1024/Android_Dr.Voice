@@ -18,11 +18,11 @@
         <receiver android:name=".broadcastreceiver.AlarmReceiver"/>
 
         <activity android:name=".util.TemporaryDevelopActivity">
-            <!--<intent-filter>-->
-            <!--<action android:name="android.intent.action.MAIN" />-->
+            <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
 
-            <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+            <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
 
@@ -34,11 +34,11 @@
                 android:value="@string/key" />
         </activity>
         <activity android:name=".util.homepage.HomePageActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
         </activity>
         <activity android:name=".util.login.LoginActivity" />
         <activity android:name=".util.mainmenu.MainActivity"/>
@@ -46,6 +46,7 @@
         <activity android:name=".util.dailyexercise.DailyExerciseActivity"/>
         <activity android:name=".util.setting.SettingActivity"/>
         <activity android:name=".util.weeklyassessment.WeeklyAssessmentActivity"/>
+        <service android:name=".service.AlarmService"/>
     </application>
 
 </manifest>
