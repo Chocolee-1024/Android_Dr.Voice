@@ -159,6 +159,7 @@ public class LoginActivity extends AppCompatActivity implements DataChangeListen
             public void onSearchResult(ArrayList<String> search) {
                 bundle.putSerializable(KEY_WEEKLY_EXERCISE, search);
                 ActivityLauncher.go(LoginActivity.this, MainActivity.class, bundle);
+                finish();
                 progressDialog.dismiss();
             }
 
