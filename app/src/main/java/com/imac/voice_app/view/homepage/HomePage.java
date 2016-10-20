@@ -29,6 +29,7 @@ public class HomePage {
     private String account = "";
     private String name = "";
     private String dailyExercise = "";
+    private String weeklyExercise = "";
     private SharePreferencesManager sharePreferencesManager;
 
     public HomePage(Activity activity, OnClickEvent event) {
@@ -49,7 +50,8 @@ public class HomePage {
         account = (String) sharePreferencesManager.get(LoginActivity.KEY_LOGIN_ACCOUNT, PreferencesHelper.Type.STRING);
         name = (String) sharePreferencesManager.get(LoginActivity.KEY_LOGIN_NAME, PreferencesHelper.Type.STRING);
         dailyExercise = (String) sharePreferencesManager.get(LoginActivity.KEY_DAILY_EXERCISE, PreferencesHelper.Type.STRING);
-        if ("".equals(account) || "".equals(name) || "".equals(dailyExercise)) {
+        weeklyExercise = (String) sharePreferencesManager.get(LoginActivity.KEY_WEEKLY_EXERCISE, PreferencesHelper.Type.STRING);
+        if ("".equals(account) || "".equals(name) || "".equals(dailyExercise) || "".equals(weeklyExercise)) {
             isLogin = false;
         } else {
             isLogin = true;
@@ -59,10 +61,10 @@ public class HomePage {
 
     @OnClick(R.id.start)
     public void clickStart() {
-        event.onClick(isLogin(), account, name, dailyExercise);
+        event.onClick(isLogin(), account, name, dailyExercise, weeklyExercise);
     }
 
     public interface OnClickEvent {
-        void onClick(boolean isLogin, String account, String name, String dailyExercise);
+        void onClick(boolean isLogin, String account, String name, String dailyExercise, String weeklyExercise);
     }
 }

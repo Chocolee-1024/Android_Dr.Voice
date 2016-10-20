@@ -76,6 +76,7 @@ public class WeeklyAssessmentViewPagerAdapter extends PagerAdapter implements Ra
         LayoutInflater layoutInflater = LayoutInflater.from(activity);
         View view = layoutInflater.inflate(R.layout.fragment_weekly_assessment_self_assessment, null);
         ButterKnife.bind(this, view);
+        ArrayList<String> weeklyTopic = ((WeeklyAssessmentActivity) activity).getWeeklyTopic();
 
         if (status.equals(WeeklyAssessmentActivity.SOUND_RECORDING)) {
             optionFive.setVisibility(View.GONE);
@@ -90,18 +91,21 @@ public class WeeklyAssessmentViewPagerAdapter extends PagerAdapter implements Ra
         String[] contentArray;
         String[] topicNumberArray = activity.getResources().getStringArray(R.array.weekly_assessment_topic_number);
         if (status.equals(WeeklyAssessmentActivity.SOUND_RECORDING)) {
-            optionArray = activity.getResources().getStringArray(getSoundOptionId(position));
+            int weeklySoundTopicIndex = Integer.valueOf(weeklyTopic.get(position)) - 1;
+            optionArray = activity.getResources().getStringArray(getSoundOptionId(weeklySoundTopicIndex));
             contentArray = activity.getResources().getStringArray(R.array.weekly_assessment_sound_topic);
+            weeklyAssessmentTopicContent.setText(contentArray[weeklySoundTopicIndex]);
+
         } else if (status.equals(WeeklyAssessmentActivity.SELF_ASSESSMENT)) {
             optionArray = activity.getResources().getStringArray(R.array.weekly_assessment_self_assessment_topic_option);
             optionFive.setText(optionArray[4]);
             contentArray = activity.getResources().getStringArray(R.array.weekly_assessment_self_assessment_topic);
+            weeklyAssessmentTopicContent.setText(contentArray[position]);
         } else {
             throw new RuntimeException("Status must SOUND_RECORDING or SELF_ASSESSMENT");
         }
         weeklyAssessmentTopicNumber.setText(topicNumberArray[position]);
         weeklyAssessmentDate.setText(formatDateText());
-        weeklyAssessmentTopicContent.setText(contentArray[position]);
         optionOne.setText(optionArray[0]);
         optionTwo.setText(optionArray[1]);
         optionThree.setText(optionArray[2]);

@@ -17,22 +17,22 @@ import java.util.Date;
  */
 public class FileWriter {
     private Context context;
-    private ArrayList<Integer> textNumArrayList;
     private int index = 0;
     private File file;
     private Date startDate;
+    private WriterCallBack writerCallBack = null;
 
     public FileWriter(Context context) {
-        super();
         this.context = context;
-        textNumArrayList = new ArrayList<>();
     }
 
     /**
+     * {@link com.imac.voice_app.util.speakSpeed.SpeakSpeedActivity}
      * 寫入資料到儲存空間內
      * 以日期命名
      */
     public void write(String name, ArrayList<String> textArrayList) {
+        ArrayList<Integer> textNumArrayList = new ArrayList<>();
         for (int i = 0; i < textArrayList.size(); i++) {
             textNumArrayList.add(textArrayList.get(i).length());
         }
@@ -83,10 +83,60 @@ public class FileWriter {
             printWriter.append("\n");
             printWriter.flush();
             printWriter.close();
+            writerCallBack.onWriteSuccessful(file);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             Log.e("FileNotFoundException", e.toString());
+            writerCallBack.onWriteFail();
         }
+    }
+
+    public void write(ArrayList<String> soundPoint, ArrayList<String> soundTopic, ArrayList<String> assessmentPoint) {
+        ArrayList<String> assessmentTopic = new ArrayList<>();
+        for (int i = 1; i < 11; i++) {
+            assessmentTopic.add(String.valueOf(i));
+        }
+        if (soundPoint.size() == 0 || assessmentPoint.size() == 0) {
+            return;
+        }
+        String path = Environment.getExternalStorageDirectory().getPath()
+                + "/" + context.getPackageName();
+        File sdFile = new File(path);
+        sdFile.mkdir();
+        try {
+            Date date = new Date();
+            SimpleDateFormat dayFormat = new SimpleDateFormat("MM-dd");
+            String dayFormatDate = dayFormat.format(date);
+            File file = new File(sdFile, "每週用聲紀錄 : " + dayFormatDate + ".csv");
+
+            ArrayList<String> soundResult = pointAddTopic(soundPoint, soundTopic);
+            ArrayList<String> assessmentResult = pointAddTopic(assessmentPoint, assessmentTopic);
+            PrintWriter printWriter = new PrintWriter(new FileOutputStream(file, true));
+            for (String member : soundResult) {
+                printWriter.append("," + member);
+            }
+            printWriter.append("\n");
+            for (String member : assessmentResult) {
+                printWriter.append("," + member);
+            }
+            printWriter.append("\n");
+            printWriter.flush();
+            printWriter.close();
+            writerCallBack.onWriteSuccessful(file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            Log.e("FileNotFoundException", e.toString());
+            writerCallBack.onWriteFail();
+        }
+    }
+
+    private ArrayList<String> pointAddTopic(ArrayList<String> point, ArrayList<String> topic) {
+        ArrayList<String> result = new ArrayList<>();
+        for (int i = 0; i < topic.size(); i++) {
+            String temp = topic.get(i) + point.get(i);
+            result.add(temp);
+        }
+        return result;
     }
 
     public void setStartTime(Date date) {
@@ -95,5 +145,15 @@ public class FileWriter {
 
     public File getFile() {
         return file;
+    }
+
+    public void setWriterCallBack(WriterCallBack event) {
+        this.writerCallBack = event;
+    }
+
+    public interface WriterCallBack {
+        void onWriteSuccessful(File file);
+
+        void onWriteFail();
     }
 }

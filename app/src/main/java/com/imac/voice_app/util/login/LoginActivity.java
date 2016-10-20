@@ -40,6 +40,7 @@ public class LoginActivity extends AppCompatActivity implements DataChangeListen
     public final static String KEY_LOGIN_ACCOUNT = "key_login_account";
     public final static String KEY_LOGIN_NAME = "key_login_name";
     public final static String KEY_DAILY_EXERCISE = "key_daily_exercise";
+    public final static String KEY_WEEKLY_EXERCISE = "key_weekly_exercise";
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -134,22 +135,41 @@ public class LoginActivity extends AppCompatActivity implements DataChangeListen
         search.execute();
     }
 
-    private void searchDailyTopic(String account, final Bundle bundle) {
+    private void searchDailyTopic(final String account, final Bundle bundle) {
         String fileName = "每日練習" + account;
         SearchName searchDailyTopic = new SearchName(LoginActivity.this, fileName, new SearchName.onCallBackEvent() {
             @Override
             public void onSearchResult(ArrayList<String> search) {
                 bundle.putSerializable(KEY_DAILY_EXERCISE, search);
+                searchWeeklyTopic(account,bundle);
+            }
+
+            @Override
+            public void onSearchFail() {
+                Toast.makeText(LoginActivity.this, "無此帳號每日練習題目", Toast.LENGTH_SHORT).show();
+                progressDialog.dismiss();
+            }
+        });
+        searchDailyTopic.execute();
+    }
+    private void searchWeeklyTopic(String account, final Bundle bundle) {
+        String fileName = "每週用聲紀錄" + account;
+        SearchName searchDailyTopic = new SearchName(LoginActivity.this, fileName, new SearchName.onCallBackEvent() {
+            @Override
+            public void onSearchResult(ArrayList<String> search) {
+                bundle.putSerializable(KEY_WEEKLY_EXERCISE, search);
                 ActivityLauncher.go(LoginActivity.this, MainActivity.class, bundle);
                 progressDialog.dismiss();
             }
 
             @Override
             public void onSearchFail() {
-                Toast.makeText(LoginActivity.this, "此帳號每日練習題目", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this, "無此每週用聲紀錄", Toast.LENGTH_SHORT).show();
                 progressDialog.dismiss();
             }
         });
         searchDailyTopic.execute();
     }
+
+
 }

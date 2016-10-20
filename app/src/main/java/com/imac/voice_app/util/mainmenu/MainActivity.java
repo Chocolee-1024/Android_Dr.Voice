@@ -23,7 +23,8 @@ public class MainActivity extends AppCompatActivity {
     private MainMenu mainMenu;
     private String loginAccount;
     private String loginName;
-    private ArrayList<String> topicList;
+    private ArrayList<String> dailyTopicList;
+    private ArrayList<String> weeklyTopicList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        //TODO 暫時關閉 weekly dismiss 功能
 //        mainMenu.weeklyAssessmentEnabler();
         show();
     }
@@ -45,7 +47,8 @@ public class MainActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         loginAccount = bundle.getString(LoginActivity.KEY_LOGIN_ACCOUNT);
         loginName = bundle.getString(LoginActivity.KEY_LOGIN_NAME);
-        topicList = (ArrayList<String>) bundle.getSerializable(LoginActivity.KEY_DAILY_EXERCISE);
+        dailyTopicList = (ArrayList<String>) bundle.getSerializable(LoginActivity.KEY_DAILY_EXERCISE);
+        weeklyTopicList = (ArrayList<String>) bundle.getSerializable(LoginActivity.KEY_WEEKLY_EXERCISE);
     }
 
     private MenuClickListener onMenuClick() {
@@ -53,15 +56,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDailyExerciseClick() {
                 Bundle bundle = new Bundle();
-                bundle.putSerializable(LoginActivity.KEY_DAILY_EXERCISE, topicList);
+                bundle.putSerializable(LoginActivity.KEY_DAILY_EXERCISE, dailyTopicList);
                 ActivityLauncher.go(MainActivity.this, DailyExerciseActivity.class, bundle);
 
             }
 
             @Override
             public void onWeeklyAssessmentClick() {
-                ActivityLauncher.go(MainActivity.this, WeeklyAssessmentActivity.class, null);
-
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(LoginActivity.KEY_WEEKLY_EXERCISE, weeklyTopicList);
+                ActivityLauncher.go(MainActivity.this, WeeklyAssessmentActivity.class, bundle);
             }
 
             @Override
