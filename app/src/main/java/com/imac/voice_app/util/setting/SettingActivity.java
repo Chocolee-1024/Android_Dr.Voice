@@ -1,10 +1,7 @@
 package com.imac.voice_app.util.setting;
 
 import android.app.Activity;
-import android.app.AlarmManager;
 import android.app.AlertDialog;
-import android.app.PendingIntent;
-import android.app.Service;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,11 +10,13 @@ import android.util.Log;
 import android.widget.TimePicker;
 
 import com.imac.voice_app.R;
-import com.imac.voice_app.broadcastreceiver.AlarmReceiver;
 import com.imac.voice_app.component.ToolbarView;
+import com.imac.voice_app.core.ActivityLauncher;
 import com.imac.voice_app.module.AlarmConstantManager;
 import com.imac.voice_app.module.AlarmPreferences;
+import com.imac.voice_app.module.SharePreferencesManager;
 import com.imac.voice_app.service.AlarmService;
+import com.imac.voice_app.util.homepage.HomePageActivity;
 import com.imac.voice_app.view.setting.SettingView;
 
 import java.util.Calendar;
@@ -147,7 +146,9 @@ public class SettingActivity extends Activity {
         return new SettingView.settingRepeatCallBack() {
             @Override
             public void setLogout() {
-
+                SharePreferencesManager sharePreferencesManager = SharePreferencesManager.getInstance(SettingActivity.this);
+                sharePreferencesManager.clearAll();
+                ActivityLauncher.go(SettingActivity.this, HomePageActivity.class, null);
             }
 
             @Override
