@@ -117,7 +117,11 @@ public class CustomProgressBar extends View {
     }
 
     public void setAnglePercent(int percent) {
-        this.percent = percent;
+        if (percent > 100) {
+            this.percent = 100 ;
+        } else {
+            this.percent = percent;
+        }
         if (percent > 66) {
             outsideCirclePaint.setColor(colorStatusTooFast);
         } else if (percent > 53) {

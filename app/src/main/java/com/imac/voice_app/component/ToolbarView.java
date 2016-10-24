@@ -2,7 +2,6 @@ package com.imac.voice_app.component;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -12,8 +11,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.imac.voice_app.R;
-import com.imac.voice_app.core.ActivityLauncher;
-import com.imac.voice_app.util.mainmenu.MainActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -50,7 +47,7 @@ public class ToolbarView extends RelativeLayout {
 
         LayoutInflater inflater = LayoutInflater.from(mContext);
         view = inflater.inflate(R.layout.layout_toolbar, null, false);
-        ButterKnife.bind(this,view);
+        ButterKnife.bind(this, view);
         addView(view);
 
         loadStateFromAttrs(attributeSet);
@@ -92,7 +89,27 @@ public class ToolbarView extends RelativeLayout {
         }
     }
 
-    public void setToolbarButtonCallBack(toolbarCallBack listener){
+    public void setToolbarButtonCallBack(toolbarCallBack listener) {
         this.listener = listener;
+    }
+
+    public void setTitleTextViewText(String text){
+        this.titleTextView.setText(text);
+    }
+
+    public String getTitleTextViewText (){
+        return (String) this.titleTextView.getText();
+    }
+
+    public void setBackButtonVisibility(boolean visibility){
+        if (visibility) {
+            backButton.setVisibility(VISIBLE);
+        } else {
+            backButton.setVisibility(INVISIBLE);
+        }
+    }
+
+    public boolean getBackButtonVisibility () {
+        return backButton.getVisibility() == VISIBLE;
     }
 }
