@@ -99,7 +99,7 @@ public class SpeakSpeedActivity extends Activity implements FileWriter.WriterCal
     }
 
     private void calculateNumPerMinute(int wordCount) {
-        int wordNum = wordCount * 4;
+        int wordNum = wordCount * 2;
         int percent = wordNum / 3;
         Log.e("wordCount", Integer.toString(wordCount));
         Log.e("percent", Integer.toString(percent));
