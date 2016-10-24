@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/activity_bg_color">
+
+    <android.support.percent.PercentRelativeLayout
+        android:id="@+id/voice_history"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_heightPercent="50%">
+
+        <ImageView
+            android:id="@+id/voice_history_icon"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/history_1_icon"
+            android:scaleType="centerInside"
+            app:layout_widthPercent="30%"
+            app:layout_heightPercent="50%"
+            app:layout_marginLeftPercent="20%"/>
+
+        <TextView
+            android:id="@+id/voice_history_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/voice_history_icon"
+            android:text="@string/history_voice_history"
+            android:textColor="@color/black"
+            android:textSize="@dimen/history_item_title"
+            app:layout_marginLeftPercent="5%"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/line_color"
+            android:layout_alignParentBottom="true"/>
+    </android.support.percent.PercentRelativeLayout>
+
+    <android.support.percent.PercentRelativeLayout
+        android:id="@+id/daily_exercise_history"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_below="@+id/voice_history"
+        app:layout_heightPercent="50%">
+
+        <ImageView
+            android:id="@+id/daily_exercise_history_icon"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/history_2_icon"
+            android:scaleType="centerInside"
+            app:layout_widthPercent="30%"
+            app:layout_heightPercent="50%"
+            app:layout_marginLeftPercent="20%"/>
+
+        <TextView
+            android:id="@+id/exercise_history_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/daily_exercise_history_icon"
+            android:text="@string/history_voice_history"
+            android:textColor="@color/black"
+            android:textSize="@dimen/history_item_title"
+            app:layout_marginLeftPercent="5%"/>
+
+    </android.support.percent.PercentRelativeLayout>
+
+
+</android.support.percent.PercentRelativeLayout>

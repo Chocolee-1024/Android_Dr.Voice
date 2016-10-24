@@ -9,4 +9,11 @@
     <dimen name="weekly_assessment_topic_content_text_size">22sp</dimen>
     <dimen name="weekly_assessment_select_text_size">18.21sp</dimen>
     <dimen name="weekly_assessment_radio_padding_left">15dp</dimen>
+    <!--歷史紀錄-->
+    <dimen name="history_item_title">30sp</dimen>
+
+    <dimen name="history_detail_icon_text">10sp</dimen>
+    <dimen name="history_detail_spinner">15sp</dimen>
+    <dimen name="history_detail_week">14sp</dimen>
+    <dimen name="history_detail_category">18sp</dimen>
 </resources>
