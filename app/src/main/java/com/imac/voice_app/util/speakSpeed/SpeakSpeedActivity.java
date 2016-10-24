@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.WindowManager;
 
@@ -39,7 +40,6 @@ public class SpeakSpeedActivity extends Activity implements FileWriter.WriterCal
     private int speechState;
     private int sec;
     private int secRecording;
-    private int secCoolDown;
     private int count;
     private int calculateFont;
     private ArrayList<String> textLogArray;
@@ -48,20 +48,19 @@ public class SpeakSpeedActivity extends Activity implements FileWriter.WriterCal
 
     private static final int SEC_MAX = 60 * 50;
     private static final int SEC_RECORD = 30;
-    private static final int SEC_COOL_DOWN = 30;
     private static final int COUNT_MAX = 16;
 
     //speechStatus status code
     private static final int STATUS_IDLE = 0;
     private static final int STATUS_NEED_START = 1;
     private static final int STATUS_RECORDING = 2;
-    private static final int STATUS_COOL_DOWN = 3;
     private static final int STATUS_COUNT_MAX = 4;
     private static final int STATUS_NOT_USING = 5;
 
     private String[] checkPermission = new String[]{
             Manifest.permission.RECORD_AUDIO,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE};
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.VIBRATE};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,30 +103,14 @@ public class SpeakSpeedActivity extends Activity implements FileWriter.WriterCal
         int percent = wordNum / 3;
         Log.e("wordCount", Integer.toString(wordCount));
         Log.e("percent", Integer.toString(percent));
-        layout.setCalculateSpeedText(Integer.toString(wordNum), percent);
+        layout.setCalculateSpeedText(wordNum, percent);
+        if (wordNum > 200) {
+            setVibrator(true);
+        } else if (wordNum > 160) {
+            setVibrator(false);
+        }
+
     }
-
-
-//    TODO：需要討論介面
-//    private void calculateUsedTime(int sec) {
-//        int cauMin = sec / 60;
-//        int cauSec = sec % 60;
-//        String strMin;
-//        String strSec;
-//        if (cauMin > 10) {
-//            strMin = Integer.toString(cauMin);
-//        } else {
-//            strMin = "0" + Integer.toString(cauMin);
-//        }
-//
-//        if (cauSec > 10) {
-//            strSec = Integer.toString(cauSec);
-//        } else {
-//            strSec = "0" + Integer.toString(cauSec);
-//        }
-//
-//        layout.setTimeTextViewText(strMin + ":" + strSec);
-//    }
 
     private void speakSpeedEnd() {
         //                    寫出
@@ -138,10 +121,18 @@ public class SpeakSpeedActivity extends Activity implements FileWriter.WriterCal
 
     }
 
+    private void setVibrator(boolean level) {
+        Vibrator myVibrator = (Vibrator) getApplication().getSystemService(VIBRATOR_SERVICE);
+        if (!level) {
+            myVibrator.vibrate(100);
+        } else {
+            myVibrator.vibrate(new long[]{50, 100, 50, 100}, -1);
+        }
+    }
+
     private final Runnable timerRun = new Runnable() {
         public void run() {
             ++sec;
-//            calculateUsedTime(sec);
             switch (speechState) {
                 case STATUS_NEED_START:
                     mSpeechModule.recognizeStart();
@@ -151,21 +142,10 @@ public class SpeakSpeedActivity extends Activity implements FileWriter.WriterCal
                     ++secRecording;
                     Log.e("secRecording", secRecording + "");
                     break;
-                case STATUS_COOL_DOWN:
-                    ++secCoolDown;
-                    Log.e("secCoolDown", secCoolDown + "");
-                    break;
-            }
-
-            if (secCoolDown == SEC_COOL_DOWN) {
-                secCoolDown = 0;
-                Log.e("secCoolDown", "secCoolDown end");
             }
 
             if (secRecording == SEC_RECORD) {
                 mSpeechModule.recognizeStop();
-                speechState = STATUS_COOL_DOWN;
-                secRecording = 0;
                 ++count;
             }
 
@@ -181,6 +161,9 @@ public class SpeakSpeedActivity extends Activity implements FileWriter.WriterCal
         }
     };
 
+    /************
+     * Callback Func
+     ***********/
     private SpeechKitModule.onTextUpdateListener TextUpdateListener() {
         return new SpeechKitModule.onTextUpdateListener() {
             @Override
@@ -189,6 +172,7 @@ public class SpeakSpeedActivity extends Activity implements FileWriter.WriterCal
                 calculateFont = calculateFont + str.length();
                 calculateNumPerMinute(str.length());
                 speechState = STATUS_IDLE;
+                secRecording = 0;
                 mSpeechModule.startCaculateDB();
             }
 
@@ -197,6 +181,7 @@ public class SpeakSpeedActivity extends Activity implements FileWriter.WriterCal
                 textLogArray.add("");
                 calculateNumPerMinute(0);
                 speechState = STATUS_IDLE;
+                secRecording = 0;
                 mSpeechModule.startCaculateDB();
             }
 
@@ -221,7 +206,6 @@ public class SpeakSpeedActivity extends Activity implements FileWriter.WriterCal
                     } else {
                         speechState = STATUS_IDLE;
                         sec = 0;
-                        secCoolDown = 0;
                         secRecording = 0;
                         calculateFont = 0;
                         mSpeechModule.startCaculateDB();
