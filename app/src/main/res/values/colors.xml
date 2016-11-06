@@ -13,7 +13,7 @@
     <!--Speak Speed-->
     <color name="speak_speed_point">#AC9994</color>
     <color name="speak_speed_date">#B57985</color>
-    <color name="speak_speed_idle">#C9B5B3</color>
+    <color name="speak_speed_idle">#D18F90</color>
     <color name="speak_speed_good">#00AF82</color>
     <color name="speak_speed_slower">#FFB464</color>
     <color name="speak_speed_too_fast">#FF5064</color>
@@ -34,10 +34,13 @@
     <color name="daily_exercise_start_button_bg">#DCA59B</color>
     <color name="daily_exercise_page_count_down">#8A8A8A8A</color>
     <color name="daily_exercise_page_indicator">#7EAE83</color>
-
     <!--setting-->
     <color name="setting_connection_us">#dca59b</color>
+    <color name="setting_switch">#B0617D</color>
     <!--每週評量-->
     <color name="weekly_assessment_topic_content">#3C3C3C</color>
     <color name="weekly_assessment_topic_number">#BD7580</color>
+    <!--歷史紀錄-->
+    <color name="history_text">#BD7580</color>
+    <color name="history_base_line">#BFBFC0</color>
 </resources>

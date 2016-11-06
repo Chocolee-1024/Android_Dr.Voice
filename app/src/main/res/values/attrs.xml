@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="ToolbarView">
-        <attr name="backButtonVisibility" format="boolean"/>
-        <attr name="titleText" format="string"/>
+        <attr name="backButtonVisibility" format="boolean" />
+        <attr name="titleText" format="string" />
+    </declare-styleable>
+    <declare-styleable name="Histogram">
+        <attr name="isAnimator" format="boolean" />
+        <attr name="chartColor" format="color" />
+        <attr name="chartBaseLineColor" format="color" />
+        <attr name="textColor" format="color" />
+        <attr name="chartStrokeDp" format="dimension" />
+        <attr name="chartLineDp" format="dimension" />
+        <attr name="chartTextSizeDp" format="dimension" />
     </declare-styleable>
 </resources>

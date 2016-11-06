@@ -2,6 +2,7 @@ package com.imac.voice_app.view.setting;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -13,6 +14,11 @@ import com.imac.voice_app.component.ToolbarView;
 import com.imac.voice_app.core.Ruler;
 import com.imac.voice_app.module.AlarmPreferences;
 import com.imac.voice_app.module.FontManager;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Locale;
 
 import butterknife.BindArray;
 import butterknife.BindString;
@@ -28,8 +34,6 @@ import butterknife.OnClick;
 public class SettingView {
     @BindView(R.id.setting_toolbar_view)
     ToolbarView mToolbarView;
-    @BindView(R.id.tv_setting_please_set)
-    TextView mSettingTitleTextView;
     @BindView(R.id.tv_daily_notice_title)
     TextView mDailyNoticeTitleTextView;
     @BindView(R.id.tv_daily_notice_time)
@@ -52,11 +56,39 @@ public class SettingView {
     ImageView mConnectionUsImageView;
     @BindView(R.id.setting_logout)
     Button mLogoutButton;
+    @BindView(R.id.back_to_the_clinic_time_year)
+    TextView backToTheClinicTimeYear;
+    @BindView(R.id.back_to_the_clinic_time_month)
+    TextView backToTheClinicTimeMonth;
+    @BindView(R.id.back_to_the_clinic_time_day)
+    TextView backToTheClinicTimeDay;
+    @BindView(R.id.back_to_the_clinic_time_week)
+    TextView backToTheClinicTimeWeek;
+    @BindView(R.id.back_to_the_clinic_time_time)
+    TextView backToTheClinicTimeTime;
+    @BindView(R.id.back_to_the_clinic_time_number)
+    TextView backToTheClinicTimeNumber;
+    @BindView(R.id.treatment_year)
+    TextView treatmentYear;
+    @BindView(R.id.treatment_month)
+    TextView treatmentMonth;
+    @BindView(R.id.treatment_day)
+    TextView treatmentDay;
+    @BindView(R.id.treatment_week)
+    TextView treatmentWeek;
+    @BindView(R.id.treatment_time)
+    TextView treatmentTime;
+    @BindView(R.id.treatment_number)
+    TextView treatmentNumber;
+
 
     @BindString(R.string.speak_speed_time_default)
     String mTimeDefaultText;
     @BindArray(R.array.week_array)
     String[] mWeekDayTextArray;
+
+
+    private ArrayList<String> remindData;
 
     public interface settingRepeatCallBack {
         void setLogout();
@@ -86,7 +118,7 @@ public class SettingView {
         initialSetting();
 
         FontManager.setFont(mContext, FontManager.MEDIUM,
-                mSettingTitleTextView, mDailyNoticeTitleTextView, mDailyRepeatTextView,
+                mDailyNoticeTitleTextView, mDailyRepeatTextView,
                 mWeeklyNoticeTitleTextView, mWeeklyWeekTextView, mWeeklyRepeatTextView);
 
         Ruler ruler = new Ruler(activity);
@@ -147,7 +179,7 @@ public class SettingView {
         }
     }
 
-    @OnClick({R.id.setting_logout,R.id.iv_connection_us,
+    @OnClick({R.id.setting_logout, R.id.iv_connection_us,
             R.id.tv_weekly_notice_week, R.id.tv_daily_notice_time,
             R.id.tv_weekly_notice_time})
     public void connectionClickListener(View v) {
@@ -170,6 +202,47 @@ public class SettingView {
         }
     }
 
+    private void setTextParams() {
+        String[] backToClinicArray = remindData.get(0).split("[,/]+");
+        String[] treatmentArray = remindData.get(1).split("[,/]+");
+        boolean isNone = true;
+        for (String index : backToClinicArray) {
+            isNone &= "0".equals(index);
+            if (isNone) return;
+        }
+
+        String backToClinicYearFormat = String.valueOf(Integer.valueOf(backToClinicArray[0]) - 1911);
+        backToTheClinicTimeYear.setText(backToClinicYearFormat);
+        backToTheClinicTimeMonth.setText(backToClinicArray[1]);
+        backToTheClinicTimeDay.setText(backToClinicArray[2]);
+        backToTheClinicTimeTime.setText(backToClinicArray[3]);
+        backToTheClinicTimeWeek.setText(getCalendarWeek(remindData.get(0).split(",")[0]));
+        backToTheClinicTimeNumber.setText(backToClinicArray[4]);
+        isNone = true;
+        for (String index : treatmentArray) {
+            isNone &= "0".equals(index);
+            if (isNone) return;
+        }
+        String treatmentYearFormat = String.valueOf(Integer.valueOf(treatmentArray[0]) - 1911);
+        treatmentYear.setText(treatmentYearFormat);
+        treatmentMonth.setText(treatmentArray[1]);
+        treatmentDay.setText(treatmentArray[2]);
+        treatmentTime.setText(treatmentArray[3]);
+        treatmentWeek.setText(getCalendarWeek(remindData.get(1).split(",")[0]));
+        treatmentNumber.setText(treatmentArray[4]);
+    }
+
+    private String getCalendarWeek(String date) {
+        SimpleDateFormat dayFormat = new SimpleDateFormat("EEEE", Locale.CHINA);
+
+        int year = Integer.valueOf(date.split("/")[0]);
+        int month = Integer.valueOf(date.split("/")[1]);
+        int day = Integer.valueOf(date.split("/")[2]);
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year, month - 1, day);
+        return dayFormat.format(calendar.getTime());
+    }
+
     /************
      * public method
      ***********/
@@ -188,4 +261,12 @@ public class SettingView {
     public void setToolbarViewCallBack(ToolbarView.toolbarCallBack callBack) {
         mToolbarView.setToolbarButtonCallBack(callBack);
     }
+
+    public void setRemindData(ArrayList<String> data) {
+        this.remindData = data;
+        Log.e("show", String.valueOf(data));
+        setTextParams();
+    }
+
+
 }

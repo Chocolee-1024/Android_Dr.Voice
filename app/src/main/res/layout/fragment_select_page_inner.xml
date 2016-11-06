@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:text="02:00"
-        android:textSize="51sp"
+        android:textSize="@dimen/daily_exercise_selected_time_text_size"
         app:layout_marginTopPercent="5%" />
 
     <ImageView
@@ -33,7 +33,7 @@
         android:layout_centerHorizontal="true"
         android:src="@drawable/practice4_action_a_icon"
         android:text="@string/daily_exercise_practice4_action_a"
-        android:textSize="21sp"
+        android:textSize="@dimen/daily_exercise_selected_description_text_size"
         android:visibility="invisible" />
 
     <ImageView

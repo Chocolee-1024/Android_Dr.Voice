@@ -49,9 +49,9 @@ public class HomePage {
         boolean isLogin;
         account = (String) sharePreferencesManager.get(LoginActivity.KEY_LOGIN_ACCOUNT, PreferencesHelper.Type.STRING);
         name = (String) sharePreferencesManager.get(LoginActivity.KEY_LOGIN_NAME, PreferencesHelper.Type.STRING);
-        dailyExercise = (String) sharePreferencesManager.get(LoginActivity.KEY_DAILY_EXERCISE, PreferencesHelper.Type.STRING);
-        weeklyExercise = (String) sharePreferencesManager.get(LoginActivity.KEY_WEEKLY_EXERCISE, PreferencesHelper.Type.STRING);
-        if ("".equals(account) || "".equals(name) || "".equals(dailyExercise) || "".equals(weeklyExercise)) {
+//        dailyExercise = (String) sharePreferencesManager.get(LoginActivity.KEY_DAILY_EXERCISE, PreferencesHelper.Type.STRING);
+//        weeklyExercise = (String) sharePreferencesManager.get(LoginActivity.KEY_WEEKLY_EXERCISE, PreferencesHelper.Type.STRING);
+        if ("".equals(account) || "".equals(name)) {
             isLogin = false;
         } else {
             isLogin = true;

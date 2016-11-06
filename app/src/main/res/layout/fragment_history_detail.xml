@@ -13,7 +13,19 @@
         app:layout_heightPercent="5%"
         app:layout_marginRightPercent="5%"
         app:layout_marginTopPercent="5%"
-        app:layout_widthPercent="20%" />
+        app:layout_widthPercent="30%" />
+
+    <!--<Spinner-->
+
+    <!--android:id="@+id/history_detail_topic_spinner"-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="0dp"-->
+    <!--android:layout_alignLeft="@+id/history_detail_chart"-->
+    <!--android:layout_toRightOf="@+id/history_detail_good_icon"-->
+    <!--app:layout_heightPercent="5%"-->
+    <!--app:layout_marginRightPercent="5%"-->
+    <!--app:layout_marginTopPercent="5%"-->
+    <!--app:layout_widthPercent="30%" />-->
 
     <ImageView
         android:id="@+id/history_detail_good_icon"
@@ -32,6 +44,7 @@
         android:layout_below="@+id/history_detail_good_icon"
         android:gravity="center_horizontal"
         android:text="@string/history_detail_good_text"
+        android:textColor="@color/history_text"
         android:textSize="@dimen/history_detail_icon_text"
         app:layout_widthPercent="10%" />
 
@@ -42,6 +55,7 @@
         android:layout_below="@+id/history_detail_good_text"
         android:gravity="center_horizontal"
         android:text="@string/history_detail_good_text"
+        android:textColor="@color/history_text"
         android:textSize="@dimen/history_detail_icon_text"
         app:layout_marginTopPercent="30%"
         app:layout_widthPercent="10%" />
@@ -56,13 +70,12 @@
         app:layout_heightPercent="5%"
         app:layout_widthPercent="10%" />
 
-    <View
+    <android.support.v4.view.ViewPager
         android:id="@+id/history_detail_chart"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/history_detail_date_spinner"
-        android:background="@color/black"
         app:layout_heightPercent="55%"
         app:layout_marginRightPercent="1%"
         app:layout_marginTopPercent="5%"
@@ -86,28 +99,32 @@
         <TextView
             android:id="@+id/history_detail_category_sound"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_centerVertical="true"
+            android:gravity="center"
             android:text="@string/history_voice_history"
             android:textSize="@dimen/history_detail_category"
-            app:layout_marginLeftPercent="15%" />
+            app:layout_widthPercent="40%" />
 
         <Switch
             android:id="@+id/history_detail_category_switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:switchMinWidth="50dp" />
+            android:switchMinWidth="50dp"
+            android:thumb="@drawable/switch_custom_thumb"
+            android:track="@drawable/switch_track" />
 
         <TextView
             android:id="@+id/history_detail_category_exercise"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            android:gravity="center"
             android:text="@string/history_exercise_history"
             android:textSize="@dimen/history_detail_category"
-            app:layout_marginRightPercent="15%" />
+            app:layout_widthPercent="40%" />
 
 
     </android.support.percent.PercentRelativeLayout>

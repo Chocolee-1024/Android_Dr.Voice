@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:textSize="30sp"
+        android:textSize="@dimen/daily_exercise_view_pager_title_text_size"
         app:layout_marginTopPercent="2%" />
 
     <ImageView

@@ -276,9 +276,9 @@ public class SpeakSpeedActivity extends Activity implements FileWriter.WriterCal
 
     @Override
     public void onWriteSuccessful(File file) {
-        FileUploader uploader = new FileUploader(this, loginName, loginAccount);
-        uploader.connect(file);
-    }
+//        FileUploader uploader = new FileUploader(this, loginName, loginAccount);
+//        uploader.connect(file);
+    };
 
     @Override
     public void onWriteFail() {

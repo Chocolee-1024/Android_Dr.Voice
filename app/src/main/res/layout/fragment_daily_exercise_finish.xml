@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:text="@string/daily_exercise_complete"
-        android:textSize="30sp"
+        android:textSize="@dimen/daily_exercise_finish_title_text_size"
         app:layout_marginTopPercent="10%" />
 
     <ImageView
@@ -33,7 +33,7 @@
         android:background="@drawable/drawable_daily_exercise_start_button"
         android:text="@string/daily_exercise_back_menu"
         android:textColor="@color/white"
-        android:textSize="20sp"
+        android:textSize="@dimen/daily_exercise_finish_button_text_size"
         app:layout_marginTopPercent="20%"
         app:layout_widthPercent="80%" />
 

@@ -65,7 +65,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/daily_exercise_history_icon"
-            android:text="@string/history_voice_history"
+            android:text="@string/history_exercise_history"
             android:textColor="@color/black"
             android:textSize="@dimen/history_item_title"
             app:layout_marginLeftPercent="5%"/>

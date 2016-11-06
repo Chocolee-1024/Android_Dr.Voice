@@ -89,17 +89,17 @@ public class SpeakSpeedView {
                 mDateText, mStatusHintText);
     }
 
-        @OnClick({R.id.btn_Check, R.id.btn_close})
-        public void startButtonListener (ImageView view){
-            switch (view.getId()) {
-                case R.id.btn_Check:
-                    listener.checkButton();
-                    break;
-                case R.id.btn_close:
-                    listener.closeButton();
-                    break;
-            }
+    @OnClick({R.id.btn_Check, R.id.btn_close})
+    public void startButtonListener(ImageView view) {
+        switch (view.getId()) {
+            case R.id.btn_Check:
+                listener.checkButton();
+                break;
+            case R.id.btn_close:
+                listener.closeButton();
+                break;
         }
+    }
 
     public void setButtonStatus(boolean status) {
         if (status) {
@@ -153,7 +153,7 @@ public class SpeakSpeedView {
         mStatusHintText.setText(text);
     }
 
-    public void setToolbarViewCallBack(ToolbarView.toolbarCallBack callBack){
+    public void setToolbarViewCallBack(ToolbarView.toolbarCallBack callBack) {
         mToolbarView.setToolbarButtonCallBack(callBack);
     }
 }

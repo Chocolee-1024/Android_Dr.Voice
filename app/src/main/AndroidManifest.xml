@@ -16,9 +16,11 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <receiver android:name=".broadcastreceiver.AlarmReceiver"/>
+        <receiver android:name=".broadcastreceiver.AlarmReceiver" />
 
-        <activity android:name=".util.TemporaryDevelopActivity">
+        <activity
+            android:name=".util.TemporaryDevelopActivity"
+            android:screenOrientation="portrait">
             <!--<intent-filter>-->
             <!--<action android:name="android.intent.action.MAIN" />-->
 
@@ -29,25 +31,46 @@
 
         <activity
             android:name=".util.speakSpeed.SpeakSpeedActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan">
             <meta-data
                 android:name="com.google.android.apps.drive.APP_ID"
                 android:value="@string/key" />
         </activity>
-        <activity android:name=".util.homepage.HomePageActivity">
+        <activity
+            android:name=".util.homepage.HomePageActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".util.login.LoginActivity" />
-        <activity android:name=".util.mainmenu.MainActivity"/>
-        <activity android:name=".module.permission.PermissionsActivity" />
-        <activity android:name=".util.dailyexercise.DailyExerciseActivity"/>
-        <activity android:name=".util.setting.SettingActivity"/>
-        <activity android:name=".util.weeklyassessment.WeeklyAssessmentActivity"/>
-        <service android:name=".service.AlarmService"/>
+        <activity
+            android:name=".util.login.LoginActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".util.mainmenu.MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.permission.PermissionsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".util.dailyexercise.DailyExerciseActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".util.setting.SettingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".util.weeklyassessment.WeeklyAssessmentActivity"
+            android:screenOrientation="portrait" />
+
+        <service
+            android:name=".service.AlarmService"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".util.history.HistoryActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

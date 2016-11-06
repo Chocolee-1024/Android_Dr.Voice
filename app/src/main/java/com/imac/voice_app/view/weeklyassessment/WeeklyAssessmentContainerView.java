@@ -13,7 +13,7 @@ import com.imac.voice_app.core.PreferencesHelper;
 import com.imac.voice_app.module.DataAppend;
 import com.imac.voice_app.module.DateChecker;
 import com.imac.voice_app.module.SharePreferencesManager;
-import com.imac.voice_app.module.database.SqliteManger;
+import com.imac.voice_app.module.database.SqliteManager;
 import com.imac.voice_app.util.dailyexercise.DailyExerciseCompleteFragment;
 import com.imac.voice_app.util.login.LoginActivity;
 import com.imac.voice_app.util.weeklyassessment.WeeklyAssessmentActivity;
@@ -102,13 +102,15 @@ public class WeeklyAssessmentContainerView implements ViewPager.OnPageChangeList
                 change(WeeklyAssessmentActivity.SELF_ASSESSMENT);
             } else {
                 isComplete = true;
+                DataAppend dataAppend = new DataAppend();
                 sharePreferencesManager.save(PreferencesHelper.Type.BOOLEAN, WeeklyAssessmentActivity.KEY_COMPLETE, isComplete);
                 sharePreferencesManager.save(PreferencesHelper.Type.LONG, WeeklyAssessmentActivity.KEY_WEEKLY_ENABLE_DATE, new DateChecker(activity).getNextWeekFirstDayTime());
                 saveDataToDataBase();
-                dataWriteEvent.onDataWrite(soundPointArray,
+                dataWriteEvent.onDataWrite(
+                        dataAppend.split(soundTopic) ,
                         weeklyTopic,
                         assessmentPointArray
-                        );
+                );
                 change(null);
             }
         } else {
@@ -162,9 +164,9 @@ public class WeeklyAssessmentContainerView implements ViewPager.OnPageChangeList
     //TODO  database save 方式需修改
     private void saveDataToDataBase() {
         DataAppend dataAppend = new DataAppend();
-        SqliteManger sqliteManger = new SqliteManger(activity);
+        SqliteManager sqliteManager = SqliteManager.getIntence(activity);
         String account = (String) sharePreferencesManager.get(LoginActivity.KEY_LOGIN_ACCOUNT, PreferencesHelper.Type.STRING);
-        sqliteManger.write(new String[]{account, soundTopic, dataAppend.append(assessmentPointArray)});
+        sqliteManager.write(new String[]{account, soundTopic, dataAppend.append(assessmentPointArray)});
     }
 
     public void setSoundTopic(String soundTopic) {

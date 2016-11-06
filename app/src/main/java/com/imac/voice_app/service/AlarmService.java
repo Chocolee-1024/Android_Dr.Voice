@@ -32,7 +32,7 @@ public class AlarmService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (null == intent) {
-            Log.e ("service", "intent was null, flags=" + flags + " bits=" + Integer.toBinaryString (flags));
+            Log.e("service", "intent was null, flags=" + flags + " bits=" + Integer.toBinaryString(flags));
             return START_REDELIVER_INTENT;
         }
         int action = intent.getIntExtra(AlarmConstantManager.ACTION_MODE, AlarmConstantManager.ACTION_CLOSE);
@@ -41,9 +41,8 @@ public class AlarmService extends Service {
         } else {
             setAlarmClose(intent.getStringExtra(AlarmConstantManager.INTENT_MODE));
         }
-
-        Log.e("service","action start");
-        return super.onStartCommand(intent, flags, startId);
+        Log.e("service", "action start");
+        return START_REDELIVER_INTENT;
     }
 
     @Nullable
@@ -77,7 +76,7 @@ public class AlarmService extends Service {
 
         calendar.set(Calendar.HOUR_OF_DAY, settingHour);
         calendar.set(Calendar.MINUTE, settingMin);
-        calendar.set(Calendar.SECOND,0);
+        calendar.set(Calendar.SECOND, 0);
         if (nowHour >= settingHour && nowMin >= settingMin) {
             calendar.add(Calendar.DAY_OF_MONTH, 1);
         }
@@ -93,7 +92,6 @@ public class AlarmService extends Service {
         } else {
             pendingIntent = PendingIntent.getBroadcast(this, AlarmConstantManager.ID_WEEKLY_ALARM, intent, PendingIntent.FLAG_ONE_SHOT);
         }
-
         mAlarmManager.cancel(pendingIntent);
     }
 }
