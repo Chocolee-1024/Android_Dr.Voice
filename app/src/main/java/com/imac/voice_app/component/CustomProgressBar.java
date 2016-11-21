@@ -54,13 +54,13 @@ public class CustomProgressBar extends View {
         percent = 0;
 
         insideCirclePaint = new Paint();
-        insideCirclePaint.setColor(getResources().getColor(R.color.speak_speed_idle));
+        insideCirclePaint.setColor(colorStatusIdle);
         insideCirclePaint.setStyle(Paint.Style.STROKE);
         insideCirclePaint.setStrokeCap(Paint.Cap.ROUND);
         insideCirclePaint.setStrokeWidth(15);
 
         outsideCirclePaint = new Paint();
-        outsideCirclePaint.setColor(Color.BLUE);
+        outsideCirclePaint.setColor(Color.TRANSPARENT);
         outsideCirclePaint.setStyle(Paint.Style.STROKE);
         outsideCirclePaint.setStrokeCap(Paint.Cap.ROUND);
         outsideCirclePaint.setStrokeWidth(20);
@@ -69,11 +69,11 @@ public class CustomProgressBar extends View {
         graduationPoint.setColor(colorPoint);
 
         graduationTextPaint = new Paint();
-        graduationTextPaint.setColor(getResources().getColor(R.color.speak_speed_point));
+        graduationTextPaint.setColor(colorPoint);
         graduationTextPaint.setTextSize(sp2px(mContext, 14));
 
         graduationNumberPaint = new Paint();
-        graduationNumberPaint.setColor(getResources().getColor(R.color.speak_speed_point));
+        graduationNumberPaint.setColor(colorPoint);
         graduationNumberPaint.setTextSize(sp2px(mContext, 16));
     }
 
