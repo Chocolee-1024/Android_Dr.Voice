@@ -13,70 +13,74 @@
         app:layout_heightPercent="10%"
         app:titleText="@string/setting_title" />
 
+    <Button
+        android:id="@+id/setting_logout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/transparent"
+        android:gravity="center"
+        android:text="@string/setting_logout"
+        android:textColor="@color/speak_speed_idle"
+        android:textSize="@dimen/setting_logout_text_size"
+        app:layout_heightPercent="10%"
+        app:layout_widthPercent="20%" />
+
     <ImageView
         android:id="@+id/iv_connection_us"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_below="@+id/ll_container"
         android:background="@color/setting_connection_us"
         android:scaleType="centerInside"
         android:src="@drawable/email_button"
         app:layout_heightPercent="10%" />
 
-    <Button
-        android:id="@+id/setting_logout"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:gravity="center"
-        android:layout_below="@+id/iv_connection_us"
-        android:text="@string/setting_logout"
-        android:textSize="16sp"
-        app:layout_heightPercent="10%"/>
 
     <LinearLayout
         android:id="@+id/ll_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:orientation="vertical"
-        app:layout_heightPercent="70%"
-        android:layout_below="@+id/setting_toolbar_view"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/setting_toolbar_view"
+        android:orientation="vertical"
+        app:layout_heightPercent="80%">
 
-        <RelativeLayout
-            android:id="@+id/rl_please_set"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
+        <!--<RelativeLayout-->
+        <!--android:id="@+id/rl_please_set"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:layout_weight="1">-->
 
-            <TextView
-                android:id="@+id/tv_setting_please_set"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="@string/setting_please_set"
-                android:textSize="18sp" />
+        <!--<TextView-->
+        <!--android:id="@+id/tv_setting_please_set"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:gravity="center"-->
+        <!--android:text="@string/setting_please_set"-->
+        <!--android:textSize="@dimen/tv_setting_please_set_text_size" />-->
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_alignParentBottom="true"
-                android:background="@color/toolbar_line" />
-        </RelativeLayout>
+        <!--<View-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="1dp"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:background="@color/toolbar_line" />-->
+        <!--</RelativeLayout>-->
 
         <android.support.percent.PercentRelativeLayout
             android:id="@+id/rl_daily_setting"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="2">
+            android:layout_weight="1">
 
-            <TextView
+            <TextView                 android:textColor="@color/history_text"
                 android:id="@+id/tv_daily_notice_title"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:gravity="center"
                 android:text="@string/setting_daily_notice"
-                android:textSize="14sp"
+                android:textSize="@dimen/tv_daily_notice_title_text_size"
                 app:layout_heightPercent="20%"
                 app:layout_marginLeftPercent="5%"
                 app:layout_marginTopPercent="15%" />
@@ -97,7 +101,9 @@
                     android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
                     android:gravity="center"
-                    android:switchMinWidth="50dp" />
+                    android:switchMinWidth="50dp"
+                    android:thumb="@drawable/switch_setting_thumb"
+                    android:track="@drawable/switch_setting_track" />
             </RelativeLayout>
 
 
@@ -109,7 +115,7 @@
                 android:layout_centerHorizontal="true"
                 android:gravity="center"
                 android:text="@string/speak_speed_time_default"
-                android:textSize="50sp"
+                android:textSize="@dimen/tv_daily_notice_time_text_size"
                 app:layout_heightPercent="40%"
                 app:layout_marginTopPercent="10%" />
 
@@ -138,15 +144,15 @@
             android:id="@+id/rl_weekly_setting"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="2">
+            android:layout_weight="1">
 
-            <TextView
+            <TextView android:textColor="@color/history_text"
                 android:id="@+id/tv_weekly_notice_title"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:gravity="center"
                 android:text="@string/setting_weekly_notice"
-                android:textSize="14sp"
+                android:textSize="@dimen/tv_daily_notice_title_text_size"
                 app:layout_heightPercent="20%"
                 app:layout_marginLeftPercent="5%"
                 app:layout_marginTopPercent="15%" />
@@ -167,7 +173,9 @@
                     android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
                     android:gravity="center"
-                    android:switchMinWidth="50dp" />
+                    android:switchMinWidth="50dp"
+                    android:thumb="@drawable/switch_setting_thumb"
+                    android:track="@drawable/switch_setting_track" />
             </RelativeLayout>
 
             <TextView
@@ -178,7 +186,7 @@
                 android:layout_centerHorizontal="true"
                 android:gravity="center_vertical"
                 android:text="@string/speak_speed_time_default"
-                android:textSize="50sp"
+                android:textSize="@dimen/tv_daily_notice_time_text_size"
                 app:layout_heightPercent="40%"
                 app:layout_marginTopPercent="10%" />
 
@@ -190,7 +198,7 @@
                 android:layout_below="@+id/tv_weekly_notice_title"
                 android:gravity="center"
                 android:text="星期一"
-                android:textSize="14sp"
+                android:textSize="@dimen/tv_daily_notice_title_text_size"
                 app:layout_heightPercent="35%"
                 app:layout_marginLeftPercent="5%"
                 app:layout_marginTopPercent="10%"
@@ -209,6 +217,279 @@
                 app:layout_marginTopPercent="10%"
                 app:layout_widthPercent="20%" />
         </android.support.percent.PercentRelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/toolbar_line" />
+        <android.support.percent.PercentRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/back_to_the_clinic_time_title"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:text="@string/setting_back_to_the_clinic_time"
+                android:textColor="@color/history_text"
+                android:textSize="@dimen/tv_daily_notice_title_text_size"
+                app:layout_heightPercent="20%"
+                app:layout_marginTopPercent="15%" />
+
+            <LinearLayout
+                android:id="@+id/top_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/back_to_the_clinic_time_title"
+                android:gravity="center"
+                app:layout_heightPercent="32.5%">
+
+                <TextView
+                    android:id="@+id/back_to_the_clinic_time_year"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/setting_none_value"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/setting_time_text_size" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/setting_year"
+                    android:textColor="@color/history_text"
+                    android:textSize="@dimen/tv_daily_notice_title_text_size" />
+
+                <TextView
+                    android:id="@+id/back_to_the_clinic_time_month"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/setting_none_value"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/setting_time_text_size" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/setting_month"
+                    android:textColor="@color/history_text"
+                    android:textSize="@dimen/tv_daily_notice_title_text_size" />
+
+                <TextView
+                    android:id="@+id/back_to_the_clinic_time_day"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/setting_none_value"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/setting_time_text_size" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/setting_day"
+                    android:textColor="@color/history_text"
+                    android:textSize="@dimen/tv_daily_notice_title_text_size" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/top_container"
+                android:gravity="center"
+                app:layout_heightPercent="32.5%">
+
+                <TextView
+                    android:id="@+id/back_to_the_clinic_time_week"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="星期一"
+                    android:textColor="@color/history_text"
+                    android:textSize="@dimen/tv_daily_notice_title_text_size" />
+
+                <TextView
+                    android:id="@+id/back_to_the_clinic_time_time"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="下午"
+                    android:textColor="@color/history_text"
+                    android:textSize="@dimen/tv_daily_notice_title_text_size" />
+
+                <TextView
+                    android:id="@+id/back_to_the_clinic_time_number"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textColor="@color/black"
+                    android:text="@string/setting_none_value"
+                    android:textSize="@dimen/setting_time_text_size" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/setting_number"
+                    android:textColor="@color/history_text"
+                    android:textSize="@dimen/tv_daily_notice_title_text_size" />
+            </LinearLayout>
+        </android.support.percent.PercentRelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/toolbar_line" />
+
+        <android.support.percent.PercentRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/treatment_time_title"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:text="@string/setting_treatment_time"
+                android:textColor="@color/history_text"
+                android:textSize="@dimen/tv_daily_notice_title_text_size"
+                app:layout_heightPercent="20%"
+                app:layout_marginTopPercent="15%" />
+
+            <LinearLayout
+                android:id="@+id/bottom_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/treatment_time_title"
+                android:gravity="center"
+                app:layout_heightPercent="32.5%">
+
+                <TextView
+                    android:id="@+id/treatment_year"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/setting_none_value"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/setting_time_text_size" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/setting_year"
+                    android:textColor="@color/history_text"
+                    android:textSize="@dimen/tv_daily_notice_title_text_size" />
+
+                <TextView
+                    android:id="@+id/treatment_month"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/setting_none_value"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/setting_time_text_size" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/setting_month"
+                    android:textColor="@color/history_text"
+                    android:textSize="@dimen/tv_daily_notice_title_text_size" />
+
+                <TextView
+                    android:id="@+id/treatment_day"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/setting_none_value"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/setting_time_text_size" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/setting_day"
+                    android:textColor="@color/history_text"
+                    android:textSize="@dimen/tv_daily_notice_title_text_size" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/bottom_container"
+                android:gravity="center"
+                app:layout_heightPercent="32.5%">
+
+                <TextView
+                    android:id="@+id/treatment_week"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="星期一"
+                    android:textColor="@color/history_text"
+                    android:textSize="@dimen/tv_daily_notice_title_text_size" />
+
+                <TextView
+                    android:id="@+id/treatment_time"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="下午"
+                    android:textColor="@color/history_text"
+                    android:textSize="@dimen/tv_daily_notice_title_text_size" />
+
+                <TextView
+                    android:id="@+id/treatment_number"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/setting_none_value"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/setting_time_text_size" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/setting_number"
+                    android:textColor="@color/history_text"
+                    android:textSize="@dimen/tv_daily_notice_title_text_size" />
+            </LinearLayout>
+        </android.support.percent.PercentRelativeLayout>
+
     </LinearLayout>
 
 </android.support.percent.PercentRelativeLayout>

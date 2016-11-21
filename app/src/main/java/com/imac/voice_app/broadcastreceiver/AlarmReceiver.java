@@ -40,6 +40,26 @@ public class AlarmReceiver extends BroadcastReceiver {
                     .setContentIntent(pendingIntent);
             Notification notification = builder.build();
             manager.notify(AlarmConstantManager.ID_DAILY_ALARM, notification);
+        } else if (mode.equals(AlarmConstantManager.MODE_BACK)) {
+            if (null == intent.getStringExtra(AlarmConstantManager.KEY_BACK_DATA)) return;
+            String content = intent.getStringExtra(AlarmConstantManager.KEY_BACK_DATA).split(",")[0];
+            builder.setSmallIcon(R.mipmap.ic_launcher)
+                    .setContentTitle("Voice 嗓音自我照護")
+                    .setContentText("回診時間提醒" + content)
+                    .setAutoCancel(true)
+                    .setContentIntent(pendingIntent);
+            Notification notification = builder.build();
+            manager.notify(AlarmConstantManager.ID_BACK, notification);
+        } else if (mode.equals(AlarmConstantManager.MODE_TREATMENT)) {
+            if (null == intent.getStringExtra(AlarmConstantManager.KEY_TREATMENT_DATA)) return;
+            String content = intent.getStringExtra(AlarmConstantManager.KEY_TREATMENT_DATA).split(",")[0];
+            builder.setSmallIcon(R.mipmap.ic_launcher)
+                    .setContentTitle("Voice 嗓音自我照護")
+                    .setContentText("嗓音治療時間提醒" + content)
+                    .setAutoCancel(true)
+                    .setContentIntent(pendingIntent);
+            Notification notification = builder.build();
+            manager.notify(AlarmConstantManager.ID_TREATMENT, notification);
         }
     }
 }

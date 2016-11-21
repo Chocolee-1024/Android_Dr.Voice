@@ -30,7 +30,21 @@ public class FragmentLauncher {
         transaction.replace(containerId, fragment, fragment.getClass().getName());
         transaction.commit();
     }
+    public static void changeToBack(Context context, int containerId, Bundle args, String fragmentClassName) {
+        Fragment fragment = dealWithFragment(fragmentClassName);
+        if (fragment == null) {
+            return;
+        }
+        fragment.setArguments(args);
+        Activity activity = (Activity) context;
 
+        FragmentManager manager = activity.getFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        transaction.replace(containerId, fragment, fragment.getClass().getName());
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
     private static Fragment dealWithFragment(String fragmentClassName) {
         Fragment fragment = null;
         try {

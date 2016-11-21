@@ -78,6 +78,13 @@
         <item>星期五</item>
         <item>星期六</item>
     </string-array>
+    <string name="setting_year">年</string>
+    <string name="setting_month">月</string>
+    <string name="setting_day">日</string>
+    <string name="setting_number">號</string>
+    <string name="setting_back_to_the_clinic_time">回診時間</string>
+    <string name="setting_treatment_time">嗓音治療時間</string>
+    <string name="setting_none_value">無</string>
     <!--每週評量-->
     <string name="weekly_assessment_toolbar_title">每週評量</string>
     <string name="weekly_assessment_sound_title">每週用聲紀錄</string>

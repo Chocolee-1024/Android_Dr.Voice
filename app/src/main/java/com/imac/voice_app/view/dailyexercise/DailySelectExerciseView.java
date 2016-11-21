@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.OnTouch;
 
 /**
  * Created by isa on 2016/9/20.
@@ -63,11 +62,11 @@ public class DailySelectExerciseView implements ViewPager.OnPageChangeListener {
     private void setFont() {
         FontManager.setFont(activity, FontManager.MEDIUM, previousStepButton, nextStepButton, startButton);
     }
-
-    @OnTouch(R.id.fragment_container)
-    public boolean onTouch() {
-        return true;
-    }
+// TODO: 2016/10/24  viewPager 改為可滑動
+//    @OnTouch(R.id.fragment_container)
+//    public boolean onTouch() {
+//        return true;
+//    }
 
     @OnClick(R.id.next_step_button)
     public void onNextButtonClick() {

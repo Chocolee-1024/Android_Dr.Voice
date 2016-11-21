@@ -26,7 +26,7 @@
         android:singleLine="true"
         android:textColor="@color/login_text_color"
         android:textColorHint="@color/hint_color"
-        android:textSize="24sp"
+        android:textSize="@dimen/login_title_text_size"
         app:layout_marginLeftPercent="15%"
         app:layout_marginRightPercent="15%"
         app:layout_marginTopPercent="37%" />
@@ -39,7 +39,7 @@
         android:background="@drawable/login_button_bg"
         android:text="@string/login"
         android:textColor="@color/black"
-        android:textSize="20sp"
+        android:textSize="@dimen/login_login_button_text_size"
         app:layout_marginLeftPercent="15%"
         app:layout_marginRightPercent="15%"
         app:layout_marginTopPercent="5%" />

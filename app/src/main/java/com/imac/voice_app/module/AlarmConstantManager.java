@@ -13,11 +13,23 @@ public class AlarmConstantManager {
 
     public static final String MODE_DAILY = "mode_daily";
 
+    public static final String MODE_BACK = "mode_back";
+
+    public static final String KEY_BACK_DATA = "key_back_data";
+
+    public static final String MODE_TREATMENT = "mode_treatment";
+
+    public static final String KEY_TREATMENT_DATA = "key_treatment_data";
+
     public static final String WEEK_DAY = "week_day";
 
     public static final int ID_DAILY_ALARM = 0x01;
 
     public static final int ID_WEEKLY_ALARM = 0x10;
+
+    public static final int ID_BACK = 3;
+
+    public static final int ID_TREATMENT = 4;
 
     public static final int ACTION_OPEN = 0x02;
 

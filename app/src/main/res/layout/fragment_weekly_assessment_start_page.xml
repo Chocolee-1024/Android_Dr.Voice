@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:text="@string/weekly_assessment_sound_title"
-        android:textSize="30sp"
+        android:textSize="@dimen/weekly_assessment_weekly_assessment_sound_title_text_size"
         app:layout_marginTopPercent="20%" />
 
     <ImageView
@@ -31,7 +31,7 @@
         android:layout_below="@+id/weekly_assessment_sound_img"
         android:layout_centerHorizontal="true"
         android:text="@string/weekly_assessment_start"
-        android:textSize="20sp"
+        android:textSize="@dimen/weekly_assessment_sound_button_text_size"
         android:textColor="@color/white"
         android:background="@drawable/drawable_weekly_assessment_start_button"
         app:layout_widthPercent="70%"

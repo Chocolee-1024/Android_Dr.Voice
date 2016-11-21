@@ -6,7 +6,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 
 import com.imac.voice_app.R;
-import com.imac.voice_app.broadcastreceiver.AlarmReceiver;
 import com.imac.voice_app.core.ActivityLauncher;
 import com.imac.voice_app.module.AlarmConstantManager;
 import com.imac.voice_app.module.DataAppend;
@@ -51,8 +50,6 @@ public class HomePageActivity extends AppCompatActivity {
                     Bundle bundle = new Bundle();
                     bundle.putString(LoginActivity.KEY_LOGIN_ACCOUNT, account);
                     bundle.putString(LoginActivity.KEY_LOGIN_NAME, name);
-                    bundle.putSerializable(LoginActivity.KEY_DAILY_EXERCISE, dataAppend.split(dailyExercise));
-                    bundle.putSerializable(LoginActivity.KEY_WEEKLY_EXERCISE, dataAppend.split(weeklyExercise));
                     ActivityLauncher.go(HomePageActivity.this, MainActivity.class, bundle);
                 }
             }

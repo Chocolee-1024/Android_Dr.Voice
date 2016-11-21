@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:textSize="40sp"
+        android:textSize="@dimen/daily_exercise_inner_finish_title_text_size"
         android:text="@string/daily_exercise_finish_title"
         app:layout_marginTopPercent="10%" />
 
@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/daily_exercise_inner_finish_title"
         android:layout_centerHorizontal="true"
-        android:textSize="51sp"
+        android:textSize="@dimen/daily_exercise_inner_finish_time_text_size"
         app:layout_marginTopPercent="15%" />
 
 

@@ -27,12 +27,12 @@
 
         <TextView
             android:id="@+id/counter"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="@dimen/daily_exercise_count_down_page_width"
+            android:layout_height="@dimen/daily_exercise_count_down_page_height"
             android:layout_centerInParent="true"
             android:background="@drawable/answer_button_h"
             android:gravity="center"
             android:textColor="@color/white"
-            android:textSize="50sp" />
+            android:textSize="@dimen/daily_exercise_count_down_page_text_size" />
     </RelativeLayout>
 </android.support.percent.PercentRelativeLayout>
