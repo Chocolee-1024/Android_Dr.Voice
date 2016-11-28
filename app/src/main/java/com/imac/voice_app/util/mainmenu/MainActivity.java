@@ -31,11 +31,15 @@ public class MainActivity extends AppCompatActivity {
     private String loginName;
     private ArrayList<String> dailyTopicList;
     private ArrayList<String> weeklyTopicList;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle(getString(R.string.login_loading));
+        progressDialog.setMessage(getString(R.string.login_wait));
         getBundle();
         mainMenu = new MainMenu(this, onMenuClick(), getIntent().getExtras());
     }
@@ -95,16 +99,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void searchDailyTopic() {
-        final ProgressDialog   progressDialog = ProgressDialog.show(MainActivity.this,
-                getString(R.string.login_loading),
-                getString(R.string.login_wait),
-                true
-        );
+        progressDialog.show();
         String fileName = "每日練習" + loginAccount;
         SearchName searchDailyTopic = new SearchName(MainActivity.this, fileName, new SearchName.onCallBackEvent() {
             @Override
             public void onSearchResult(ArrayList<String> search) {
-                Bundle bundle=new Bundle();
+                Bundle bundle = new Bundle();
                 bundle.putSerializable(KEY_DAILY_EXERCISE, search);
                 ActivityLauncher.go(MainActivity.this, DailyExerciseActivity.class, bundle);
                 progressDialog.dismiss();
@@ -120,16 +120,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void searchWeeklyTopic() {
-        final ProgressDialog   progressDialog = ProgressDialog.show(MainActivity.this,
-                getString(R.string.login_loading),
-                getString(R.string.login_wait),
-                true
-        );
+        progressDialog.show();
         String fileName = "每週用聲紀錄" + loginAccount;
         SearchName searchDailyTopic = new SearchName(MainActivity.this, fileName, new SearchName.onCallBackEvent() {
             @Override
             public void onSearchResult(ArrayList<String> search) {
-                Bundle bundle=new Bundle();
+                Bundle bundle = new Bundle();
                 bundle.putSerializable(KEY_WEEKLY_EXERCISE, search);
                 ActivityLauncher.go(MainActivity.this, WeeklyAssessmentActivity.class, bundle);
                 progressDialog.dismiss();
@@ -145,16 +141,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getRemindTime() {
-        final ProgressDialog   progressDialog = ProgressDialog.show(MainActivity.this,
-                getString(R.string.login_loading),
-                getString(R.string.login_wait),
-                true
-        );
-        String fileName ="提醒時間" + loginAccount;
+        progressDialog.show();
+        String fileName = "提醒時間" + loginAccount;
         SearchName searchName = new SearchName(MainActivity.this, fileName, new SearchName.onCallBackEvent() {
             @Override
             public void onSearchResult(ArrayList<String> search) {
-                Bundle bundle=new Bundle();
+                Bundle bundle = new Bundle();
                 bundle.putSerializable(KEY_SETTING, search);
                 ActivityLauncher.go(MainActivity.this, SettingActivity.class, bundle);
                 progressDialog.dismiss();
@@ -162,6 +154,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onSearchFail() {
+                ActivityLauncher.go(MainActivity.this, SettingActivity.class, null);
                 Toast.makeText(MainActivity.this, "請檢查網路或檔案是否存在", Toast.LENGTH_SHORT).show();
                 progressDialog.dismiss();
             }

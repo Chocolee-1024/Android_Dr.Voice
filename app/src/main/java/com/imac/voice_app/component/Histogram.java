@@ -105,7 +105,7 @@ public class Histogram extends View {
         for (int i = 0; i < offsetCenter.length; i++) {
             float chartValue = isAnimator ? (float) animator[i].getAnimatedValue() : 1 - point[i];
             canvas.drawLine(offsetCenter[i], triangleStartY, offsetCenter[i], (triangleStartY) * chartValue, drawChart);
-            canvas.drawText(topicPoint[i], offsetCenter[i], (triangleStartY) * chartValue - 0.03f * width, drawText);
+            canvas.drawText(topicPoint[i], offsetCenter[i], triangleStartY + height * 0.05f, drawText);
             canvas.drawText(date[i], offsetCenter[i], triangleStartY + height * 0.1f, drawText);
             if (animator[i].isRunning()) {
                 invalidate();
@@ -113,7 +113,7 @@ public class Histogram extends View {
         }
     }
 
-    public void startDraw(String[] date, float[] pointPercent,String [] topicPoint) {
+    public void startDraw(String[] date, float[] pointPercent, String[] topicPoint) {
         this.date = date;
         this.point = pointPercent;
         this.topicPoint = topicPoint;
@@ -125,12 +125,7 @@ public class Histogram extends View {
 
     public void startAnimator() {
         for (int i = 0; i < animator.length; i++) {
-            if (point[i] == 1)
-                animator[i] = ValueAnimator.ofFloat(1.0f, 0.1f);
-            else if (point[i] == 0)
-                animator[i] = ValueAnimator.ofFloat(1.0f, 1.0f);
-            else
-                animator[i] = ValueAnimator.ofFloat(1.0f, (1 - point[i] + 0.1f));
+            animator[i] = ValueAnimator.ofFloat(1.0f, (1 - point[i]));
             animator[i].setDuration(1000);
             if (isAnimator) {
                 animator[i].start();

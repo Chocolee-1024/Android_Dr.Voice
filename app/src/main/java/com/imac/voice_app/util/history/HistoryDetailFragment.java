@@ -28,6 +28,6 @@ public class HistoryDetailFragment extends Fragment {
     }
 
     private void getBundle() {
-        isShow = getArguments().getBoolean(HistoryFragment.KEY_IS_SHOW_SPINNER);
+//        isShow = getArguments().getBoolean(HistoryFragment.KEY_IS_SHOW_SPINNER);
     }
 }

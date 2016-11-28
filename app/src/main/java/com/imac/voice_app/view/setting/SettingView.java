@@ -19,6 +19,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import butterknife.BindArray;
 import butterknife.BindString;
@@ -206,8 +208,10 @@ public class SettingView {
         String[] backToClinicArray = remindData.get(0).split("[,/]+");
         String[] treatmentArray = remindData.get(1).split("[,/]+");
         boolean isNone = true;
+        Pattern pattern = Pattern.compile("[a-zA-Z]");
         for (String index : backToClinicArray) {
-            isNone &= "0".equals(index);
+            Matcher matcher = pattern.matcher(index);
+            isNone &= matcher.find();
             if (isNone) return;
         }
 
@@ -220,7 +224,8 @@ public class SettingView {
         backToTheClinicTimeNumber.setText(backToClinicArray[4]);
         isNone = true;
         for (String index : treatmentArray) {
-            isNone &= "0".equals(index);
+            Matcher matcher = pattern.matcher(index);
+            isNone &= matcher.find();
             if (isNone) return;
         }
         String treatmentYearFormat = String.valueOf(Integer.valueOf(treatmentArray[0]) - 1911);
