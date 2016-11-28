@@ -6,6 +6,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.imac.voice_app.module.SharePreferencesManager;
+import com.imac.voice_app.util.login.LoginActivity;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -21,10 +24,11 @@ public class SqliteManager {
     private SqliteHelper sqliteHelper;
     private static SqliteManager manger = null;
     private Context context;
-
+    private SharePreferencesManager sharePreferencesManager;
     private SqliteManager(Context context) {
         this.context = context;
         sqliteHelper = new SqliteHelper(context);
+        sharePreferencesManager=SharePreferencesManager.getInstance(context);
     }
 
     public static SqliteManager getIntence(Context context) {
@@ -134,7 +138,7 @@ public class SqliteManager {
         LinkedHashSet<String> dateArrayList = new LinkedHashSet<>();
         String[] result = null;
         SQLiteDatabase dataBase = create();
-        String selectSql = "SELECT * FROM " + sqliteHelper.getTableName();
+        String selectSql = "SELECT * FROM " + sqliteHelper.getTableName()+" WhRER " +sqliteHelper.getAccount()+" = "+sharePreferencesManager.get(LoginActivity.KEY_LOGIN_ACCOUNT,SharePreferencesManager.Type.STRING);
         Cursor cursor = dataBase.rawQuery(selectSql, null);
 
         cursor.moveToFirst();
@@ -152,7 +156,7 @@ public class SqliteManager {
         LinkedHashSet<String> linkHashSet = new LinkedHashSet<>();
         String[] result = null;
         SQLiteDatabase dataBase = create();
-        String selectSql = "SELECT " + sqliteHelper.getDate() + " FROM " + sqliteHelper.getTableName()+" ORDER BY "+sqliteHelper.getDate()+" DESC";
+        String selectSql = "SELECT " + sqliteHelper.getDate() + " FROM " + sqliteHelper.getTableName()+" WHERE "+sqliteHelper.getAccount()+" = '"+sharePreferencesManager.get(LoginActivity.KEY_LOGIN_ACCOUNT,SharePreferencesManager.Type.STRING)+"' ORDER BY "+sqliteHelper.getDate()+" DESC";
         Cursor cursor = dataBase.rawQuery(selectSql, null);
         SimpleDateFormat format = new SimpleDateFormat("MM/yyyy");
         SimpleDateFormat parse = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
@@ -184,7 +188,7 @@ public class SqliteManager {
         LinkedHashSet<String> linkHashSet = new LinkedHashSet<>();
         String[] result = null;
         SQLiteDatabase dataBase = create();
-        String selectSql = "SELECT " + sqliteHelper.getDate() + " FROM " + sqliteHelper.getTableName();
+        String selectSql = "SELECT " + sqliteHelper.getDate() + " FROM " + sqliteHelper.getTableName()+" WHERE "+sqliteHelper.getAccount()+" = "+sharePreferencesManager.get(LoginActivity.KEY_LOGIN_ACCOUNT,SharePreferencesManager.Type.STRING);
         Cursor cursor = dataBase.rawQuery(selectSql, null);
         SimpleDateFormat format = new SimpleDateFormat("MM/dd");
         SimpleDateFormat parse = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");

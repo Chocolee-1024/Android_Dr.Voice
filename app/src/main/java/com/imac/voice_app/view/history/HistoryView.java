@@ -6,7 +6,7 @@ import android.widget.FrameLayout;
 import com.imac.voice_app.R;
 import com.imac.voice_app.component.ToolbarView;
 import com.imac.voice_app.core.FragmentLauncher;
-import com.imac.voice_app.util.history.HistoryFragment;
+import com.imac.voice_app.util.history.HistoryDetailFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -43,6 +43,6 @@ public class HistoryView {
     }
 
     private void change() {
-        FragmentLauncher.change(activity, R.id.container, null, HistoryFragment.class.getName());
+        FragmentLauncher.change(activity, R.id.container, null, HistoryDetailFragment.class.getName());
     }
 }

@@ -28,7 +28,6 @@ import java.util.ArrayList;
 import butterknife.ButterKnife;
 
 public class LoginActivity extends AppCompatActivity implements DataChangeListener {
-    private ProgressDialog progressDialog;
     private Login login;
     private Activity activity;
     private PermissionsChecker permissionsChecker;
@@ -42,6 +41,7 @@ public class LoginActivity extends AppCompatActivity implements DataChangeListen
     public final static String KEY_DAILY_EXERCISE = "key_daily_exercise";
     public final static String KEY_WEEKLY_EXERCISE = "key_weekly_exercise";
     public final static String KEY_SETTING = "key_setting";
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -55,6 +55,9 @@ public class LoginActivity extends AppCompatActivity implements DataChangeListen
     private void init() {
         activity = this;
         login = new Login(activity, this);
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle(getString(R.string.login_loading));
+        progressDialog.setMessage(getString(R.string.login_wait));
     }
 
     private LoginChecker.eventCallBack setEventCallBack() {
@@ -72,11 +75,7 @@ public class LoginActivity extends AppCompatActivity implements DataChangeListen
 
             @Override
             public void showProgress() {
-                progressDialog = ProgressDialog.show(LoginActivity.this,
-                        getString(R.string.login_loading),
-                        getString(R.string.login_wait),
-                        true
-                );
+               progressDialog.show();
             }
 
             @Override
@@ -126,6 +125,7 @@ public class LoginActivity extends AppCompatActivity implements DataChangeListen
                 bundle.putString(KEY_LOGIN_ACCOUNT, account);
                 bundle.putString(KEY_LOGIN_NAME, search.get(0));
                 ActivityLauncher.go(LoginActivity.this, MainActivity.class, bundle);
+                finish();
                 progressDialog.dismiss();
             }
 

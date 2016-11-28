@@ -90,7 +90,7 @@
                 android:layout_height="0dp"
                 android:layout_alignParentRight="true"
                 android:gravity="center"
-                app:layout_heightPercent="20%"
+                app:layout_heightPercent="23%"
                 app:layout_marginRightPercent="5%"
                 app:layout_marginTopPercent="15%"
                 app:layout_widthPercent="20%">
@@ -162,7 +162,7 @@
                 android:layout_height="0dp"
                 android:layout_alignParentRight="true"
                 android:gravity="center"
-                app:layout_heightPercent="20%"
+                app:layout_heightPercent="23%"
                 app:layout_marginRightPercent="5%"
                 app:layout_marginTopPercent="15%"
                 app:layout_widthPercent="20%">

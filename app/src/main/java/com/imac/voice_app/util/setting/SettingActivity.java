@@ -8,16 +8,13 @@ import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import com.imac.voice_app.R;
 import com.imac.voice_app.broadcastreceiver.AlarmReceiver;
 import com.imac.voice_app.component.ToolbarView;
-import com.imac.voice_app.core.ActivityLauncher;
 import com.imac.voice_app.module.AlarmConstantManager;
 import com.imac.voice_app.module.AlarmPreferences;
 import com.imac.voice_app.module.SharePreferencesManager;
@@ -29,6 +26,8 @@ import com.imac.voice_app.view.setting.SettingView;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static com.imac.voice_app.module.AlarmConstantManager.KEY_BACK_DATA;
 
@@ -48,20 +47,23 @@ public class SettingActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
         getBundle();
-        startAlert();
         init();
         firstUseSetting();
     }
 
     private void getBundle() {
-        remindData = (ArrayList<String>) getIntent().getExtras().getSerializable(LoginActivity.KEY_SETTING);
+        if (null != getIntent().getExtras()) {
+            remindData = (ArrayList<String>) getIntent().getExtras().getSerializable(LoginActivity.KEY_SETTING);
+            startAlert();
+        }
     }
 
     private void init() {
         mAlarmPreferences = new AlarmPreferences(this);
         mSettingLayout = new SettingView(this, settingViewCallBack(), mAlarmPreferences);
         mWeekPickDialog = getMultiItemDialog();
-        mSettingLayout.setRemindData(remindData);
+        if (null != remindData)
+            mSettingLayout.setRemindData(remindData);
         mSettingLayout.setToolbarViewCallBack(toolbarCallBack());
     }
 
@@ -196,9 +198,11 @@ public class SettingActivity extends Activity {
 
     private long setBackToClinicCalendar() {
         String[] backToClinicArray = remindData.get(0).split("[,/]+");
+        Pattern pattern = Pattern.compile("[a-zA-Z]");
         boolean isNone = true;
         for (String index : backToClinicArray) {
-            isNone &= "0".equals(index);
+            Matcher matcher = pattern.matcher(index);
+            isNone &= matcher.find();
             if (isNone) return 0;
         }
         Calendar calendar = Calendar.getInstance();
@@ -213,9 +217,11 @@ public class SettingActivity extends Activity {
 
     private long setTreatmentYearCalendar() {
         String[] treatmentArray = remindData.get(1).split("[,/]+");
+        Pattern pattern = Pattern.compile("[a-zA-Z]");
         boolean isNone = true;
         for (String index : treatmentArray) {
-            isNone &= "0".equals(index);
+            Matcher matcher = pattern.matcher(index);
+            isNone &= matcher.find();
             if (isNone) return 0;
         }
         Calendar calendar = Calendar.getInstance();
@@ -247,29 +253,23 @@ public class SettingActivity extends Activity {
             public void setLogout() {
                 SharePreferencesManager sharePreferencesManager = SharePreferencesManager.getInstance(SettingActivity.this);
                 sharePreferencesManager.clearAll();
-                ActivityLauncher.go(SettingActivity.this, HomePageActivity.class, null);
+                Intent intent = new Intent(SettingActivity.this, HomePageActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                SettingActivity.this.startActivity(intent);
+                finish();
             }
 
             private static final String INTENT_TYPE = "plain/text";
             private static final String PACKAGE_NAME = "com.google.android.gm";
             private static final String CLASS_NAME = "com.google.android.gm.ComposeActivityGmail";
-
+            private  final  String[] ADDRESS = {"voice.dr.wang@gmail.com"};
             @Override
             public void setSendMail() {
-                if (!isPackageInstalled(PACKAGE_NAME)) {
-                    Toast.makeText(SettingActivity.this, "請確認是否安裝Gmail", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-//                Intent sendMail = new Intent(Intent.ACTION_VIEW);
-//                sendMail.putExtra(Intent.EXTRA_EMAIL, new String[]{"voice.dr.wang@gmail.com"});
-//                sendMail.setType(INTENT_TYPE);
-//                sendMail.setClassName(PACKAGE_NAME, CLASS_NAME);
-//                startActivity(Intent.createChooser(sendMail,"send"));
-                Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
-                        "mailto","voice.dr.wang@gmail.com", null));
-//                emailIntent.putExtra(Intent.EXTRA_SUBJECT, "EXTRA_SUBJECT");
-                startActivity(Intent.createChooser(emailIntent, "Send email..."));
-
+                Intent sendIntent = new Intent(Intent.ACTION_SEND);
+                sendIntent.setType(INTENT_TYPE);
+                sendIntent.putExtra(Intent.EXTRA_EMAIL, ADDRESS);
+                startActivity(sendIntent);
             }
 
             @Override
