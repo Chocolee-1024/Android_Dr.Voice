@@ -46,7 +46,7 @@ public class HomePageActivity extends AppCompatActivity {
                     ActivityLauncher.go(HomePageActivity.this, LoginActivity.class, null);
                 } else {
                     DataAppend dataAppend = new DataAppend();
-                    dataAppend.split(dailyExercise);
+                    dataAppend.formatString(dailyExercise);
                     Bundle bundle = new Bundle();
                     bundle.putString(LoginActivity.KEY_LOGIN_ACCOUNT, account);
                     bundle.putString(LoginActivity.KEY_LOGIN_NAME, name);

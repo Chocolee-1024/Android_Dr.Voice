@@ -10,7 +10,7 @@ import android.util.Log;
 
 import com.imac.voice_app.broadcastreceiver.AlarmReceiver;
 import com.imac.voice_app.module.AlarmConstantManager;
-import com.imac.voice_app.module.AlarmPreferences;
+import com.imac.voice_app.module.Preferences;
 
 import java.util.Calendar;
 
@@ -20,13 +20,13 @@ import java.util.Calendar;
 
 public class AlarmService extends Service {
     private AlarmManager mAlarmManager;
-    private AlarmPreferences mAlarmPreferences;
+    private Preferences mPreferences;
 
     @Override
     public void onCreate() {
         super.onCreate();
         mAlarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        mAlarmPreferences = new AlarmPreferences(AlarmService.this);
+        mPreferences = new Preferences(AlarmService.this);
     }
 
     @Override
@@ -63,14 +63,14 @@ public class AlarmService extends Service {
 
         if (type.equals(AlarmConstantManager.MODE_DAILY)) {
             mAlarmIntent.putExtra(AlarmConstantManager.INTENT_MODE, AlarmConstantManager.MODE_DAILY);
-            settingHour = Integer.valueOf(mAlarmPreferences.getDailyHour());
-            settingMin = Integer.valueOf(mAlarmPreferences.getDailyMin());
+            settingHour = Integer.valueOf(mPreferences.getDailyHour());
+            settingMin = Integer.valueOf(mPreferences.getDailyMin());
             pendingIntent = PendingIntent.getBroadcast(this, AlarmConstantManager.ID_DAILY_ALARM, mAlarmIntent, PendingIntent.FLAG_ONE_SHOT);
         } else {
             mAlarmIntent.putExtra(AlarmConstantManager.INTENT_MODE, AlarmConstantManager.MODE_WEEK);
-            mAlarmIntent.putExtra(AlarmConstantManager.WEEK_DAY, mAlarmPreferences.getWeeklyDay());
-            settingHour = Integer.valueOf(mAlarmPreferences.getWeeklyHour());
-            settingMin = Integer.valueOf(mAlarmPreferences.getWeeklyMin());
+            mAlarmIntent.putExtra(AlarmConstantManager.WEEK_DAY, mPreferences.getWeeklyDay());
+            settingHour = Integer.valueOf(mPreferences.getWeeklyHour());
+            settingMin = Integer.valueOf(mPreferences.getWeeklyMin());
             pendingIntent = PendingIntent.getBroadcast(this, AlarmConstantManager.ID_WEEKLY_ALARM, mAlarmIntent, PendingIntent.FLAG_ONE_SHOT);
         }
 

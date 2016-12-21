@@ -3,10 +3,6 @@ package com.imac.voice_app.module;
 import android.app.Activity;
 import android.util.Log;
 
-import com.imac.voice_app.core.PreferencesHelper;
-import com.imac.voice_app.util.dailyexercise.DailyExerciseFinishFragment;
-import com.imac.voice_app.util.weeklyassessment.WeeklyAssessmentActivity;
-
 import java.util.Calendar;
 import java.util.Date;
 
@@ -16,11 +12,11 @@ import java.util.Date;
 public class DateChecker {
     private Activity activity;
     private final boolean DEBUG = true;
-    private SharePreferencesManager sharePreferencesManager;
+    private Preferences preferences;
 
     public DateChecker(Activity activity) {
         this.activity = activity;
-        sharePreferencesManager = SharePreferencesManager.getInstance(activity);
+        preferences = new Preferences(activity);
     }
 
     public long getNextWeekFirstDayTime() {
@@ -36,7 +32,7 @@ public class DateChecker {
     }
 
     public boolean isOverWeek(Calendar currentCalendar) {
-        long saveDate = (long) sharePreferencesManager.get(WeeklyAssessmentActivity.KEY_WEEKLY_ENABLE_DATE, PreferencesHelper.Type.LONG);
+        long saveDate = preferences.getWeeklyEnableDate();
         if (DEBUG) {
             Log.e("currentCalendar", currentCalendar.getTime() + "");
             Date resultdate = new Date(saveDate);
@@ -48,6 +44,7 @@ public class DateChecker {
         }
         return false;
     }
+
     public long getNextDayFirstTime() {
         Calendar targetCal = Calendar.getInstance();
         targetCal.set(Calendar.HOUR_OF_DAY, 0);
@@ -60,7 +57,7 @@ public class DateChecker {
     }
 
     public boolean isOverDay(Calendar currentCalendar) {
-        long saveDate = (long) sharePreferencesManager.get(DailyExerciseFinishFragment.KEY_DAILY_ENABLE_DATE, PreferencesHelper.Type.LONG);
+        long saveDate = preferences.getDailyEnableDate();
         if (DEBUG) {
             Log.e("currentCalendar", currentCalendar.getTime() + "");
             Date resultdate = new Date(saveDate);

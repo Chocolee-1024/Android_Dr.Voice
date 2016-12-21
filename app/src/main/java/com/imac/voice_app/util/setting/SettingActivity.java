@@ -3,33 +3,33 @@ package com.imac.voice_app.util.setting;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.DatePicker;
+import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.imac.voice_app.R;
 import com.imac.voice_app.broadcastreceiver.AlarmReceiver;
 import com.imac.voice_app.component.ToolbarView;
+import com.imac.voice_app.core.ActivityLauncher;
 import com.imac.voice_app.module.AlarmConstantManager;
-import com.imac.voice_app.module.AlarmPreferences;
-import com.imac.voice_app.module.SharePreferencesManager;
+import com.imac.voice_app.module.CalendarIntentHelper;
+import com.imac.voice_app.module.Preferences;
 import com.imac.voice_app.service.AlarmService;
+import com.imac.voice_app.util.doctorsetting.DoctorSettingActivity;
 import com.imac.voice_app.util.homepage.HomePageActivity;
-import com.imac.voice_app.util.login.LoginActivity;
 import com.imac.voice_app.view.setting.SettingView;
 
-import java.util.ArrayList;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import static com.imac.voice_app.module.AlarmConstantManager.KEY_BACK_DATA;
 
 /**
  * Setting page activity
@@ -38,41 +38,32 @@ import static com.imac.voice_app.module.AlarmConstantManager.KEY_BACK_DATA;
 public class SettingActivity extends Activity {
     private SettingView mSettingLayout;
     private AlertDialog mWeekPickDialog;
-    private AlarmPreferences mAlarmPreferences;
+    private Preferences mPreferences;
     private static boolean logOpen = true;
-    private ArrayList<String> remindData;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
-        getBundle();
         init();
         firstUseSetting();
     }
 
-    private void getBundle() {
-        if (null != getIntent().getExtras()) {
-            remindData = (ArrayList<String>) getIntent().getExtras().getSerializable(LoginActivity.KEY_SETTING);
-            startAlert();
-        }
-    }
 
     private void init() {
-        mAlarmPreferences = new AlarmPreferences(this);
-        mSettingLayout = new SettingView(this, settingViewCallBack(), mAlarmPreferences);
+        mPreferences = new Preferences(this);
+        mSettingLayout = new SettingView(this, settingViewCallBack(), mPreferences);
         mWeekPickDialog = getMultiItemDialog();
-        if (null != remindData)
-            mSettingLayout.setRemindData(remindData);
         mSettingLayout.setToolbarViewCallBack(toolbarCallBack());
     }
 
     private void firstUseSetting() {
-        if (mAlarmPreferences.getDailyHour().equals("")) {
-            mAlarmPreferences.saveDailyTime("00", "00");
+        if (mPreferences.getDailyHour().equals("")) {
+            mPreferences.saveDailyTime("00", "00");
         }
-        if (mAlarmPreferences.getWeeklyHour().equals("")) {
-            mAlarmPreferences.saveWeeklyTime("00", "00");
+        if (mPreferences.getWeeklyHour().equals("")) {
+            mPreferences.saveWeeklyTime("00", "00");
         }
     }
 
@@ -88,9 +79,9 @@ public class SettingActivity extends Activity {
                     String time = hour + " : " + min;
 
                     mSettingLayout.setDailyTimeTextView(time);
-                    mAlarmPreferences.saveDailyTime(hour, min);
+                    mPreferences.saveDailyTime(hour, min);
 
-                    if (mAlarmPreferences.getDailyRepeat()) {
+                    if (mPreferences.getDailyRepeat()) {
                         setAlarmManagerOpen(AlarmConstantManager.MODE_DAILY);
                     }
                     showLog("Time Picker", "Daily" + "/" + hour + ":" + min);
@@ -105,9 +96,9 @@ public class SettingActivity extends Activity {
                     String time = hour + " : " + min;
 
                     mSettingLayout.setWeeklyTimeTextView(time);
-                    mAlarmPreferences.saveWeeklyTime(hour, min);
+                    mPreferences.saveWeeklyTime(hour, min);
 
-                    if (mAlarmPreferences.getWeeklyRepeat()) {
+                    if (mPreferences.getWeeklyRepeat()) {
                         setAlarmManagerOpen(AlarmConstantManager.MODE_WEEK);
                     }
                     showLog("Time Picker", "Weekly" + "/" + hour + ":" + min);
@@ -144,7 +135,7 @@ public class SettingActivity extends Activity {
             public void onClick(DialogInterface dialog, int which) {
                 String day = (String) getResources().getTextArray(R.array.week_array)[which];
                 mSettingLayout.setWeeklyWeekTextView(day);
-                mAlarmPreferences.saveWeeklyDay(which);
+                mPreferences.saveWeeklyDay(which);
 
                 showLog("Day of Week", ":" + which);
             }
@@ -158,90 +149,57 @@ public class SettingActivity extends Activity {
         }
     }
 
-    private void startAlert() {
-        String[] backToClinicArray = remindData.get(0).split("[,/]+");
-        String[] treatmentArray = remindData.get(1).split("[,/]+");
-        boolean isBackNone = true;
-        for (String index : backToClinicArray) {
-            isBackNone &= "0".equals(index);
-        }
-        boolean isTreatmentNone = true;
-        for (String index : treatmentArray) {
-            isTreatmentNone &= "0".equals(index);
-        }
-        if (isBackNone && isTreatmentNone) return;
-//        Bundle bundle = new Bundle();
-//        bundle.putSerializable(RemindService.KEY_REMIND, remindData);
-//        Intent intent = new Intent();
-//        intent.putExtras(bundle);
-//        intent.setClass(this, RemindService.class);
-//        startService(intent);
-        //===============================================
+    private void setNotifilyDate(String isBackTime, long notifilyDateTime) {
         AlarmManager mAlarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        long backTimeInMillis = setBackToClinicCalendar();
-        if (backTimeInMillis != 0) {
-            Intent backIntent = new Intent(this, AlarmReceiver.class);
-            backIntent.putExtra(AlarmConstantManager.INTENT_MODE, AlarmConstantManager.MODE_BACK);
-            backIntent.putExtra(KEY_BACK_DATA, remindData.get(0));
-            PendingIntent backAlarmIntent = PendingIntent.getBroadcast(this, AlarmConstantManager.ID_BACK, backIntent, PendingIntent.FLAG_ONE_SHOT);
-            mAlarmManager.set(AlarmManager.RTC_WAKEUP, backTimeInMillis, backAlarmIntent);
-        }
-        long treatmentTimeInMillis = setTreatmentYearCalendar();
-        if (treatmentTimeInMillis != 0) {
-            Intent treatmentIntent = new Intent(this, AlarmReceiver.class);
-            treatmentIntent.putExtra(AlarmConstantManager.INTENT_MODE, AlarmConstantManager.MODE_TREATMENT);
-            treatmentIntent.putExtra(AlarmConstantManager.KEY_TREATMENT_DATA, remindData.get(1));
-            PendingIntent treatmentAlarmIntent = PendingIntent.getBroadcast(this, AlarmConstantManager.ID_TREATMENT, treatmentIntent, PendingIntent.FLAG_ONE_SHOT);
-            mAlarmManager.set(AlarmManager.RTC_WAKEUP, treatmentTimeInMillis, treatmentAlarmIntent);
-        }
+        if (isBackTime == Preferences.SP_BACK_TIME) {
+            Intent intent = new Intent(this, AlarmReceiver.class);
+            intent.putExtra(AlarmConstantManager.INTENT_MODE, AlarmConstantManager.MODE_BACK);
+            intent.putExtra(AlarmConstantManager.KEY_BACK_DATA, notifilyDateTime);
+            Log.d("setNotifilyDate", "setNotifilyDate: " + notifilyDateTime);
+            PendingIntent backAlarmIntent = PendingIntent.getBroadcast(this, AlarmConstantManager.ID_BACK, intent, PendingIntent.FLAG_ONE_SHOT);
+            mAlarmManager.set(AlarmManager.RTC_WAKEUP, notifilyDateTime, backAlarmIntent);
+        } else if (isBackTime == Preferences.SP_TREATMENT_TIME) {
+            Intent intent = new Intent(this, AlarmReceiver.class);
+            intent.putExtra(AlarmConstantManager.INTENT_MODE, AlarmConstantManager.MODE_TREATMENT);
+            intent.putExtra(AlarmConstantManager.KEY_TREATMENT_DATA, notifilyDateTime);
+            Log.d("setNotifilyDate", "setNotifilyDate: " + notifilyDateTime);
+            PendingIntent treatmentAlarmIntent = PendingIntent.getBroadcast(this, AlarmConstantManager.ID_TREATMENT, intent, PendingIntent.FLAG_ONE_SHOT);
+            mAlarmManager.set(AlarmManager.RTC_WAKEUP, notifilyDateTime, treatmentAlarmIntent);
+        } else throw new IllegalArgumentException("Argument error");
+
     }
 
-    private long setBackToClinicCalendar() {
-        String[] backToClinicArray = remindData.get(0).split("[,/]+");
-        Pattern pattern = Pattern.compile("[a-zA-Z]");
-        boolean isNone = true;
-        for (String index : backToClinicArray) {
-            Matcher matcher = pattern.matcher(index);
-            isNone &= matcher.find();
-            if (isNone) return 0;
-        }
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.YEAR, Integer.valueOf(backToClinicArray[0]));
-        calendar.set(Calendar.MONTH, Integer.valueOf(backToClinicArray[1]) - 1);
-        calendar.set(Calendar.DAY_OF_MONTH, Integer.valueOf(backToClinicArray[2]) - 1);
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        return calendar.getTimeInMillis();
-    }
+    private DatePickerDialog.OnDateSetListener onDateSetListener(final String isBackTime, final TextView yearText, final TextView monthText, final TextView dayText, final TextView weekText) {
+        return new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                SimpleDateFormat weekFormat = new SimpleDateFormat("EEEE");
+                CalendarIntentHelper calIntent = new CalendarIntentHelper();
 
-    private long setTreatmentYearCalendar() {
-        String[] treatmentArray = remindData.get(1).split("[,/]+");
-        Pattern pattern = Pattern.compile("[a-zA-Z]");
-        boolean isNone = true;
-        for (String index : treatmentArray) {
-            Matcher matcher = pattern.matcher(index);
-            isNone &= matcher.find();
-            if (isNone) return 0;
-        }
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.YEAR, Integer.valueOf(treatmentArray[0]));
-        calendar.set(Calendar.MONTH, Integer.valueOf(treatmentArray[1]) - 1);
-        calendar.set(Calendar.DAY_OF_MONTH, Integer.valueOf(treatmentArray[2]) - 1);
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        return calendar.getTimeInMillis();
-    }
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(Calendar.YEAR, year);
+                calendar.set(Calendar.MONTH, month);
+                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth - 1);
+                String week = weekFormat.format(calendar.getTime());
 
-    private boolean isPackageInstalled(String packagename) {
-        PackageManager packageManager = getPackageManager();
-        try {
-            packageManager.getPackageInfo(packagename, PackageManager.GET_ACTIVITIES);
-            return true;
-        } catch (PackageManager.NameNotFoundException e) {
-            return false;
-        }
+                yearText.setText(String.valueOf(year - 1911));
+                monthText.setText(String.valueOf(month + 1));
+                dayText.setText(String.valueOf(dayOfMonth));
+                weekText.setText(week);
+
+//                setNotifilyDate(isBackTime, calendar.getTimeInMillis());
+                if (isBackTime.equals(Preferences.SP_BACK_TIME)) {
+                    calIntent.setTitle(getString(R.string.setting_back_to_the_clinic_time));
+                    mPreferences.saveBackTime(calendar.getTimeInMillis());
+                } else if (isBackTime.equals(Preferences.SP_TREATMENT_TIME)) {
+                    calIntent.setTitle(getString(R.string.setting_treatment_time));
+                    mPreferences.saveTreatmentTime(calendar.getTimeInMillis());
+                }  else throw new IllegalArgumentException("Argument error");
+                calIntent.setAllDay(true);
+                Intent intent = calIntent.getIntentAfterSetting();
+                startActivity(intent);
+            }
+        };
     }
 
     /************
@@ -251,8 +209,8 @@ public class SettingActivity extends Activity {
         return new SettingView.settingRepeatCallBack() {
             @Override
             public void setLogout() {
-                SharePreferencesManager sharePreferencesManager = SharePreferencesManager.getInstance(SettingActivity.this);
-                sharePreferencesManager.clearAll();
+                Preferences preferences = new Preferences(SettingActivity.this);
+                preferences.clearAll();
                 Intent intent = new Intent(SettingActivity.this, HomePageActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -261,9 +219,8 @@ public class SettingActivity extends Activity {
             }
 
             private static final String INTENT_TYPE = "plain/text";
-            private static final String PACKAGE_NAME = "com.google.android.gm";
-            private static final String CLASS_NAME = "com.google.android.gm.ComposeActivityGmail";
-            private  final  String[] ADDRESS = {"voice.dr.wang@gmail.com"};
+            private final String[] ADDRESS = {"voice.dr.wang@gmail.com"};
+
             @Override
             public void setSendMail() {
                 Intent sendIntent = new Intent(Intent.ACTION_SEND);
@@ -274,7 +231,7 @@ public class SettingActivity extends Activity {
 
             @Override
             public void setDailyRepeat(boolean isChecked) {
-                mAlarmPreferences.saveDailyRepeat(isChecked);
+                mPreferences.saveDailyRepeat(isChecked);
                 showLog("Daily Switch", String.valueOf(isChecked));
                 if (isChecked) {
                     setAlarmManagerOpen(AlarmConstantManager.MODE_DAILY);
@@ -285,7 +242,7 @@ public class SettingActivity extends Activity {
 
             @Override
             public void setWeeklyRepeat(boolean isChecked) {
-                mAlarmPreferences.saveWeeklyRepeat(isChecked);
+                mPreferences.saveWeeklyRepeat(isChecked);
                 showLog("Weekly Switch", String.valueOf(isChecked));
                 if (isChecked) {
                     setAlarmManagerOpen(AlarmConstantManager.MODE_WEEK);
@@ -307,6 +264,42 @@ public class SettingActivity extends Activity {
             @Override
             public void setWeeklyAlarmDay() {
                 mWeekPickDialog.show();
+            }
+
+            @Override
+            public void setBackToTime(TextView yearText, TextView monthText, TextView dayText, TextView weekText) {
+                Calendar calendar = Calendar.getInstance();
+                int year = calendar.get(Calendar.YEAR);
+                int month = calendar.get(Calendar.MONTH);
+                int day = calendar.get(Calendar.DAY_OF_MONTH);
+                DatePickerDialog datePickerDialog = new DatePickerDialog(
+                        SettingActivity.this
+                        , 0
+                        , onDateSetListener(Preferences.SP_BACK_TIME, yearText, monthText, dayText, weekText)
+                        , year
+                        , month
+                        , day);
+                datePickerDialog.show();
+            }
+
+            public void setTreatmentTime(final TextView yearText, final TextView monthText, final TextView dayText, final TextView weekText) {
+                Calendar calendar = Calendar.getInstance();
+                int year = calendar.get(Calendar.YEAR);
+                int month = calendar.get(Calendar.MONTH);
+                int day = calendar.get(Calendar.DAY_OF_MONTH);
+                DatePickerDialog datePickerDialog = new DatePickerDialog(
+                        SettingActivity.this
+                        , 0
+                        , onDateSetListener(Preferences.SP_TREATMENT_TIME, yearText, monthText, dayText, weekText)
+                        , year
+                        , month
+                        , day);
+                datePickerDialog.show();
+            }
+
+            @Override
+            public void onDoctorSetting() {
+                ActivityLauncher.go(SettingActivity.this, DoctorSettingActivity.class, null);
             }
         };
     }

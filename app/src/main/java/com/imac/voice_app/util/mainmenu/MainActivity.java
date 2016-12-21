@@ -7,6 +7,8 @@ import android.widget.Toast;
 
 import com.imac.voice_app.R;
 import com.imac.voice_app.core.ActivityLauncher;
+import com.imac.voice_app.module.DataAppend;
+import com.imac.voice_app.module.Preferences;
 import com.imac.voice_app.module.database.SqliteManager;
 import com.imac.voice_app.module.net.SearchName;
 import com.imac.voice_app.util.dailyexercise.DailyExerciseActivity;
@@ -32,11 +34,15 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<String> dailyTopicList;
     private ArrayList<String> weeklyTopicList;
     private ProgressDialog progressDialog;
+    private Preferences preferences;
+    private DataAppend dataAppend;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
+        preferences = new Preferences(this);
+        dataAppend = new DataAppend();
         progressDialog = new ProgressDialog(this);
         progressDialog.setTitle(getString(R.string.login_loading));
         progressDialog.setMessage(getString(R.string.login_wait));
@@ -47,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        mainMenu.speedtEnabler();
         //TODO 暫時關閉 weekly dismiss 功能
 //        mainMenu.weeklyAssessmentEnabler();
         show();
@@ -62,12 +69,24 @@ public class MainActivity extends AppCompatActivity {
         return new MenuClickListener() {
             @Override
             public void onDailyExerciseClick() {
-                searchDailyTopic();
+                if ("".equals(preferences.getDailyDoctorSetting()))
+                    Toast.makeText(MainActivity.this, "請設定每日練習題目", Toast.LENGTH_SHORT).show();
+                else {
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(KEY_DAILY_EXERCISE, setDailyTopic());
+                    ActivityLauncher.go(MainActivity.this, DailyExerciseActivity.class, bundle);
+                }
             }
 
             @Override
             public void onWeeklyAssessmentClick() {
-                searchWeeklyTopic();
+//                if ("".equals(preferences.getWeeklyDoctorSetting()))
+//                    Toast.makeText(MainActivity.this, "請設定每週評量題目", Toast.LENGTH_SHORT).show();
+//                else {
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(KEY_WEEKLY_EXERCISE, setWeeklyTopic());
+                ActivityLauncher.go(MainActivity.this, WeeklyAssessmentActivity.class, bundle);
+//                }
             }
 
             @Override
@@ -87,7 +106,8 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onSettingClick() {
-                getRemindTime();
+                ActivityLauncher.go(MainActivity.this, SettingActivity.class, null);
+//                getRemindTime();
             }
         };
     }
@@ -96,6 +116,22 @@ public class MainActivity extends AppCompatActivity {
     private void show() {
         SqliteManager manger = SqliteManager.getIntence(this);
         manger.getALlSqlData();
+    }
+
+    private ArrayList<String> setDailyTopic() {
+        ArrayList<Boolean> status = dataAppend.formatBoolean(preferences.getDailyDoctorSetting());
+        ArrayList<String> result = new ArrayList<>(6);
+        for (int i = 0; i < status.size(); i++)
+            if (status.get(i)) result.add(String.valueOf(i));
+        return result;
+    }
+
+    private ArrayList<String> setWeeklyTopic() {
+        ArrayList<Boolean> status = dataAppend.formatBoolean(preferences.getWeeklyDoctorSetting());
+        ArrayList<String> result = new ArrayList<>(7);
+        for (int i = 0; i < status.size(); i++)
+            if (status.get(i)) result.add(String.valueOf(i));
+        return result;
     }
 
     private void searchDailyTopic() {

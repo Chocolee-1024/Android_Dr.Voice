@@ -91,7 +91,7 @@ public class WeeklyAssessmentViewPagerAdapter extends PagerAdapter implements Ra
         String[] contentArray;
         String[] topicNumberArray = activity.getResources().getStringArray(R.array.weekly_assessment_topic_number);
         if (status.equals(WeeklyAssessmentActivity.SOUND_RECORDING)) {
-            int weeklySoundTopicIndex = Integer.valueOf(weeklyTopic.get(position)) - 1;
+            int weeklySoundTopicIndex = Integer.valueOf(weeklyTopic.get(position));
             optionArray = activity.getResources().getStringArray(getSoundOptionId(weeklySoundTopicIndex));
             contentArray = activity.getResources().getStringArray(R.array.weekly_assessment_sound_topic);
             weeklyAssessmentTopicContent.setText(contentArray[weeklySoundTopicIndex]);

@@ -19,7 +19,7 @@ public class DataAppend {
         return result;
     }
 
-    public ArrayList<String> split(String data) {
+    public ArrayList<String> formatString(String data) {
         String[] splitString = data.split(SPLIT);
         ArrayList<String> result = new ArrayList<>();
         for (String index : splitString) {
@@ -28,4 +28,15 @@ public class DataAppend {
         }
         return result;
     }
+
+    public ArrayList<Boolean> formatBoolean(String data) {
+        String[] splitString = data.split(SPLIT);
+        ArrayList<Boolean> result = new ArrayList<>();
+        for (String index : splitString) {
+            if (!"".equals(index))
+                result.add(Boolean.valueOf(index));
+        }
+        return result;
+    }
+
 }

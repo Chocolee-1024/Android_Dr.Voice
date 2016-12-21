@@ -9,13 +9,11 @@ import android.widget.Button;
 import com.imac.voice_app.R;
 import com.imac.voice_app.component.ToolbarView;
 import com.imac.voice_app.core.FragmentLauncher;
-import com.imac.voice_app.core.PreferencesHelper;
+import com.imac.voice_app.module.Preferences;
 import com.imac.voice_app.module.DataAppend;
 import com.imac.voice_app.module.DateChecker;
-import com.imac.voice_app.module.SharePreferencesManager;
 import com.imac.voice_app.module.database.SqliteManager;
 import com.imac.voice_app.util.dailyexercise.DailyExerciseCompleteFragment;
-import com.imac.voice_app.util.login.LoginActivity;
 import com.imac.voice_app.util.weeklyassessment.WeeklyAssessmentActivity;
 import com.imac.voice_app.util.weeklyassessment.WeeklyAssessmentStartFragment;
 
@@ -42,15 +40,15 @@ public class WeeklyAssessmentContainerView implements ViewPager.OnPageChangeList
     private boolean isComplete = false;
     private ArrayList<String> soundPointArray = new ArrayList<>();
     private ArrayList<String> assessmentPointArray = new ArrayList<>();
-    private SharePreferencesManager sharePreferencesManager;
-    private String soundTopic;
+    private Preferences preferences;
+    private String soundTopic = "0";
     private DataWriteEvent dataWriteEvent = null;
     private ArrayList<String> weeklyTopic = null;
 
     public WeeklyAssessmentContainerView(Activity activity, View view, String status) {
         this.activity = activity;
         this.status = status;
-        sharePreferencesManager = SharePreferencesManager.getInstance(activity);
+        preferences = new Preferences(activity);
         ButterKnife.bind(this, view);
         assessmentViewPagerAdapter = new WeeklyAssessmentViewPagerAdapter(activity, status);
         init();
@@ -98,16 +96,16 @@ public class WeeklyAssessmentContainerView implements ViewPager.OnPageChangeList
         if (viewPagerContainer.getCurrentItem() == assessmentViewPagerAdapter.getCount() - 1) {
             if (status.equals(WeeklyAssessmentActivity.SOUND_RECORDING)) {
                 isComplete = false;
-                sharePreferencesManager.save(PreferencesHelper.Type.BOOLEAN, WeeklyAssessmentActivity.KEY_COMPLETE, isComplete);
+                preferences.saveComplete(isComplete);
                 change(WeeklyAssessmentActivity.SELF_ASSESSMENT);
             } else {
                 isComplete = true;
                 DataAppend dataAppend = new DataAppend();
-                sharePreferencesManager.save(PreferencesHelper.Type.BOOLEAN, WeeklyAssessmentActivity.KEY_COMPLETE, isComplete);
-                sharePreferencesManager.save(PreferencesHelper.Type.LONG, WeeklyAssessmentActivity.KEY_WEEKLY_ENABLE_DATE, new DateChecker(activity).getNextWeekFirstDayTime());
+                preferences.saveComplete(isComplete);
+                preferences.saveWeeklyEnableDate(new DateChecker(activity).getNextWeekFirstDayTime());
                 saveDataToDataBase();
                 dataWriteEvent.onDataWrite(
-                        dataAppend.split(soundTopic) ,
+                        dataAppend.formatString(soundTopic),
                         weeklyTopic,
                         assessmentPointArray
                 );
@@ -165,12 +163,12 @@ public class WeeklyAssessmentContainerView implements ViewPager.OnPageChangeList
     private void saveDataToDataBase() {
         DataAppend dataAppend = new DataAppend();
         SqliteManager sqliteManager = SqliteManager.getIntence(activity);
-        String account = (String) sharePreferencesManager.get(LoginActivity.KEY_LOGIN_ACCOUNT, PreferencesHelper.Type.STRING);
+        String account = preferences.getAccounnt();
         sqliteManager.write(new String[]{account, soundTopic, dataAppend.append(assessmentPointArray)});
     }
 
     public void setSoundTopic(String soundTopic) {
-        this.soundTopic = soundTopic;
+        if (null != soundTopic) this.soundTopic = soundTopic;
     }
 
     public void setDataWriteEvent(DataWriteEvent event) {

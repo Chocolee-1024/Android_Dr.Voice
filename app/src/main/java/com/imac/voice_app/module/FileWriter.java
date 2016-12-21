@@ -57,20 +57,9 @@ public class FileWriter {
             String minFormatDate = minFormat.format(date);
             String startMinFormatDate = secFormat.format(startDate);
             String secFormatDate = secFormat.format(date);
-            //如果資料夾沒檔案
-            if (sdFile.listFiles().length == 0) {
-                Log.e("file exit", "檔案不存在");
-                file = new File(sdFile, dayFormatDate + " " + minFormatDate + ".csv");
-            }
-            //如果資料夾有檔案
-            //把資料寫入第一個檔案中
-            else {
-                Log.e("file exit", "檔案存在");
-                file = sdFile.listFiles()[0];
-            }
+            File file = new File(sdFile, "語速監控" + "(" + name + ")" + ".csv");
             PrintWriter printWriter = new PrintWriter(new FileOutputStream(file, true));
-            printWriter.write("," + name);
-            printWriter.append("," + yearFormatDate);
+            printWriter.append(yearFormatDate);
             printWriter.append("," + startMinFormatDate);
             printWriter.append("," + secFormatDate);
             for (int i = 0; i < textNumArrayList.size(); i++) {
@@ -91,7 +80,7 @@ public class FileWriter {
         }
     }
 
-    public void write(ArrayList<String> soundPoint, ArrayList<String> soundTopic, ArrayList<String> assessmentPoint) {
+    public void write(ArrayList<String> soundPoint, ArrayList<String> soundTopic, ArrayList<String> assessmentPoint, String name) {
         ArrayList<String> assessmentTopic = new ArrayList<>();
         for (int i = 1; i < 11; i++) {
             assessmentTopic.add(String.valueOf(i));
@@ -105,20 +94,28 @@ public class FileWriter {
         sdFile.mkdir();
         try {
             Date date = new Date();
-            SimpleDateFormat dayFormat = new SimpleDateFormat("MM-dd");
+            SimpleDateFormat dayFormat = new SimpleDateFormat("yyyy/MM/dd");
             String dayFormatDate = dayFormat.format(date);
-            File file = new File(sdFile, "每週用聲紀錄 : " + dayFormatDate + ".csv");
-
-            ArrayList<String> soundResult = pointAddTopic(soundPoint, soundTopic);
-            ArrayList<String> assessmentResult = pointAddTopic(assessmentPoint, assessmentTopic);
+            File file = new File(sdFile, "每週用聲紀錄" + "(" + name + ")" + ".csv");
+            ArrayList<String> soundResult = pointAddTopic(soundPoint, soundTopic, true);
+            ArrayList<String> assessmentResult = pointAddTopic(assessmentPoint, assessmentTopic, false);
             PrintWriter printWriter = new PrintWriter(new FileOutputStream(file, true));
-            for (String member : soundResult) {
-                printWriter.append("," + member);
-            }
+            printWriter.append(dayFormatDate);
+            String soundTopicList = "";
+            for (String member : soundResult) soundTopicList += member;
+            printWriter.append("," + soundTopicList);
+            int soundAllPoint = 0;
+            for (String menber : soundPoint) soundAllPoint += Integer.valueOf(menber);
+            printWriter.append("," + soundAllPoint);
             printWriter.append("\n");
-            for (String member : assessmentResult) {
-                printWriter.append("," + member);
-            }
+
+            String assementTopicList = "";
+            for (String member : assessmentResult) assementTopicList += member;
+            printWriter.append(dayFormatDate);
+            int assessmentAllPoint = 0;
+            printWriter.append("," + assementTopicList);
+            for (String menber : assessmentPoint) assessmentAllPoint += Integer.valueOf(menber);
+            printWriter.append("," + assessmentAllPoint);
             printWriter.append("\n");
             printWriter.flush();
             printWriter.close();
@@ -130,10 +127,11 @@ public class FileWriter {
         }
     }
 
-    private ArrayList<String> pointAddTopic(ArrayList<String> point, ArrayList<String> topic) {
+    private ArrayList<String> pointAddTopic(ArrayList<String> point, ArrayList<String> topic, boolean isSoundResult) {
         ArrayList<String> result = new ArrayList<>();
         for (int i = 0; i < topic.size(); i++) {
-            String temp = topic.get(i) + point.get(i);
+            int topicNum = Integer.valueOf(topic.get(i)) + (isSoundResult ? 1 : 0);
+            String temp = topicNum + ":" + point.get(i) + "。";
             result.add(temp);
         }
         return result;

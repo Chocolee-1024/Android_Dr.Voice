@@ -16,4 +16,33 @@
         <item>@drawable/practice5_icon</item>
         <item>@drawable/practice6_icon</item>
     </integer-array>
+
+    <integer-array name="mu_image_array">
+        <item>@drawable/cat</item>
+        <item>@drawable/cotton</item>
+        <item>@drawable/tomorrow</item>
+        <item>@drawable/rose</item>
+        <item>@drawable/wood</item>
+        <item>@drawable/monlong</item>
+        <item>@drawable/slow</item>
+        <item>@drawable/okay</item>
+        <item>@drawable/cottonswab</item>
+        <item>@drawable/eye</item>
+        <item>@drawable/catsoup</item>
+        <item>@drawable/beautylife</item>
+    </integer-array>
+    <integer-array name="her_array">
+        <item>@drawable/breath</item>
+        <item>@drawable/flower</item>
+        <item>@drawable/peace</item>
+        <item>@drawable/ha</item>
+        <item>@drawable/butterfly</item>
+        <item>@drawable/river</item>
+        <item>@drawable/laugh</item>
+        <item>@drawable/draw</item>
+        <item>@drawable/redlight</item>
+        <item>@drawable/gohome</item>
+        <item>@drawable/save</item>
+        <item>@drawable/happy</item>
+    </integer-array>
 </resources>

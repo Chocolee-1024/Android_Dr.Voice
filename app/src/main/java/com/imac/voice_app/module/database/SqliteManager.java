@@ -6,8 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.imac.voice_app.module.SharePreferencesManager;
-import com.imac.voice_app.util.login.LoginActivity;
+import com.imac.voice_app.module.Preferences;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -24,11 +23,12 @@ public class SqliteManager {
     private SqliteHelper sqliteHelper;
     private static SqliteManager manger = null;
     private Context context;
-    private SharePreferencesManager sharePreferencesManager;
+    private Preferences preferences;
+
     private SqliteManager(Context context) {
         this.context = context;
         sqliteHelper = new SqliteHelper(context);
-        sharePreferencesManager=SharePreferencesManager.getInstance(context);
+        preferences = new Preferences(context);
     }
 
     public static SqliteManager getIntence(Context context) {
@@ -120,7 +120,7 @@ public class SqliteManager {
             DataObj.add(structure);
 
             Log.e("getAccount", cursor.getString(cursor.getColumnIndex(sqliteHelper.getAccount())));
-            Log.e("SoundTopicPointKey", cursor.getString(cursor.getColumnIndex(sqliteHelper.getSoundTopicPointKey())));
+            Log.e("SoundTopicPointKey", "" + cursor.getString(cursor.getColumnIndex(sqliteHelper.getSoundTopicPointKey())));
             Log.e("AssessmentTopicPointKey", cursor.getString(cursor.getColumnIndex(sqliteHelper.getAssessmentTopicPointKey())));
             Log.e("getDate", cursor.getString(cursor.getColumnIndex(sqliteHelper.getDate())));
         }
@@ -138,7 +138,7 @@ public class SqliteManager {
         LinkedHashSet<String> dateArrayList = new LinkedHashSet<>();
         String[] result = null;
         SQLiteDatabase dataBase = create();
-        String selectSql = "SELECT * FROM " + sqliteHelper.getTableName()+" WhRER " +sqliteHelper.getAccount()+" = "+sharePreferencesManager.get(LoginActivity.KEY_LOGIN_ACCOUNT,SharePreferencesManager.Type.STRING);
+        String selectSql = "SELECT * FROM " + sqliteHelper.getTableName() + " WhRER " + sqliteHelper.getAccount() + " = " + preferences.getAccounnt();
         Cursor cursor = dataBase.rawQuery(selectSql, null);
 
         cursor.moveToFirst();
@@ -156,7 +156,7 @@ public class SqliteManager {
         LinkedHashSet<String> linkHashSet = new LinkedHashSet<>();
         String[] result = null;
         SQLiteDatabase dataBase = create();
-        String selectSql = "SELECT " + sqliteHelper.getDate() + " FROM " + sqliteHelper.getTableName()+" WHERE "+sqliteHelper.getAccount()+" = '"+sharePreferencesManager.get(LoginActivity.KEY_LOGIN_ACCOUNT,SharePreferencesManager.Type.STRING)+"' ORDER BY "+sqliteHelper.getDate()+" DESC";
+        String selectSql = "SELECT " + sqliteHelper.getDate() + " FROM " + sqliteHelper.getTableName() + " WHERE " + sqliteHelper.getAccount() + " = '" + preferences.getAccounnt() + "' ORDER BY " + sqliteHelper.getDate() + " DESC";
         Cursor cursor = dataBase.rawQuery(selectSql, null);
         SimpleDateFormat format = new SimpleDateFormat("MM/yyyy");
         SimpleDateFormat parse = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
@@ -188,7 +188,7 @@ public class SqliteManager {
         LinkedHashSet<String> linkHashSet = new LinkedHashSet<>();
         String[] result = null;
         SQLiteDatabase dataBase = create();
-        String selectSql = "SELECT " + sqliteHelper.getDate() + " FROM " + sqliteHelper.getTableName()+" WHERE "+sqliteHelper.getAccount()+" = "+sharePreferencesManager.get(LoginActivity.KEY_LOGIN_ACCOUNT,SharePreferencesManager.Type.STRING);
+        String selectSql = "SELECT " + sqliteHelper.getDate() + " FROM " + sqliteHelper.getTableName() + " WHERE " + sqliteHelper.getAccount() + " = " + preferences.getAccounnt();
         Cursor cursor = dataBase.rawQuery(selectSql, null);
         SimpleDateFormat format = new SimpleDateFormat("MM/dd");
         SimpleDateFormat parse = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
@@ -224,7 +224,7 @@ public class SqliteManager {
     public class DataStructure {
         private String account = null;
         private String date = null;
-        private String soundTopicPoint = null;
+        private String soundTopicPoint = "0";
         private String weeklyTopicPoint = null;
 
         public void setAccount(String account) {
@@ -236,7 +236,7 @@ public class SqliteManager {
         }
 
         public void setSoundTopicPoint(String soundTopicPoint) {
-            this.soundTopicPoint = soundTopicPoint;
+            if (null != soundTopicPoint) this.soundTopicPoint = soundTopicPoint;
         }
 
         public void setWeeklyTopicPoint(String weeklyTopicPoint) {

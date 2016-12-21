@@ -55,8 +55,8 @@ public class DailySelectExerciseAdapter extends PagerAdapter {
         ButterKnife.bind(this, view);
 
         TypedArray typedArray = activity.getResources().obtainTypedArray(R.array.practice_icon_array);
-        viewPagerTitle.setText(activity.getResources().getStringArray(R.array.daily_exercise_title_item)[topicList.get(position) - 1]);
-        viewPagerImage.setImageResource(typedArray.getResourceId(topicList.get(position) - 1, -1));
+        viewPagerTitle.setText(activity.getResources().getStringArray(R.array.daily_exercise_title_item)[topicList.get(position)]);
+        viewPagerImage.setImageResource(typedArray.getResourceId(topicList.get(position), -1));
         FontManager.setFont(activity, FontManager.MEDIUM, viewPagerTitle);
         container.addView(view);
         return view;

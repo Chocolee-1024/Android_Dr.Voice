@@ -54,7 +54,7 @@ public class DailyExercise {
     }
 
     public void changeSelectInnerFragment() {
-        FragmentLauncher.change(
+        FragmentLauncher.changeToBack(
                 activity,
                 R.id.daily_exercise_container,
                 null,
@@ -66,7 +66,8 @@ public class DailyExercise {
         return new ToolbarView.toolbarCallBack() {
             @Override
             public void backButtonListener() {
-                changeSelectFragment();
+                activity.onBackPressed();
+//                changeSelectFragment();
             }
 
             @Override
