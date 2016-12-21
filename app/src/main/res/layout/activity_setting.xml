@@ -23,7 +23,19 @@
         android:textColor="@color/speak_speed_idle"
         android:textSize="@dimen/setting_logout_text_size"
         app:layout_heightPercent="10%"
-        app:layout_widthPercent="20%" />
+        app:layout_widthPercent="18%" />
+    <Button
+        android:id="@+id/doctor_setting"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/transparent"
+        android:gravity="center"
+        android:text="@string/doctor_setting"
+        android:textColor="@color/speak_speed_idle"
+        android:textSize="@dimen/setting_logout_text_size"
+        android:layout_toRightOf="@id/setting_logout"
+        app:layout_heightPercent="10%"
+        app:layout_widthPercent="18%" />
 
     <ImageView
         android:id="@+id/iv_connection_us"

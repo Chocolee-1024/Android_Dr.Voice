@@ -12,8 +12,6 @@ import com.imac.voice_app.module.MediaPlayer;
 import com.imac.voice_app.view.dailyexercise.DailySelectExerciseView;
 import com.imac.voice_app.view.dailyexercise.DailySelectInnerExerciseView;
 
-import butterknife.ButterKnife;
-
 /**
  * Created by isa on 2016/9/21.
  */
@@ -30,14 +28,16 @@ public class DailyExerciseInnerSelectFragment extends Fragment {
                 view,
                 topicIndex
         );
-        ButterKnife.bind(this, view);
         return view;
     }
 
     @Override
     public void onPause() {
+        if (null != dailySelectInnerExerciseView.getPlayer()) {
+            dailySelectInnerExerciseView.getPlayer().pausePlay();
+        }
         dailySelectInnerExerciseView.getCounter().pauseCount();
-        dailySelectInnerExerciseView.getPlayer().pausePlay();
+        dailySelectInnerExerciseView.getCounterFiveSec().stopCount();
         super.onPause();
     }
 
@@ -46,15 +46,19 @@ public class DailyExerciseInnerSelectFragment extends Fragment {
         if (!dailySelectInnerExerciseView.isFiveSecCountDown() &&
                 (dailySelectInnerExerciseView.getPlayer().getStatus() == MediaPlayer.Status.PAUSE)) {
             dailySelectInnerExerciseView.getCounter().continueCount();
+            dailySelectInnerExerciseView.getCounterFiveSec().stopCount();
         }
         super.onResume();
     }
 
     @Override
     public void onDestroy() {
-        dailySelectInnerExerciseView.getPlayer().stopPlay();
+        if (null != dailySelectInnerExerciseView.getPlayer()) {
+            dailySelectInnerExerciseView.getPlayer().stopPlay();
+        }
         dailySelectInnerExerciseView.getCounter().stopCount();
         dailySelectInnerExerciseView.getCounterFiveSec().stopCount();
+
         super.onDestroy();
     }
 }

@@ -7,7 +7,6 @@ import android.widget.FrameLayout;
 import com.imac.voice_app.R;
 import com.imac.voice_app.component.ToolbarView;
 import com.imac.voice_app.core.FragmentLauncher;
-import com.imac.voice_app.module.SharePreferencesManager;
 import com.imac.voice_app.util.weeklyassessment.WeeklyAssessmentActivity;
 import com.imac.voice_app.util.weeklyassessment.WeeklyAssessmentStartFragment;
 
@@ -23,10 +22,8 @@ public class WeeklyAssessmentView {
     ToolbarView toolbar;
     @BindView(R.id.weekly_assessment_container)
     FrameLayout weeklyAssessmentContainer;
-    private SharePreferencesManager sharePreferencesManager;
 
     public WeeklyAssessmentView(Activity activity) {
-        sharePreferencesManager = SharePreferencesManager.getInstance(activity);
         this.activity = activity;
         ButterKnife.bind(this, activity);
         init();

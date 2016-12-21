@@ -11,6 +11,12 @@ import android.os.Bundle;
 import com.imac.voice_app.R;
 import com.imac.voice_app.module.AlarmConstantManager;
 import com.imac.voice_app.util.homepage.HomePageActivity;
+import com.imac.voice_app.util.setting.SettingActivity;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
+import java.util.logging.SimpleFormatter;
 
 public class AlarmReceiver extends BroadcastReceiver {
     @Override
@@ -41,8 +47,8 @@ public class AlarmReceiver extends BroadcastReceiver {
             Notification notification = builder.build();
             manager.notify(AlarmConstantManager.ID_DAILY_ALARM, notification);
         } else if (mode.equals(AlarmConstantManager.MODE_BACK)) {
-            if (null == intent.getStringExtra(AlarmConstantManager.KEY_BACK_DATA)) return;
-            String content = intent.getStringExtra(AlarmConstantManager.KEY_BACK_DATA).split(",")[0];
+            long milliSecond = intent.getLongExtra(AlarmConstantManager.KEY_BACK_DATA, 0);
+            String content = milliSecondFormat(milliSecond);
             builder.setSmallIcon(R.mipmap.ic_launcher)
                     .setContentTitle("Voice 嗓音自我照護")
                     .setContentText("回診時間提醒" + content)
@@ -51,8 +57,8 @@ public class AlarmReceiver extends BroadcastReceiver {
             Notification notification = builder.build();
             manager.notify(AlarmConstantManager.ID_BACK, notification);
         } else if (mode.equals(AlarmConstantManager.MODE_TREATMENT)) {
-            if (null == intent.getStringExtra(AlarmConstantManager.KEY_TREATMENT_DATA)) return;
-            String content = intent.getStringExtra(AlarmConstantManager.KEY_TREATMENT_DATA).split(",")[0];
+            long milliSecond = intent.getLongExtra(AlarmConstantManager.KEY_TREATMENT_DATA, 0);
+            String content = milliSecondFormat(milliSecond);
             builder.setSmallIcon(R.mipmap.ic_launcher)
                     .setContentTitle("Voice 嗓音自我照護")
                     .setContentText("嗓音治療時間提醒" + content)
@@ -61,5 +67,13 @@ public class AlarmReceiver extends BroadcastReceiver {
             Notification notification = builder.build();
             manager.notify(AlarmConstantManager.ID_TREATMENT, notification);
         }
+    }
+
+    private String milliSecondFormat(long milliSecond) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd", Locale.TAIWAN);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(milliSecond);
+        calendar.add(Calendar.DAY_OF_MONTH, 1);
+        return format.format(calendar.getTime());
     }
 }

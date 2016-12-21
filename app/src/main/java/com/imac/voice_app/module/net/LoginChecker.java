@@ -14,7 +14,7 @@ import java.io.InputStreamReader;
 
 public class LoginChecker extends BaseGoogleDrive {
     private final static String TAG = LoginChecker.class.getClass().getName();
-    public final static String ACCOUNT_NAME = "voice.dr.wang@gmail.com";
+    public final static String ACCOUNT_NAME = "femh.voice@gmail.com";
     private Activity activity;
     private eventCallBack event;
     private String account;
@@ -26,7 +26,6 @@ public class LoginChecker extends BaseGoogleDrive {
 
     @Override
     protected boolean onAccess() {
-
         FileList result = null;
         boolean isSuccess = false;
         try {
@@ -86,6 +85,7 @@ public class LoginChecker extends BaseGoogleDrive {
         this.account = account;
         execute();
     }
+
     public interface eventCallBack {
         public void onSuccessful(String account);
 

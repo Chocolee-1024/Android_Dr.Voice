@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.RelativeLayout;
 
 import com.imac.voice_app.R;
 import com.imac.voice_app.util.login.LoginActivity;
@@ -22,6 +24,7 @@ public class DailyExerciseActivity extends Activity {
     ArrayList<String> topicList = new ArrayList<>();
     boolean[] isFinish;
     private DailyExercise dailyExerciseView;
+    RelativeLayout counterContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +38,7 @@ public class DailyExerciseActivity extends Activity {
     private void init() {
         dailyExerciseView = new DailyExercise(this);
         dailyExerciseView.changeSelectFragment();
+        counterContainer = (RelativeLayout) findViewById(R.id.counter_container);
         for (int i = 0; i < topicList.size(); i++) {
             topic.add(Integer.valueOf(topicList.get(i)));
         }
@@ -49,19 +53,23 @@ public class DailyExerciseActivity extends Activity {
         return topic;
     }
 
+    public void setCountTextVisible(boolean visible) {
+        counterContainer.setVisibility(visible ? View.VISIBLE : View.INVISIBLE);
+    }
+
     public boolean[] isFinish() {
         return isFinish;
     }
-
-    @Override
-    public void onBackPressed() {
-        FragmentManager fragmentManager = getFragmentManager();
-        Fragment fragment = fragmentManager.findFragmentById(R.id.daily_exercise_container);
-        if (fragment instanceof DailyExerciseSelectFragment) {
-            super.onBackPressed();
-        } else {
-            dailyExerciseView.hideCounter();
-            dailyExerciseView.changeSelectFragment();
-        }
-    }
+//
+//    @Override
+//    public void onBackPressed() {
+//        FragmentManager fragmentManager = getFragmentManager();
+//        Fragment fragment = fragmentManager.findFragmentById(R.id.daily_exercise_container);
+//        if (fragment instanceof DailyExerciseSelectFragment) {
+//            super.onBackPressed();
+//        } else {
+//            dailyExerciseView.hideCounter();
+//            dailyExerciseView.changeSelectFragment();
+//        }
+//    }
 }

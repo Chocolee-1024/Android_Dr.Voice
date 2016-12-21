@@ -39,7 +39,9 @@ public class WeeklyAssessmentStartView {
     }
 
     private void init() {
-        ((ToolbarView)activity.findViewById(R.id.toolbar)).setTitleTextViewText(activity.getResources().getString(R.string.weekly_assessment_toolbar_title));
+        ((ToolbarView) activity.findViewById(R.id.toolbar)).setTitleTextViewText(activity.getResources().getString(R.string.weekly_assessment_toolbar_title));
+        if (0==((WeeklyAssessmentActivity) activity).getWeeklyTopic().size())
+            status = WeeklyAssessmentActivity.SELF_ASSESSMENT;
         if (status.equals(WeeklyAssessmentActivity.SOUND_RECORDING)) {
             weeklyAssessmentSoundTitle.setText(R.string.weekly_assessment_sound_title);
             weeklyAssessmentSoundImg.setImageResource(R.drawable.history_1_icon);
@@ -57,8 +59,8 @@ public class WeeklyAssessmentStartView {
     private void change() {
         Bundle bundle = new Bundle();
         bundle.putString(WeeklyAssessmentActivity.KEY_STATUS, status);
-        if (status.equals(WeeklyAssessmentActivity.SELF_ASSESSMENT)){
-            bundle.putString(WeeklyAssessmentActivity.KEY_SOUND_TOPIC,soundTopic);
+        if (status.equals(WeeklyAssessmentActivity.SELF_ASSESSMENT)) {
+            bundle.putString(WeeklyAssessmentActivity.KEY_SOUND_TOPIC, soundTopic);
         }
         FragmentLauncher.change(activity,
                 R.id.weekly_assessment_container,

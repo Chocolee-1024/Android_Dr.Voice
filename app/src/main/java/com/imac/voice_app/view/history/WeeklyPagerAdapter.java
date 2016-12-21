@@ -92,7 +92,7 @@ public class WeeklyPagerAdapter extends BasePagerAdapter {
             if (subYear == 0) {
                 if (dayCal.get(Calendar.MONTH) == monthCal.get(Calendar.MONTH)) {
                     DataAppend dataAppend = new DataAppend();
-                    ArrayList<String> weeklyArray = dataAppend.split(dataStructures[index].getWeeklyTopicPoint());
+                    ArrayList<String> weeklyArray = dataAppend.formatString(dataStructures[index].getWeeklyTopicPoint());
                     pointAddResult = 0;
                     for (int i = 0; i < weeklyArray.size(); i++) {
                         pointAddResult += Integer.valueOf(weeklyArray.get(i));

@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">VoiceApp</string>
-    <string name="key">863357276335-9941vhgui0n5fm6v4j1pjmp30qb11f1h.apps.googleusercontent.com</string>
+    <string name="key">863357276335-39chaeo82dlo51ficad9fhko2smsumi5.apps.googleusercontent.com</string>
     <!--home page-->
     <string name="home_page_title">嗓音自我照護\n(練習版)</string>
     <string name="home_page_start">開始</string>
@@ -60,7 +60,34 @@
     <string name="daily_exercise_practice4_action_b">慢慢低頭再回來</string>
     <string name="daily_exercise_practice4_action_c">頭往左邊側躺在換邊</string>
     <string name="daily_exercise_practice4_action_d">雙手用力推再放鬆</string>
-
+    <string-array name="soft_attack">
+        <item>貓咪</item>
+        <item>綿花</item>
+        <item>明天</item>
+        <item>玫瑰</item>
+        <item>木頭</item>
+        <item>朦朧</item>
+        <item>慢慢來</item>
+        <item>沒關係</item>
+        <item>棉花棒</item>
+        <item>瞇瞇眼</item>
+        <item>貓咪喝湯</item>
+        <item>美麗人生</item>
+    </string-array>
+    <string-array name="pre_resonance">
+        <item>呼吸</item>
+        <item>花朵</item>
+        <item>和平</item>
+        <item>哈欠</item>
+        <item>蝴蝶</item>
+        <item>河流</item>
+        <item>哈哈笑</item>
+        <item>畫畫圖</item>
+        <item>紅綠燈</item>
+        <item>回家好</item>
+        <item>闔家平安</item>
+        <item>美麗人生</item>
+    </string-array>
     <!--setting-->
     <string name="setting_title">設定</string>
     <string name="setting_please_set">請設定練習提醒時間</string>
@@ -69,6 +96,7 @@
     <string name="setting_connection_us">聯絡信箱</string>
     <string name="setting_repeat">重"  "複</string>
     <string name="setting_logout">登出</string>
+    <string name="doctor_setting">醫師設定</string>
     <string-array name="week_array">
         <item>星期日</item>
         <item>星期一</item>

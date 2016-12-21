@@ -6,6 +6,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 
 import com.imac.voice_app.R;
 import com.imac.voice_app.component.CustomIndicator;
@@ -51,6 +52,7 @@ public class DailySelectExerciseView implements ViewPager.OnPageChangeListener {
 
     private void init() {
         setFont();
+        hideCountDown();
         adapter = new DailySelectExerciseAdapter(activity, topic);
         fragmentContainer.setAdapter(adapter);
         fragmentContainer.addOnPageChangeListener(this);
@@ -84,7 +86,7 @@ public class DailySelectExerciseView implements ViewPager.OnPageChangeListener {
         bundle.putInt(KEY_INNER_FRAGMENT_INDEX, topic.get(fragmentContainer.getCurrentItem()));
         LayoutInflater inflater = LayoutInflater.from(activity);
         View view = inflater.inflate(R.layout.activity_daily_exercise, null);
-        FragmentLauncher.change(
+        FragmentLauncher.changeToBack(
                 activity,
                 view.findViewById(R.id.daily_exercise_container).getId(),
                 bundle,
@@ -122,7 +124,10 @@ public class DailySelectExerciseView implements ViewPager.OnPageChangeListener {
             previousStepButton.setVisibility(View.VISIBLE);
         }
     }
-
+    public void hideCountDown() {
+        RelativeLayout counterContainer = (RelativeLayout) activity.findViewById(R.id.counter_container);
+        counterContainer.setVisibility(View.INVISIBLE);
+    }
     @Override
     public void onPageScrollStateChanged(int state) {
 

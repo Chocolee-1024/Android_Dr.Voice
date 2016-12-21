@@ -14,21 +14,30 @@ import java.net.SocketTimeoutException;
 import java.util.Collections;
 
 public class FileUploader extends BaseGoogleDrive {
-    private final static String TAG = "result";
+    private final static String TAG = FileUploader.class.getName();
     public final static String ACCOUNT_NAME = "voice.dr.wang@gmail.com";
-    public final static int ASK_ACCESS_ACCOUNT_PERMISSION = 123;
-    public final static int SET_ACCOUNT = 321;
-    private String fileName = "0919333333(林毅鑫)";
-    private String name = "";
-    private String account = "";
-
+    private final static int ASK_ACCESS_ACCOUNT_PERMISSION = 123;
+    private final static int SET_ACCOUNT = 321;
+    public final static String FILE_VOICE_SPEED = "語速監控";
+    public final static String FILE_WEEKLY_SOUND = "每週用聲紀錄";
+    private final static String MINE_TYPE = "text/csv";
+    private String fileName;
+    private String name;
+    private String account;
     private Activity activity;
     private File file;
+    private String witchFile;
 
-    public FileUploader(Activity activity, String name, String account) {
+    public FileUploader(Activity activity, String name, String account, String witchFile) {
         super(activity);
         this.activity = activity;
+        this.name = name;
+        this.account = account;
         fileName = account + "(" + name + ")";
+        if (FILE_VOICE_SPEED.equals(witchFile))
+            this.witchFile = FILE_VOICE_SPEED + "(" + name + ")";
+        else
+            this.witchFile = FILE_WEEKLY_SOUND + "(" + name + ")";
     }
 
     @Override
@@ -51,25 +60,29 @@ public class FileUploader extends BaseGoogleDrive {
                     .setQ("name='" + fileName + "'")
                     .execute();
             if (result.getFiles().size() != 0) {
+                FileList outputFile = drive.files().list().setQ("name='" + witchFile + "'").execute();
                 folderId = result.getFiles().get(0).getId();
-                com.google.api.services.drive.model.File fileMetadata = new com.google.api.services.drive.model.File();
-                fileMetadata.setName(file.getName().replace("-","/"));
-                fileMetadata.setParents(Collections.singletonList(folderId));
+                com.google.api.services.drive.model.File file = new com.google.api.services.drive.model.File();
+                file.setName(witchFile);
+                file.setMimeType(MINE_TYPE);
                 java.io.File filePath = new java.io.File(path);
-                FileContent mediaContent = new FileContent("text/csv", filePath);
-                com.google.api.services.drive.model.File uploadFile = drive.files().create(fileMetadata, mediaContent)
-                        .setFields("id, parents")
-                        .execute();
-                file.delete();
+                FileContent fileContent = new FileContent(MINE_TYPE, filePath);
+                if (outputFile.getFiles().size() == 0) {
+                    file.setParents(Collections.singletonList(folderId));
+                   drive.files().create(file, fileContent)
+                            .setFields("id, parents")
+                            .execute();
+                } else
+                    drive.files().update(outputFile.getFiles().get(0).getId(), file, fileContent)
+                            .execute();
+                this.file.delete();
                 isSuccess = true;
             }
-
         } catch (UserRecoverableAuthIOException e) {
-            //跳出權限dialog
             activity.startActivityForResult(e.getIntent(), ASK_ACCESS_ACCOUNT_PERMISSION);
             e.printStackTrace();
         } catch (SocketTimeoutException e) {
-
+            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -78,17 +91,15 @@ public class FileUploader extends BaseGoogleDrive {
 
     @Override
     protected void successAccess() {
-
     }
 
     @Override
     protected void failAccess() {
-
     }
 
     @Override
     protected String setAccount() {
-        return ACCOUNT_NAME;
+        return LoginChecker.ACCOUNT_NAME;
     }
 
     public void connect(File file) {

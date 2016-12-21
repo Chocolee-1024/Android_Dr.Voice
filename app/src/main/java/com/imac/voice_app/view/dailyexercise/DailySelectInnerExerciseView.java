@@ -1,6 +1,7 @@
 package com.imac.voice_app.view.dailyexercise;
 
 import android.app.Activity;
+import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -19,6 +20,7 @@ import com.imac.voice_app.module.MediaPlayer;
 import com.imac.voice_app.util.dailyexercise.DailyExerciseFinishFragment;
 import com.imac.voice_app.util.dailyexercise.DailyExerciseSelectFragment;
 
+import butterknife.BindArray;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -39,67 +41,75 @@ public class DailySelectInnerExerciseView {
     ImageView dailyExerciseSelectedStopButton;
     @BindView(R.id.daily_exercise_selected_description)
     TextView dailyExerciseSelectedDescription;
+    @BindArray(R.array.soft_attack)
+    String[] softAttack;
+    @BindArray(R.array.pre_resonance)
+    String[] preResonance;
+    @BindArray(R.array.mu_image_array)
+    TypedArray muImageArray;
+    @BindArray(R.array.her_array)
+    TypedArray herArray;
     private Activity activity;
     private int index;
     private Handler handler;
     private CountSecond countSecond;
     private CountSecond countFiveSecond;
     private MediaPlayer player;
-    private TurnPictureThread pictureRunnable;
+    private TurnDataThread pictureRunnable;
     public static final String KEY_TOPIC_INDEX = "key_topic_index";
-    private boolean isFiveSecCountDown=true;
+    private boolean isFiveSecCountDown = true;
+    private static final int COUNT_TIME = 120;
+    private RelativeLayout counterContainer;
+
     public DailySelectInnerExerciseView(Activity activity, View view, int index) {
         this.activity = activity;
         this.index = index;
         handler = new Handler();
         countSecond = new CountSecond(countEvent());
         countFiveSecond = new CountSecond(countFiveSecondCallBack());
+        counterContainer = (RelativeLayout) activity.findViewById(R.id.counter_container);
         ButterKnife.bind(this, view);
         init();
+        startCountDown();
     }
 
     private void init() {
-        dailyExerciseSelectedDescription.setVisibility(View.INVISIBLE);
-        if (index == 1) {
+
+        if (index == 0) {
             Glide.with(activity)
                     .load(R.drawable.breathing)
                     .asGif()
                     .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                     .into(dailyExerciseSelectedImage);
             player = new MediaPlayer(activity, R.raw.practice_1);
-        } else if (index == 2) {
+        } else if (index == 1) {
             Glide.with(activity)
                     .load(R.drawable.sing_in_water)
                     .asGif()
                     .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                     .into(dailyExerciseSelectedImage);
             player = new MediaPlayer(activity, R.raw.practice_2);
-        } else if (index == 3) {
+        } else if (index == 2) {
             Glide.with(activity)
                     .load(R.drawable.musicnotes)
                     .asGif()
                     .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                     .into(dailyExerciseSelectedImage);
             player = new MediaPlayer(activity, R.raw.practice_3);
-        } else if (index == 4) {
+        } else if (index == 3) {
             dailyExerciseSelectedDescription.setVisibility(View.VISIBLE);
             pictureTurnPlay();
             player = new MediaPlayer(activity, R.raw.practice_4);
-        } else if (index == 5) {
-            Glide.with(activity)
-                    .load(R.drawable.practice5_icon)
-                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                    .into(dailyExerciseSelectedImage);
+        } else if (index == 4) {
+            dailyExerciseSelectedImage.setVisibility(View.VISIBLE);
             player = new MediaPlayer(activity, R.raw.practice_5);
+            textTurnPlay(index);
         } else {
-            Glide.with(activity)
-                    .load(R.drawable.practice6_icon)
-                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                    .into(dailyExerciseSelectedImage);
+            dailyExerciseSelectedImage.setVisibility(View.VISIBLE);
+            textTurnPlay(index);
             player = new MediaPlayer(activity, R.raw.practice_6);
         }
         setFont();
-        startCountDown();
     }
 
     private void setFont() {
@@ -109,15 +119,42 @@ public class DailySelectInnerExerciseView {
     }
 
     public void startCount() {
-        countSecond.startCountWithCountDown(120);
+        countSecond.startCountWithCountDown(DailySelectInnerExerciseView.COUNT_TIME);
     }
 
     private void pictureTurnPlay() {
-        pictureRunnable = new TurnPictureThread(
+        pictureRunnable = new TurnDataThread(
                 activity
+                , 4
         );
-        pictureRunnable.setImageChangeEvent(onChangeEvent());
+        pictureRunnable.setDataChangeEvent(onChangeEvent());
         pictureRunnable.start();
+    }
+
+    private void textTurnPlay(int index) {
+        TurnDataThread pictureRunnable = new TurnDataThread(
+                activity
+                , 10
+        );
+        pictureRunnable.setDataChangeEvent(onTextChange(index));
+        pictureRunnable.start();
+    }
+
+    private TurnDataThread.DataChangeEvent onTextChange(final int index) {
+        return new TurnDataThread.DataChangeEvent() {
+            @Override
+            public void onDataChangeEvent(final int witchData) {
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (4 == index)
+                            dailyExerciseSelectedImage.setImageResource(muImageArray.getResourceId(witchData, 0));
+                        else
+                            dailyExerciseSelectedImage.setImageResource(herArray.getResourceId(witchData, 0));
+                    }
+                });
+            }
+        };
     }
 
     @OnClick(R.id.daily_exercise_selected_stop_button)
@@ -132,7 +169,7 @@ public class DailySelectInnerExerciseView {
     public void onCloseClick() {
         player.stopPlay();
         countSecond.stopCount();
-        change();
+        activity.onBackPressed();
     }
 
     private String SecToMin(int inputSec) {
@@ -189,28 +226,30 @@ public class DailySelectInnerExerciseView {
 
             @Override
             public void finishCount() {
-                RelativeLayout counterContainer = (RelativeLayout) activity.findViewById(R.id.counter_container);
+                isFiveSecCountDown = false;
+                dailyExerciseSelectedImage.setVisibility(View.VISIBLE);
+//        dailyExerciseSelectedText.setVisibility(View.INVISIBLE);
                 counterContainer.setVisibility(View.INVISIBLE);
-                isFiveSecCountDown=false;
+                dailyExerciseSelectedDescription.setVisibility(View.INVISIBLE);
                 startCount();
             }
         };
     }
 
+
     public void startCountDown() {
-        RelativeLayout counterContainer = (RelativeLayout) activity.findViewById(R.id.counter_container);
         counterContainer.setVisibility(View.VISIBLE);
         countFiveSecond.startCountWithCountDown(5);
     }
 
-    private TurnPictureThread.ImageChangeEvent onChangeEvent() {
-        return new TurnPictureThread.ImageChangeEvent() {
+    private TurnDataThread.DataChangeEvent onChangeEvent() {
+        return new TurnDataThread.DataChangeEvent() {
             @Override
-            public void onImageChangeEvent(final int witchPicture) {
+            public void onDataChangeEvent(final int witchData) {
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        switch (witchPicture) {
+                        switch (witchData) {
                             case 0:
                                 dailyExerciseSelectedImage.setImageResource(R.drawable.practice4_action_a_icon);
                                 dailyExerciseSelectedDescription.setText(R.string.daily_exercise_practice4_action_a);
@@ -257,15 +296,7 @@ public class DailySelectInnerExerciseView {
         return countFiveSecond;
     }
 
-    public void addToBackStack(String stackName) {
-        activity.getFragmentManager().beginTransaction().addToBackStack(stackName).commit();
-    }
-
-    public void hideCountDown() {
-        RelativeLayout counterContainer = (RelativeLayout) activity.findViewById(R.id.counter_container);
-        counterContainer.setVisibility(View.INVISIBLE);
-    }
-    public boolean isFiveSecCountDown(){
+    public boolean isFiveSecCountDown() {
         return isFiveSecCountDown;
     }
 }
