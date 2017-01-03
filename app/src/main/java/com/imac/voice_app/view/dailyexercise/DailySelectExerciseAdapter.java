@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.imac.voice_app.R;
-import com.imac.voice_app.module.FontManager;
 
 import java.util.ArrayList;
 
@@ -57,7 +56,6 @@ public class DailySelectExerciseAdapter extends PagerAdapter {
         TypedArray typedArray = activity.getResources().obtainTypedArray(R.array.practice_icon_array);
         viewPagerTitle.setText(activity.getResources().getStringArray(R.array.daily_exercise_title_item)[topicList.get(position)]);
         viewPagerImage.setImageResource(typedArray.getResourceId(topicList.get(position), -1));
-        FontManager.setFont(activity, FontManager.MEDIUM, viewPagerTitle);
         container.addView(view);
         return view;
     }

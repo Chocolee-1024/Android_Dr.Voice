@@ -9,10 +9,10 @@
     </integer-array>
 
     <integer-array name="practice_icon_array">
+        <item>@drawable/practice4_icon</item>
         <item>@drawable/practice1_icon</item>
         <item>@drawable/practice2_icon</item>
         <item>@drawable/practice3_icon</item>
-        <item>@drawable/practice4_icon</item>
         <item>@drawable/practice5_icon</item>
         <item>@drawable/practice6_icon</item>
     </integer-array>

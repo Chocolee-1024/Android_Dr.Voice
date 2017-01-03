@@ -6,7 +6,6 @@ import android.widget.TextView;
 
 import com.imac.voice_app.R;
 import com.imac.voice_app.module.Preferences;
-import com.imac.voice_app.module.FontManager;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,8 +38,6 @@ public class HomePage {
     }
 
     private void setFontType() {
-        FontManager.setFont(activity, FontManager.LIGHT, title, developer);
-        FontManager.setFont(activity, FontManager.MEDIUM, start);
     }
 
     private boolean isLogin() {

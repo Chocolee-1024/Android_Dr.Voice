@@ -11,7 +11,6 @@ import com.imac.voice_app.R;
 import com.imac.voice_app.module.Preferences;
 import com.imac.voice_app.module.DataAppend;
 import com.imac.voice_app.module.DateChecker;
-import com.imac.voice_app.module.FontManager;
 import com.imac.voice_app.util.login.LoginActivity;
 
 import java.util.Calendar;
@@ -113,7 +112,6 @@ public class MainMenu {
     }
 
     private void setFontType() {
-        FontManager.setFont(activity, FontManager.NORMAL, dailyExerciseText, weeklyAssessmentText, historyText, speakSpeedText, settingText);
     }
 
     @OnClick(R.id.daily_exercise_container)

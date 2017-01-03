@@ -300,6 +300,7 @@ public class SettingActivity extends Activity {
             @Override
             public void onDoctorSetting() {
                 ActivityLauncher.go(SettingActivity.this, DoctorSettingActivity.class, null);
+                finish();
             }
         };
     }

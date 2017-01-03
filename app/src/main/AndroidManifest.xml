@@ -75,6 +75,7 @@
         <activity
             android:name=".util.doctorsetting.DoctorSettingActivity"
             android:screenOrientation="portrait"/>
+
     </application>
 
 </manifest>
