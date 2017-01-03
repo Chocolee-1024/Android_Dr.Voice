@@ -12,7 +12,6 @@ import com.imac.voice_app.R;
 import com.imac.voice_app.component.ToolbarView;
 import com.imac.voice_app.core.Ruler;
 import com.imac.voice_app.module.Preferences;
-import com.imac.voice_app.module.FontManager;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -122,9 +121,6 @@ public class SettingView {
         this.initSetting = initSetting;
         initialSetting();
 
-        FontManager.setFont(mContext, FontManager.MEDIUM,
-                mDailyNoticeTitleTextView, mDailyRepeatTextView,
-                mWeeklyNoticeTitleTextView, mWeeklyWeekTextView, mWeeklyRepeatTextView);
 
         Ruler ruler = new Ruler(activity);
         mDailyRepeatSwitch.setSwitchMinWidth(ruler.getW(12));

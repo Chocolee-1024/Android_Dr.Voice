@@ -75,7 +75,7 @@ public class LoginActivity extends AppCompatActivity implements DataChangeListen
 
             @Override
             public void showProgress() {
-               progressDialog.show();
+                progressDialog.show();
             }
 
             @Override
@@ -121,11 +121,14 @@ public class LoginActivity extends AppCompatActivity implements DataChangeListen
         SearchName search = new SearchName(LoginActivity.this, account, new SearchName.onCallBackEvent() {
             @Override
             public void onSearchResult(ArrayList<String> search) {
-                Bundle bundle = new Bundle();
-                bundle.putString(KEY_LOGIN_ACCOUNT, account);
-                bundle.putString(KEY_LOGIN_NAME, search.get(0));
-                ActivityLauncher.go(LoginActivity.this, MainActivity.class, bundle);
-                finish();
+                if (search.size() != 0) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString(KEY_LOGIN_ACCOUNT, account);
+                    bundle.putString(KEY_LOGIN_NAME, search.get(0));
+                    ActivityLauncher.go(LoginActivity.this, MainActivity.class, bundle);
+                    finish();
+                } else
+                    Toast.makeText(LoginActivity.this, "請檢查google Drive 帳號設定", Toast.LENGTH_SHORT).show();
                 progressDialog.dismiss();
             }
 

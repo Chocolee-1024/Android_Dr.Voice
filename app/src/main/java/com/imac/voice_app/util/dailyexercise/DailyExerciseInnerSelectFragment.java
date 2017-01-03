@@ -17,11 +17,11 @@ import com.imac.voice_app.view.dailyexercise.DailySelectInnerExerciseView;
  */
 public class DailyExerciseInnerSelectFragment extends Fragment {
     private DailySelectInnerExerciseView dailySelectInnerExerciseView;
-
+    private int topicIndex;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        int topicIndex = getArguments().getInt(DailySelectExerciseView.KEY_INNER_FRAGMENT_INDEX);
+         topicIndex = getArguments().getInt(DailySelectExerciseView.KEY_INNER_FRAGMENT_INDEX);
         View view = inflater.inflate(R.layout.fragment_select_page_inner, null);
         dailySelectInnerExerciseView = new DailySelectInnerExerciseView(
                 getActivity(),
@@ -29,6 +29,13 @@ public class DailyExerciseInnerSelectFragment extends Fragment {
                 topicIndex
         );
         return view;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+
     }
 
     @Override

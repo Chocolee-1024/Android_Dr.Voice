@@ -93,15 +93,15 @@ public class DailyExerciseFinishView {
     }
 
     private void change() {
-//        LayoutInflater inflater = LayoutInflater.from(activity);
-//        View view = inflater.inflate(R.layout.activity_daily_exercise, null);
-//        FragmentLauncher.changeToBack(
-//                activity,
-//                view.findViewById(R.id.daily_exercise_container).getId(),
-//                null,
-//                new DailyExerciseSelectFragment().getClass().getName()
-//        );
-        activity.onBackPressed();
+        LayoutInflater inflater = LayoutInflater.from(activity);
+        View view = inflater.inflate(R.layout.activity_daily_exercise, null);
+        FragmentLauncher.change(
+                activity,
+                view.findViewById(R.id.daily_exercise_container).getId(),
+                null,
+                new DailyExerciseSelectFragment().getClass().getName()
+        );
+//        activity.onBackPressed();
     }
 
     private void changeComplete() {

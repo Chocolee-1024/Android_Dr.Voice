@@ -11,7 +11,6 @@ import android.widget.RelativeLayout;
 import com.imac.voice_app.R;
 import com.imac.voice_app.component.CustomIndicator;
 import com.imac.voice_app.core.FragmentLauncher;
-import com.imac.voice_app.module.FontManager;
 import com.imac.voice_app.util.dailyexercise.DailyExerciseActivity;
 import com.imac.voice_app.util.dailyexercise.DailyExerciseInnerSelectFragment;
 
@@ -58,11 +57,16 @@ public class DailySelectExerciseView implements ViewPager.OnPageChangeListener {
         fragmentContainer.addOnPageChangeListener(this);
         indicator.setIsFinish(isFinish);
         indicator.setViewPager(fragmentContainer);
-        previousStepButton.setVisibility(View.INVISIBLE);
+        fragmentContainer.setCurrentItem(((DailyExerciseActivity) activity).getWitch());
+        previousStepButton.setVisibility(View.VISIBLE);
+        nextStepButton.setVisibility(View.VISIBLE);
+        if (((DailyExerciseActivity) activity).getWitch() == 0)
+            previousStepButton.setVisibility(View.INVISIBLE);
+        else if (((DailyExerciseActivity) activity).getWitch() == topic.size() - 1)
+            nextStepButton.setVisibility(View.INVISIBLE);
     }
 
     private void setFont() {
-        FontManager.setFont(activity, FontManager.MEDIUM, previousStepButton, nextStepButton, startButton);
     }
 // TODO: 2016/10/24  viewPager 改為可滑動
 //    @OnTouch(R.id.fragment_container)
@@ -82,11 +86,12 @@ public class DailySelectExerciseView implements ViewPager.OnPageChangeListener {
 
     @OnClick(R.id.start_button)
     public void onStartButtonClick() {
+        ((DailyExerciseActivity) activity).setWitch(fragmentContainer.getCurrentItem());
         Bundle bundle = new Bundle();
         bundle.putInt(KEY_INNER_FRAGMENT_INDEX, topic.get(fragmentContainer.getCurrentItem()));
         LayoutInflater inflater = LayoutInflater.from(activity);
         View view = inflater.inflate(R.layout.activity_daily_exercise, null);
-        FragmentLauncher.changeToBack(
+        FragmentLauncher.change(
                 activity,
                 view.findViewById(R.id.daily_exercise_container).getId(),
                 bundle,
@@ -124,10 +129,12 @@ public class DailySelectExerciseView implements ViewPager.OnPageChangeListener {
             previousStepButton.setVisibility(View.VISIBLE);
         }
     }
+
     public void hideCountDown() {
         RelativeLayout counterContainer = (RelativeLayout) activity.findViewById(R.id.counter_container);
         counterContainer.setVisibility(View.INVISIBLE);
     }
+
     @Override
     public void onPageScrollStateChanged(int state) {
 

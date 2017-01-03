@@ -10,7 +10,7 @@
         android:layout_height="0dp"
         app:backButtonVisibility="false"
         app:layout_heightPercent="10%"
-        app:titleText="@string/setting_title" />
+        app:titleText="@string/doctor_setting_title" />
 
     <FrameLayout
         android:id="@+id/container"

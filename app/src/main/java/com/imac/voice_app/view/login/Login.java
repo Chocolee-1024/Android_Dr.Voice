@@ -8,7 +8,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.imac.voice_app.R;
-import com.imac.voice_app.module.FontManager;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,8 +32,6 @@ public class Login {
         setFontType();
     }
     private void setFontType(){
-        FontManager.setFont(activity,FontManager.LIGHT,accountEditText);
-        FontManager.setFont(activity,FontManager.MEDIUM,loginButton);
     }
     @OnClick(R.id.login)
     public void loginClick(View view) {

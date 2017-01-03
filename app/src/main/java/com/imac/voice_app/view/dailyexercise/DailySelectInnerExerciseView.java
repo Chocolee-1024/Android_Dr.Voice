@@ -15,7 +15,6 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.imac.voice_app.R;
 import com.imac.voice_app.core.FragmentLauncher;
 import com.imac.voice_app.module.CountSecond;
-import com.imac.voice_app.module.FontManager;
 import com.imac.voice_app.module.MediaPlayer;
 import com.imac.voice_app.util.dailyexercise.DailyExerciseFinishFragment;
 import com.imac.voice_app.util.dailyexercise.DailyExerciseSelectFragment;
@@ -60,6 +59,7 @@ public class DailySelectInnerExerciseView {
     private boolean isFiveSecCountDown = true;
     private static final int COUNT_TIME = 120;
     private RelativeLayout counterContainer;
+    private TurnDataThread textRunnable;
 
     public DailySelectInnerExerciseView(Activity activity, View view, int index) {
         this.activity = activity;
@@ -74,51 +74,49 @@ public class DailySelectInnerExerciseView {
     }
 
     private void init() {
-
         if (index == 0) {
+            dailyExerciseSelectedDescription.setVisibility(View.VISIBLE);
+            player = new MediaPlayer(activity, R.raw.practice_4);
+        } else if (index == 1) {
             Glide.with(activity)
                     .load(R.drawable.breathing)
                     .asGif()
                     .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                     .into(dailyExerciseSelectedImage);
             player = new MediaPlayer(activity, R.raw.practice_1);
-        } else if (index == 1) {
+        } else if (index == 2) {
             Glide.with(activity)
                     .load(R.drawable.sing_in_water)
                     .asGif()
                     .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                     .into(dailyExerciseSelectedImage);
             player = new MediaPlayer(activity, R.raw.practice_2);
-        } else if (index == 2) {
+
+        } else if (index == 3) {
             Glide.with(activity)
                     .load(R.drawable.musicnotes)
                     .asGif()
                     .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                     .into(dailyExerciseSelectedImage);
             player = new MediaPlayer(activity, R.raw.practice_3);
-        } else if (index == 3) {
-            dailyExerciseSelectedDescription.setVisibility(View.VISIBLE);
-            pictureTurnPlay();
-            player = new MediaPlayer(activity, R.raw.practice_4);
         } else if (index == 4) {
             dailyExerciseSelectedImage.setVisibility(View.VISIBLE);
             player = new MediaPlayer(activity, R.raw.practice_5);
-            textTurnPlay(index);
         } else {
             dailyExerciseSelectedImage.setVisibility(View.VISIBLE);
-            textTurnPlay(index);
             player = new MediaPlayer(activity, R.raw.practice_6);
         }
         setFont();
     }
 
     private void setFont() {
-        //TODO  字體大小影響到版面
-//        FontManager.setFont(activity, FontManager.MEDIUM, dailyExerciseSelectedTime);
-        FontManager.setFont(activity, FontManager.REGULAR, dailyExerciseSelectedDescription);
     }
 
     public void startCount() {
+        if (index == 0) pictureTurnPlay();
+        else if (index == 4) textTurnPlay(index);
+        else if (index == 5) textTurnPlay(index);
+
         countSecond.startCountWithCountDown(DailySelectInnerExerciseView.COUNT_TIME);
     }
 
@@ -132,12 +130,12 @@ public class DailySelectInnerExerciseView {
     }
 
     private void textTurnPlay(int index) {
-        TurnDataThread pictureRunnable = new TurnDataThread(
+        textRunnable = new TurnDataThread(
                 activity
-                , 10
+                , 12
         );
-        pictureRunnable.setDataChangeEvent(onTextChange(index));
-        pictureRunnable.start();
+        textRunnable.setDataChangeEvent(onTextChange(index));
+        textRunnable.start();
     }
 
     private TurnDataThread.DataChangeEvent onTextChange(final int index) {
@@ -169,7 +167,7 @@ public class DailySelectInnerExerciseView {
     public void onCloseClick() {
         player.stopPlay();
         countSecond.stopCount();
-        activity.onBackPressed();
+        change();
     }
 
     private String SecToMin(int inputSec) {

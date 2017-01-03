@@ -5,6 +5,7 @@ import android.app.Activity;
 import com.imac.voice_app.R;
 import com.imac.voice_app.component.Histogram;
 import com.imac.voice_app.module.DataAppend;
+import com.imac.voice_app.module.Preferences;
 import com.imac.voice_app.module.database.SqliteManager;
 import com.imac.voice_app.view.history.base.BasePagerAdapter;
 
@@ -31,12 +32,14 @@ public class VoicePagerAdapter extends BasePagerAdapter {
     private SimpleDateFormat dayFormat;
     private SimpleDateFormat monthFormat;
     private int pointAddResult = 0;
+    private Preferences preferences;
 
     public VoicePagerAdapter(Activity activity, String[] month, SqliteManager.DataStructure[] dataStructures) {
         super(activity, month, dataStructures);
         this.activity = activity;
         this.dataStructures = dataStructures;
         this.month = month;
+        preferences = new Preferences(activity);
         dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.getDefault());
         dayFormat = new SimpleDateFormat("MM/dd", Locale.getDefault());
         monthFormat = new SimpleDateFormat("MM/yyyy", Locale.getDefault());
@@ -61,7 +64,7 @@ public class VoicePagerAdapter extends BasePagerAdapter {
             monthCal.setTime(monthDate);
             int subYear = dayCal.get(Calendar.YEAR) - monthCal.get(Calendar.YEAR);
             if (subYear == 0) {
-                if (dayCal.get(Calendar.MONTH) == monthCal.get(Calendar.MONTH)) {
+                if (dayCal.get(Calendar.MONTH) == monthCal.get(Calendar.MONTH) && dataStructures[index].getAccount().equals(preferences.getAccounnt())) {
                     content.add(dayFormat.format(dayDate));
                 }
             }
@@ -92,10 +95,10 @@ public class VoicePagerAdapter extends BasePagerAdapter {
             monthCal.setTime(monthDate);
             int subYear = dayCal.get(Calendar.YEAR) - monthCal.get(Calendar.YEAR);
             if (subYear == 0) {
-                if (dayCal.get(Calendar.MONTH) == monthCal.get(Calendar.MONTH)) {
+                if (dayCal.get(Calendar.MONTH) == monthCal.get(Calendar.MONTH) && dataStructures[index].getAccount().equals(preferences.getAccounnt())) {
                     DataAppend dataAppend = new DataAppend();
                     ArrayList<String> weeklyArray = dataAppend.formatString(dataStructures[index].getSoundTopicPoint());
-                    pointAddResult=0;
+                    pointAddResult = 0;
                     for (int i = 0; i < weeklyArray.size(); i++) {
                         pointAddResult += Integer.valueOf(weeklyArray.get(i));
                     }
@@ -108,7 +111,7 @@ public class VoicePagerAdapter extends BasePagerAdapter {
         totalScoreResult = new String[content.size()];
         for (int i = 0; i < content.size(); i++) {
             result[i] = content.get(i);
-            totalScoreResult[i]=String.valueOf(pointAddContent.get(i));
+            totalScoreResult[i] = String.valueOf(pointAddContent.get(i));
         }
         PointStruction struction = new PointStruction();
         struction.setPointPercent(result);

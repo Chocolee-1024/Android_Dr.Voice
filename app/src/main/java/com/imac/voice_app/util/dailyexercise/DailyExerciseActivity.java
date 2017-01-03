@@ -25,6 +25,7 @@ public class DailyExerciseActivity extends Activity {
     boolean[] isFinish;
     private DailyExercise dailyExerciseView;
     RelativeLayout counterContainer;
+    int witch = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,16 +61,24 @@ public class DailyExerciseActivity extends Activity {
     public boolean[] isFinish() {
         return isFinish;
     }
-//
-//    @Override
-//    public void onBackPressed() {
-//        FragmentManager fragmentManager = getFragmentManager();
-//        Fragment fragment = fragmentManager.findFragmentById(R.id.daily_exercise_container);
-//        if (fragment instanceof DailyExerciseSelectFragment) {
-//            super.onBackPressed();
-//        } else {
-//            dailyExerciseView.hideCounter();
-//            dailyExerciseView.changeSelectFragment();
-//        }
-//    }
+
+    public void setWitch(int witch) {
+        this.witch = witch;
+    }
+
+    public int getWitch() {
+        return witch;
+    }
+
+    @Override
+    public void onBackPressed() {
+        FragmentManager fragmentManager = getFragmentManager();
+        Fragment fragment = fragmentManager.findFragmentById(R.id.daily_exercise_container);
+        if (fragment instanceof DailyExerciseSelectFragment) {
+            super.onBackPressed();
+        } else {
+            dailyExerciseView.hideCounter();
+            dailyExerciseView.changeSelectFragment();
+        }
+    }
 }

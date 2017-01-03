@@ -43,10 +43,10 @@
     <!--每日練習-->
     <string name="daily_exercise_toolbar_title">每日練習</string>
     <string-array name="daily_exercise_title_item">
+        <item>放鬆運動練習</item>
         <item>腹式呼吸練習</item>
         <item>吹水發聲練習</item>
         <item>高低音吟唱練習</item>
-        <item>放鬆運動練習</item>
         <item>前置共鳴練習</item>
         <item>軟起音練習</item>
     </string-array>
@@ -210,4 +210,24 @@
 
     <string name="history_detail_good_text">接\n近\n完\n美</string>
     <string name="history_detail_bad_text">有待加強</string>
+
+    <string name="fragment_doctor_daily_settting_one">放鬆</string>
+    <string name="fragment_doctor_daily_settting_two">呼吸</string>
+    <string name="fragment_doctor_daily_settting_three">吹水</string>
+    <string name="fragment_doctor_daily_settting_four">高音</string>
+    <string name="fragment_doctor_daily_settting_five">共鳴</string>
+    <string name="fragment_doctor_daily_settting_six">軟起</string>
+    <string name="fragment_doctor_daily_settting_save">SAVE</string>
+
+    <string name="fragment_self_setting_settting_one">不當行為</string>
+    <string name="fragment_self_setting_settting_two">說話量</string>
+    <string name="fragment_self_setting_settting_three">清喉嚨</string>
+    <string name="fragment_self_setting_settting_four">喝茶/咖啡</string>
+    <string name="fragment_self_setting_settting_five">抽煙</string>
+    <string name="fragment_self_setting_settting_six">喝水</string>
+    <string name="fragment_self_setting_settting_seven">練習</string>
+    <string name="fragment_self_setting_settting_save">SAVE</string>
+
+    <string name="doctor_setting_title">醫師設定</string>
+
 </resources>

@@ -41,7 +41,7 @@ public class InputPasswordFragment extends Fragment {
     private InputPasswordView.CallbackEvent callbackEvent = new InputPasswordView.CallbackEvent() {
         @Override
         public void onSubmitClick() {
-            FragmentLauncher.changeToBack(getActivity(),R.id.container, null, DoctorSettingMenuFragment.class.getName());
+            FragmentLauncher.change(getActivity(),R.id.container, null, DoctorSettingMenuFragment.class.getName());
         }
 
         @Override
