@@ -21,6 +21,8 @@ public class DoctorSettingMenuView {
     Button selfButton;
     @BindView(R.id.speed_button)
     Button speedButton;
+    @BindView(R.id.daily_time_button)
+    Button dailyTimeButton;
 
     private Activity mActivity;
     private CallbackEvent callbackEvent;
@@ -43,14 +45,22 @@ public class DoctorSettingMenuView {
     }
 
     @OnClick(R.id.speed_button)
-    public void onSpeedButton(){
+    public void onSpeedButton() {
         if (null != callbackEvent)
             callbackEvent.onSpeedClick();
+    }
+
+
+    @OnClick(R.id.daily_time_button)
+    public void onDailyTimeButtonClick() {
+        if (null != callbackEvent)
+            callbackEvent.onDailyTimeClick();
     }
 
     public void setCallbackEvent(CallbackEvent callbackEvent) {
         this.callbackEvent = callbackEvent;
     }
+
 
 
     public interface CallbackEvent {
@@ -59,5 +69,7 @@ public class DoctorSettingMenuView {
         void onSelfClick();
 
         void onSpeedClick();
+
+        void onDailyTimeClick();
     }
 }

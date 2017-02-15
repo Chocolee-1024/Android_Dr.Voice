@@ -20,12 +20,12 @@ import butterknife.ButterKnife;
  */
 public class DailyExerciseActivity extends Activity {
 
-    ArrayList<Integer> topic = new ArrayList<>();
-    ArrayList<String> topicList = new ArrayList<>();
-    boolean[] isFinish;
+    private ArrayList<Integer> topic = new ArrayList<>();
+    private ArrayList<String> topicList = new ArrayList<>();
+    private boolean[] isFinish;
     private DailyExercise dailyExerciseView;
-    RelativeLayout counterContainer;
-    int witch = 0;
+    private RelativeLayout counterContainer;
+    private int witch = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +41,8 @@ public class DailyExerciseActivity extends Activity {
         dailyExerciseView.changeSelectFragment();
         counterContainer = (RelativeLayout) findViewById(R.id.counter_container);
         for (int i = 0; i < topicList.size(); i++) {
-            topic.add(Integer.valueOf(topicList.get(i)));
+            int topicValue = Integer.valueOf(topicList.get(i));
+            topic.add(topicValue);
         }
         isFinish = new boolean[topic.size()];
     }

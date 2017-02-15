@@ -12,10 +12,14 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.gif.GifDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.imac.voice_app.R;
 import com.imac.voice_app.core.FragmentLauncher;
 import com.imac.voice_app.module.CountSecond;
 import com.imac.voice_app.module.MediaPlayer;
+import com.imac.voice_app.module.Preferences;
 import com.imac.voice_app.util.dailyexercise.DailyExerciseFinishFragment;
 import com.imac.voice_app.util.dailyexercise.DailyExerciseSelectFragment;
 
@@ -57,9 +61,11 @@ public class DailySelectInnerExerciseView {
     private TurnDataThread pictureRunnable;
     public static final String KEY_TOPIC_INDEX = "key_topic_index";
     private boolean isFiveSecCountDown = true;
-    private static final int COUNT_TIME = 120;
+    private int mCountTime = 60;
     private RelativeLayout counterContainer;
     private TurnDataThread textRunnable;
+    private Preferences mPreferences;
+    private GifDrawable mGifDrawable;
 
     public DailySelectInnerExerciseView(Activity activity, View view, int index) {
         this.activity = activity;
@@ -67,6 +73,7 @@ public class DailySelectInnerExerciseView {
         handler = new Handler();
         countSecond = new CountSecond(countEvent());
         countFiveSecond = new CountSecond(countFiveSecondCallBack());
+        mPreferences = new Preferences(activity);
         counterContainer = (RelativeLayout) activity.findViewById(R.id.counter_container);
         ButterKnife.bind(this, view);
         init();
@@ -75,34 +82,42 @@ public class DailySelectInnerExerciseView {
 
     private void init() {
         if (index == 0) {
+            mCountTime *= positionToTime(mPreferences.getTopicOnePosition());
             dailyExerciseSelectedDescription.setVisibility(View.VISIBLE);
             player = new MediaPlayer(activity, R.raw.practice_4);
         } else if (index == 1) {
+            mCountTime *= mPreferences.getTopicTwoPosition();
             Glide.with(activity)
                     .load(R.drawable.breathing)
                     .asGif()
                     .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .listener(mGifDrawableRequestListener)
                     .into(dailyExerciseSelectedImage);
             player = new MediaPlayer(activity, R.raw.practice_1);
         } else if (index == 2) {
+            mCountTime *= positionToTime(mPreferences.getTopicThreePosition());
             Glide.with(activity)
                     .load(R.drawable.sing_in_water)
                     .asGif()
                     .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .listener(mGifDrawableRequestListener)
                     .into(dailyExerciseSelectedImage);
             player = new MediaPlayer(activity, R.raw.practice_2);
-
         } else if (index == 3) {
+            mCountTime *= positionToTime(mPreferences.getTopicFourPosition());
             Glide.with(activity)
                     .load(R.drawable.musicnotes)
                     .asGif()
                     .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .listener(mGifDrawableRequestListener)
                     .into(dailyExerciseSelectedImage);
             player = new MediaPlayer(activity, R.raw.practice_3);
         } else if (index == 4) {
+            mCountTime *= positionToTime(mPreferences.getTopicFivePosition());
             dailyExerciseSelectedImage.setVisibility(View.VISIBLE);
             player = new MediaPlayer(activity, R.raw.practice_5);
         } else {
+            mCountTime *= positionToTime(mPreferences.getTopicSixPosition());
             dailyExerciseSelectedImage.setVisibility(View.VISIBLE);
             player = new MediaPlayer(activity, R.raw.practice_6);
         }
@@ -112,12 +127,38 @@ public class DailySelectInnerExerciseView {
     private void setFont() {
     }
 
+    private int positionToTime(int time) {
+        switch (time) {
+            case 1:
+                return 1;
+            case 2:
+                return 3;
+            case 3:
+                return 5;
+            default:
+                return 1;
+        }
+    }
+
+    private RequestListener<Integer, GifDrawable> mGifDrawableRequestListener = new RequestListener<Integer, GifDrawable>() {
+        @Override
+        public boolean onException(Exception e, Integer model, Target<GifDrawable> target, boolean isFirstResource) {
+            return false;
+        }
+
+        @Override
+        public boolean onResourceReady(GifDrawable resource, Integer model, Target<GifDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+            mGifDrawable = resource;
+            return false;
+        }
+    };
+
     public void startCount() {
         if (index == 0) pictureTurnPlay();
         else if (index == 4) textTurnPlay(index);
         else if (index == 5) textTurnPlay(index);
 
-        countSecond.startCountWithCountDown(DailySelectInnerExerciseView.COUNT_TIME);
+        countSecond.startCountWithCountDown(mCountTime);
     }
 
     private void pictureTurnPlay() {
@@ -157,8 +198,13 @@ public class DailySelectInnerExerciseView {
 
     @OnClick(R.id.daily_exercise_selected_stop_button)
     public void onStopClick() {
+        if (index == 0) pictureRunnable.pause();
+        else if (index == 4) textRunnable.pause();
+        else if (index == 5) textRunnable.pause();
         player.pausePlay();
         countSecond.pauseCount();
+        if (null != mGifDrawable)
+            mGifDrawable.stop();
         dailyExerciseSelectedPlayButton.setVisibility(View.VISIBLE);
         dailyExerciseSelectedStopButton.setVisibility(View.INVISIBLE);
     }
@@ -182,8 +228,13 @@ public class DailySelectInnerExerciseView {
 
     @OnClick(R.id.daily_exercise_selected_play_button)
     public void onPlayClick() {
+        if (index == 0) pictureRunnable.restart();
+        else if (index == 4) textRunnable.restart();
+        else if (index == 5) textRunnable.restart();
         player.startPlay();
         countSecond.continueCount();
+        if (null != mGifDrawable)
+            mGifDrawable.start();
         dailyExerciseSelectedPlayButton.setVisibility(View.INVISIBLE);
         dailyExerciseSelectedStopButton.setVisibility(View.VISIBLE);
     }

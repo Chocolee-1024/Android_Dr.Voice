@@ -86,7 +86,7 @@ public class MainMenu {
         }
     }
 
-    public void speedtEnabler() {
+    public void speedEnabler() {
         if (preferences.getSpeedDoctorSetting()) {
             speakSpeedContainer.setClickable(false);
             speakSpeedText.setTextColor(Color.GRAY);
