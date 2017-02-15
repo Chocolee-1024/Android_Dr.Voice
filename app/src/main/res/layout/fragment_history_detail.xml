@@ -32,7 +32,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:scaleType="centerInside"
-        android:src="@drawable/good_chart_icon"
+        android:src="@drawable/bad_chart_icon"
         app:layout_heightPercent="5%"
         app:layout_marginTopPercent="5%"
         app:layout_widthPercent="10%" />
@@ -43,7 +43,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/history_detail_good_icon"
         android:gravity="center_horizontal"
-        android:text="@string/history_detail_good_text"
+        android:text="@string/history_detail_bad_text"
         android:textColor="@color/history_text"
         android:textSize="@dimen/history_detail_icon_text"
         app:layout_widthPercent="10%" />

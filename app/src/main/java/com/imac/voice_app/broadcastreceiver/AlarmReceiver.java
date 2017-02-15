@@ -7,21 +7,24 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.imac.voice_app.R;
 import com.imac.voice_app.module.AlarmConstantManager;
 import com.imac.voice_app.util.homepage.HomePageActivity;
-import com.imac.voice_app.util.setting.SettingActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
-import java.util.logging.SimpleFormatter;
 
 public class AlarmReceiver extends BroadcastReceiver {
+    private String TAG = AlarmReceiver.class.getName();
+
+    // TODO: 2017/2/13    intent 收不到資料
     @Override
     public void onReceive(Context context, Intent intent) {
         String mode = intent.getStringExtra(AlarmConstantManager.INTENT_MODE);
+        int weekOfDay = intent.getIntExtra("AAA", 0);
         Intent gotoMainActivity = new Intent(context, HomePageActivity.class);
         Bundle whichMde = new Bundle();
         gotoMainActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -31,13 +34,15 @@ public class AlarmReceiver extends BroadcastReceiver {
         NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         Notification.Builder builder = new Notification.Builder(context);
         if (mode.equals(AlarmConstantManager.MODE_WEEK)) {
-            builder.setSmallIcon(R.mipmap.ic_launcher)
-                    .setContentTitle("Voice 嗓音自我照護")
-                    .setContentText(context.getResources().getString(R.string.setting_weekly_notice))
-                    .setAutoCancel(true)
-                    .setContentIntent(pendingIntent);
-            Notification notification = builder.build();
-            manager.notify(AlarmConstantManager.ID_WEEKLY_ALARM, notification);
+            if (isWeeklyDay(weekOfDay)) {
+                builder.setSmallIcon(R.mipmap.ic_launcher)
+                        .setContentTitle("Voice 嗓音自我照護")
+                        .setContentText(context.getResources().getString(R.string.setting_weekly_notice))
+                        .setAutoCancel(true)
+                        .setContentIntent(pendingIntent);
+                Notification notification = builder.build();
+                manager.notify(AlarmConstantManager.ID_WEEKLY_ALARM, notification);
+            }
         } else if (mode.equals(AlarmConstantManager.MODE_DAILY)) {
             builder.setSmallIcon(R.mipmap.ic_launcher)
                     .setContentTitle("Voice 嗓音自我照護")
@@ -46,26 +51,30 @@ public class AlarmReceiver extends BroadcastReceiver {
                     .setContentIntent(pendingIntent);
             Notification notification = builder.build();
             manager.notify(AlarmConstantManager.ID_DAILY_ALARM, notification);
-        } else if (mode.equals(AlarmConstantManager.MODE_BACK)) {
-            long milliSecond = intent.getLongExtra(AlarmConstantManager.KEY_BACK_DATA, 0);
-            String content = milliSecondFormat(milliSecond);
+        } else if (mode.equals(AlarmConstantManager.MODE_DAILY_ONE)) {
             builder.setSmallIcon(R.mipmap.ic_launcher)
                     .setContentTitle("Voice 嗓音自我照護")
-                    .setContentText("回診時間提醒" + content)
+                    .setContentText("1")
                     .setAutoCancel(true)
                     .setContentIntent(pendingIntent);
             Notification notification = builder.build();
-            manager.notify(AlarmConstantManager.ID_BACK, notification);
-        } else if (mode.equals(AlarmConstantManager.MODE_TREATMENT)) {
-            long milliSecond = intent.getLongExtra(AlarmConstantManager.KEY_TREATMENT_DATA, 0);
-            String content = milliSecondFormat(milliSecond);
+            manager.notify(AlarmConstantManager.ID_DAILY_ONE, notification);
+        } else if (mode.equals(AlarmConstantManager.MODE_DAILY_TWO)) {
             builder.setSmallIcon(R.mipmap.ic_launcher)
                     .setContentTitle("Voice 嗓音自我照護")
-                    .setContentText("嗓音治療時間提醒" + content)
+                    .setContentText("2")
                     .setAutoCancel(true)
                     .setContentIntent(pendingIntent);
             Notification notification = builder.build();
-            manager.notify(AlarmConstantManager.ID_TREATMENT, notification);
+            manager.notify(AlarmConstantManager.ID_DAILY_TWO, notification);
+        } else if (mode.equals(AlarmConstantManager.MODE_DAILY_THREE)) {
+            builder.setSmallIcon(R.mipmap.ic_launcher)
+                    .setContentTitle("Voice 嗓音自我照護")
+                    .setContentText("3")
+                    .setAutoCancel(true)
+                    .setContentIntent(pendingIntent);
+            Notification notification = builder.build();
+            manager.notify(AlarmConstantManager.ID_DAILY_THREE, notification);
         }
     }
 
@@ -75,5 +84,13 @@ public class AlarmReceiver extends BroadcastReceiver {
         calendar.setTimeInMillis(milliSecond);
         calendar.add(Calendar.DAY_OF_MONTH, 1);
         return format.format(calendar.getTime());
+    }
+
+    private boolean isWeeklyDay(int dayOnWeek) {
+        Calendar calendar = Calendar.getInstance();
+        int week = calendar.get(Calendar.DAY_OF_WEEK) - 1;
+        Log.d(TAG, "week: " + week);
+        Log.d(TAG, "input: " + dayOnWeek);
+        return dayOnWeek == week;
     }
 }

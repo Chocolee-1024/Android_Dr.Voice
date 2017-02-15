@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">VoiceApp</string>
+    <string name="app_name">Dr. Voice</string>
     <string name="key">863357276335-39chaeo82dlo51ficad9fhko2smsumi5.apps.googleusercontent.com</string>
     <!--home page-->
     <string name="home_page_title">嗓音自我照護\n(練習版)</string>
@@ -112,6 +112,7 @@
     <string name="setting_number">號</string>
     <string name="setting_back_to_the_clinic_time">回診時間</string>
     <string name="setting_treatment_time">嗓音治療時間</string>
+    <string name="setting_time">亞東嗓音回診</string>
     <string name="setting_none_value">無</string>
     <!--每週評量-->
     <string name="weekly_assessment_toolbar_title">每週評量</string>
@@ -123,7 +124,7 @@
         <item>一天的說話量</item>
         <item>清喉嚨的次數</item>
         <item>喝濃茶/咖啡的行為\n(平均每天)</item>
-        <item>抽煙的行為\n(平均每天)</item>
+        <item>抽菸的行為\n(平均每天)</item>
         <item>喝水的頻率\n(平均每天)</item>
         <item>嗓音練習次數</item>
     </string-array>
@@ -155,7 +156,7 @@
         <item>1包或更多</item>
         <item>半包左右</item>
         <item>1~5根</item>
-        <item>幾乎沒有</item>
+        <item>沒有</item>
     </string-array>
     <string-array name="weekly_assessment_sound_topic_option_6">
         <item>整天只喝一兩次或更少</item>
@@ -209,7 +210,7 @@
     <string name="history_exercise_history">自"  "我\n評"  "估</string>
 
     <string name="history_detail_good_text">接\n近\n完\n美</string>
-    <string name="history_detail_bad_text">有待加強</string>
+    <string name="history_detail_bad_text">有\n待\n加\n強</string>
 
     <string name="fragment_doctor_daily_settting_one">放鬆</string>
     <string name="fragment_doctor_daily_settting_two">呼吸</string>
@@ -217,7 +218,7 @@
     <string name="fragment_doctor_daily_settting_four">高音</string>
     <string name="fragment_doctor_daily_settting_five">共鳴</string>
     <string name="fragment_doctor_daily_settting_six">軟起</string>
-    <string name="fragment_doctor_daily_settting_save">SAVE</string>
+    <string name="fragment_doctor_daily_settting_save">儲存</string>
 
     <string name="fragment_self_setting_settting_one">不當行為</string>
     <string name="fragment_self_setting_settting_two">說話量</string>
@@ -226,7 +227,7 @@
     <string name="fragment_self_setting_settting_five">抽煙</string>
     <string name="fragment_self_setting_settting_six">喝水</string>
     <string name="fragment_self_setting_settting_seven">練習</string>
-    <string name="fragment_self_setting_settting_save">SAVE</string>
+    <string name="fragment_self_setting_settting_save">儲存</string>
 
     <string name="doctor_setting_title">醫師設定</string>
 

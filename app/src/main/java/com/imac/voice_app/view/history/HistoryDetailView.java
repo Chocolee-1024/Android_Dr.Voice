@@ -24,7 +24,6 @@ import butterknife.ButterKnife;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 import butterknife.OnItemSelected;
-import butterknife.OnTouch;
 
 /**
  * Created by isa on 2016/10/24.
@@ -156,8 +155,8 @@ public class HistoryDetailView implements ViewPager.OnPageChangeListener {
 //        voicePagerAdapter.notifyDataSetChanged();
 //    }
 
-    @OnTouch(R.id.history_detail_chart)
-    public boolean viewPagerOnTouch() {
-        return true;
-    }
+//    @OnTouch(R.id.history_detail_chart)
+//    public boolean viewPagerOnTouch() {
+//        return true;
+//    }
 }

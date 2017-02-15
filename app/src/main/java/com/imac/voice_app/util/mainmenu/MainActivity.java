@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private Preferences preferences;
     private DataAppend dataAppend;
+    private ArrayList<Integer> mPreferenceGroup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +54,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        mainMenu.speedtEnabler();
+        mainMenu.speedEnabler();
+        addPreferenceValue();
         //TODO 暫時關閉 weekly dismiss 功能
 //        mainMenu.weeklyAssessmentEnabler();
         show();
@@ -65,11 +67,23 @@ public class MainActivity extends AppCompatActivity {
         loginName = bundle.getString(LoginActivity.KEY_LOGIN_NAME);
     }
 
+    private void addPreferenceValue() {
+        mPreferenceGroup = new ArrayList<>(6);
+        mPreferenceGroup.add(preferences.getTopicOnePosition());
+        mPreferenceGroup.add(preferences.getTopicTwoPosition());
+        mPreferenceGroup.add(preferences.getTopicThreePosition());
+        mPreferenceGroup.add(preferences.getTopicFourPosition());
+        mPreferenceGroup.add(preferences.getTopicFivePosition());
+        mPreferenceGroup.add(preferences.getTopicSixPosition());
+
+
+    }
+
     private MenuClickListener onMenuClick() {
         return new MenuClickListener() {
             @Override
             public void onDailyExerciseClick() {
-                if ("".equals(preferences.getDailyDoctorSetting()))
+                if ("".equals(preferences.getDailyDoctorSetting()) || 0 == setDailyTopic().size())
                     Toast.makeText(MainActivity.this, "請設定每日練習題目", Toast.LENGTH_SHORT).show();
                 else {
                     Bundle bundle = new Bundle();
@@ -121,8 +135,9 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<String> setDailyTopic() {
         ArrayList<Boolean> status = dataAppend.formatBoolean(preferences.getDailyDoctorSetting());
         ArrayList<String> result = new ArrayList<>(6);
+
         for (int i = 0; i < status.size(); i++)
-            if (status.get(i)) result.add(String.valueOf(i));
+            if (status.get(i) && !mPreferenceGroup.get(i).equals(0)) result.add(String.valueOf(i));
         return result;
     }
 

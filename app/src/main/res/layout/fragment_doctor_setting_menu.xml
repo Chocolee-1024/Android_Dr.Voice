@@ -42,4 +42,18 @@
         android:gravity="center"
         android:textSize="30sp"
         android:text="語速監控" />
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/black" />
+
+    <Button
+            android:id="@+id/daily_time_button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/transparent"
+            android:gravity="center"
+            android:textSize="30sp"
+            android:text="每日練習設定" />
 </LinearLayout>

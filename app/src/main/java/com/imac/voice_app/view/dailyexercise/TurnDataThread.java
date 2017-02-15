@@ -6,24 +6,35 @@ import android.os.Handler;
 /**
  * Created by isa on 2016/9/26.
  */
-public class TurnDataThread implements Runnable {
-    private Handler handler;
+public class TurnDataThread extends Thread {
     private Activity activity;
     private int witchPictureIndex = 0;
     private DataChangeEvent event;
     private int recycle;
-    public TurnDataThread(Activity activity,int recycle) {
+    private boolean isPause = false;
+    private boolean isFinish = false;
+    private int countScend = 0;
+    private Object mObject;
+    private Handler mHandler;
+
+    public TurnDataThread(Activity activity, int recycle) {
         this.activity = activity;
-        handler = new Handler();
-        this.recycle=recycle;
+        this.recycle = recycle;
+        mObject = new Object();
+        mHandler = new Handler();
     }
 
     @Override
     public void run() {
-        witchPictureIndex = witchPictureIndex % recycle;
-        event.onDataChangeEvent(witchPictureIndex);
-        witchPictureIndex++;
-        handler.postDelayed(this, 1000*10);
+        if (!isPause) {
+            witchPictureIndex = witchPictureIndex % recycle;
+            if (countScend % 10 == 0) {
+                event.onDataChangeEvent(witchPictureIndex);
+                witchPictureIndex++;
+            }
+            countScend++;
+            mHandler.postDelayed(this, 1000);
+        }
     }
 
     public interface DataChangeEvent {
@@ -34,7 +45,17 @@ public class TurnDataThread implements Runnable {
         this.event = event;
     }
 
-    public void start() {
-        run();
+    public void pause() {
+        isPause = true;
+        mHandler.removeCallbacks(this);
+    }
+
+    public void restart() {
+        isPause = false;
+        mHandler.postDelayed(this, 1000);
+    }
+
+    public void finish() {
+        isFinish = true;
     }
 }
