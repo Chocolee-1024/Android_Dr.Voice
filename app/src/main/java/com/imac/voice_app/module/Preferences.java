@@ -51,6 +51,7 @@ public class Preferences extends PreferencesHelper {
     private final String KEY_DOCTOR_DAILY_SETTING = "key_doctor_daily_setting";
     private final String KEY_DOCTOR_WEEKLY_SETTING = "key_doctor_weekly_setting";
     private final String KEY_DOCTOR_SPEED_SETTING = "key_doctor_speed_setting";
+    private final String KEY_NUMBER = "KEY_NUMBER";
 
     public static final String SP_BACK_TIME = "sp_back_time";
     public static final String SP_TREATMENT_TIME = "sp_treatment_time";
@@ -183,6 +184,10 @@ public class Preferences extends PreferencesHelper {
 
     public void saveTopicSixPosition(int position) {
         save(Type.INT, SP_DAILY_TOPIC_SIX_POSITION, position);
+    }
+
+    public void saveBackNumber(String position) {
+        save(Type.STRING, KEY_NUMBER, position);
     }
 
     public String getAccounnt() {
@@ -327,6 +332,10 @@ public class Preferences extends PreferencesHelper {
 
     public int getTopicSixPosition() {
         return (int) get(SP_DAILY_TOPIC_SIX_POSITION, Type.INT);
+    }
+
+    public String getBackNumber() {
+        return (String) get(KEY_NUMBER, Type.STRING);
     }
 
     public void clearAll() {

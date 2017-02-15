@@ -187,14 +187,14 @@ public class SettingActivity extends Activity {
 
                 if (isBackTime.equals(Preferences.SP_TREATMENT_TIME)) {
                     new TimePickerDialog(SettingActivity.this
-                            , onTimeSetListener(treatmentText)
+                            , onTimeSetListener(treatmentText, year, month, dayOfMonth)
                             , calendar.get(Calendar.HOUR)
                             , calendar.get(Calendar.MINUTE)
                             , true
                     ).show();
                 } else if (isBackTime.equals(Preferences.SP_BACK_TIME)) {
                     calIntent.setTitle(getString(R.string.setting_time));
-                    mPreferences.saveTreatmentTime(calendar.getTimeInMillis());
+                    mPreferences.saveBackTime(calendar.getTimeInMillis());
                     calIntent.setAllDay(true);
                     calIntent.setBeginTimeInMillis(calendar.getTimeInMillis());
                     calIntent.setEndTimeInMillis(calendar.getTimeInMillis());
@@ -205,12 +205,20 @@ public class SettingActivity extends Activity {
         };
     }
 
-    private TimePickerDialog.OnTimeSetListener onTimeSetListener(final TextView treatmentText) {
+    private TimePickerDialog.OnTimeSetListener onTimeSetListener(final TextView treatmentText, final int year, final int month, final int dayOfMonth) {
         return new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                if (null != treatmentText)
-                    treatmentText.setText(hourOfDay + ":" + minute);
+                if (null != treatmentText) {
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.set(Calendar.YEAR, year);
+                    calendar.set(Calendar.MONTH, month);
+                    calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                    calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                    calendar.set(Calendar.MINUTE, minute);
+                    mPreferences.saveTreatmentTime(calendar.getTimeInMillis());
+                    treatmentText.setText(hourOfDay + ":" + (minute > 9 ? minute : "0" + minute));
+                }
             }
         };
     }
@@ -343,6 +351,11 @@ public class SettingActivity extends Activity {
             @Override
             public void onDailyThreeClick(int id) {
                 setTime(id);
+            }
+
+            @Override
+            public void onNumTextChange(String text) {
+                mPreferences.saveBackNumber(text);
             }
         };
     }
