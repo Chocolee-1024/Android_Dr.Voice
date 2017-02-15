@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -22,6 +23,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
+import butterknife.OnTextChanged;
+
+import static com.imac.voice_app.R.id.back_to_the_clinic_time_number;
 
 /**
  * Setting Page View Created by flowmaHuang on 2016/9/21.
@@ -61,8 +65,8 @@ public class SettingView {
     TextView backToTheClinicTimeWeek;
     @BindView(R.id.back_to_the_clinic_time_time)
     TextView backToTheClinicTimeTime;
-    @BindView(R.id.back_to_the_clinic_time_number)
-    TextView backToTheClinicTimeNumber;
+    @BindView(back_to_the_clinic_time_number)
+    EditText backToTheClinicTimeNumber;
     @BindView(R.id.treatment_year)
     TextView treatmentYear;
     @BindView(R.id.treatment_month)
@@ -138,6 +142,8 @@ public class SettingView {
         void onDailyTwoClick(int id);
 
         void onDailyThreeClick(int id);
+
+        void onNumTextChange(String text);
     }
 
     private settingRepeatCallBack callBack = null;
@@ -176,6 +182,8 @@ public class SettingView {
         setRepeatTextViewAlpha(mWeeklyRepeatTextView, initSetting.getWeeklyRepeat());
         mWeeklyRepeatSwitch.setChecked(initSetting.getWeeklyRepeat());
         mWeeklyWeekTextView.setText(mWeekDayTextArray[initSetting.getWeeklyDay()]);
+        backToTheClinicTimeNumber.setText(initSetting.getBackNumber());
+
     }
 
     private void setTextContent(TextView textView, String str, String str2) {
@@ -208,11 +216,14 @@ public class SettingView {
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
         int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+        int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
         String week = weekFormat.format(calendar.getTime());
         treatmentYear.setText(String.valueOf(year - 1911));
         treatmentMonth.setText(String.valueOf(month + 1));
         treatmentDay.setText(String.valueOf(dayOfMonth));
         treatmentWeek.setText(week);
+        treatmentNumber.setText(hourOfDay + ":" + (minute > 9 ? minute : "0" + minute));
     }
 
     private void setRepeatTextViewAlpha(TextView textView, boolean isChecked) {
@@ -248,6 +259,11 @@ public class SettingView {
                 setRepeatTextViewAlpha(mWeeklyRepeatTextView, v.isChecked());
                 break;
         }
+    }
+
+    @OnTextChanged(back_to_the_clinic_time_number)
+    public void onTextNumChange(CharSequence text) {
+        callBack.onNumTextChange(text.toString());
     }
 
     @OnClick({R.id.setting_logout, R.id.iv_connection_us,
