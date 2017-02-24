@@ -31,7 +31,7 @@ import butterknife.OnClick;
 /**
  * Created by isa on 2016/9/21.
  */
-public class DailySelectInnerExerciseView {
+public class DailySelectInnerExerciseView implements android.media.MediaPlayer.OnCompletionListener {
     @BindView(R.id.daily_exercise_selected_time)
     TextView dailyExerciseSelectedTime;
     @BindView(R.id.daily_exercise_selected_image)
@@ -52,6 +52,10 @@ public class DailySelectInnerExerciseView {
     TypedArray muImageArray;
     @BindArray(R.array.her_array)
     TypedArray herArray;
+    @BindArray(R.array.mu_raw_array)
+    TypedArray muRawArray;
+    @BindArray(R.array.her_raw_array)
+    TypedArray herRawArray;
     private Activity activity;
     private int index;
     private Handler handler;
@@ -66,6 +70,7 @@ public class DailySelectInnerExerciseView {
     private TurnDataThread textRunnable;
     private Preferences mPreferences;
     private GifDrawable mGifDrawable;
+    private boolean isFirstIn = true;
 
     public DailySelectInnerExerciseView(Activity activity, View view, int index) {
         this.activity = activity;
@@ -84,6 +89,10 @@ public class DailySelectInnerExerciseView {
         if (index == 0) {
             mCountTime *= positionToTime(mPreferences.getTopicOnePosition());
             dailyExerciseSelectedDescription.setVisibility(View.VISIBLE);
+            Glide.with(activity)
+                    .load(R.drawable.practice4_action_a_icon)
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .into(dailyExerciseSelectedImage);
             player = new MediaPlayer(activity, R.raw.practice_4);
         } else if (index == 1) {
             mCountTime *= mPreferences.getTopicTwoPosition();
@@ -115,12 +124,21 @@ public class DailySelectInnerExerciseView {
         } else if (index == 4) {
             mCountTime *= positionToTime(mPreferences.getTopicFivePosition());
             dailyExerciseSelectedImage.setVisibility(View.VISIBLE);
+            Glide.with(activity)
+                    .load(R.drawable.cat)
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .into(dailyExerciseSelectedImage);
             player = new MediaPlayer(activity, R.raw.practice_5);
         } else {
             mCountTime *= positionToTime(mPreferences.getTopicSixPosition());
             dailyExerciseSelectedImage.setVisibility(View.VISIBLE);
+            Glide.with(activity)
+                    .load(R.drawable.breath)
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .into(dailyExerciseSelectedImage);
             player = new MediaPlayer(activity, R.raw.practice_6);
         }
+        dailyExerciseSelectedTime.setText(SecToMin(mCountTime));
         setFont();
     }
 
@@ -183,13 +201,19 @@ public class DailySelectInnerExerciseView {
         return new TurnDataThread.DataChangeEvent() {
             @Override
             public void onDataChangeEvent(final int witchData) {
+
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        if (4 == index)
+                        player.stopPlay();
+                        if (4 == index) {
                             dailyExerciseSelectedImage.setImageResource(muImageArray.getResourceId(witchData, 0));
-                        else
+                            player = new MediaPlayer(activity, muRawArray.getResourceId(witchData, 0));
+                        } else {
                             dailyExerciseSelectedImage.setImageResource(herArray.getResourceId(witchData, 0));
+                            player = new MediaPlayer(activity, herRawArray.getResourceId(witchData, 0));
+                        }
+                        player.startPlay();
                     }
                 });
             }
@@ -198,13 +222,11 @@ public class DailySelectInnerExerciseView {
 
     @OnClick(R.id.daily_exercise_selected_stop_button)
     public void onStopClick() {
-        if (index == 0) pictureRunnable.pause();
-        else if (index == 4) textRunnable.pause();
-        else if (index == 5) textRunnable.pause();
+        if (null != pictureRunnable) pictureRunnable.pause();
+        if (null != textRunnable) textRunnable.pause();
         player.pausePlay();
         countSecond.pauseCount();
-        if (null != mGifDrawable)
-            mGifDrawable.stop();
+        if (null != mGifDrawable) mGifDrawable.stop();
         dailyExerciseSelectedPlayButton.setVisibility(View.VISIBLE);
         dailyExerciseSelectedStopButton.setVisibility(View.INVISIBLE);
     }
@@ -213,6 +235,8 @@ public class DailySelectInnerExerciseView {
     public void onCloseClick() {
         player.stopPlay();
         countSecond.stopCount();
+        if (null != textRunnable) textRunnable.finish();
+        if (null != pictureRunnable) pictureRunnable.finish();
         change();
     }
 
@@ -228,12 +252,11 @@ public class DailySelectInnerExerciseView {
 
     @OnClick(R.id.daily_exercise_selected_play_button)
     public void onPlayClick() {
-        if (index == 0) pictureRunnable.restart();
-        else if (index == 4) textRunnable.restart();
-        else if (index == 5) textRunnable.restart();
-        player.startPlay();
+        if (null != pictureRunnable) pictureRunnable.restart();
+        if (null != textRunnable) textRunnable.restart();
+        if (isFirstIn) player.startPlay();
         countSecond.continueCount();
-        if (null != mGifDrawable)
+        if (null != mGifDrawable && !isFirstIn)
             mGifDrawable.start();
         dailyExerciseSelectedPlayButton.setVisibility(View.INVISIBLE);
         dailyExerciseSelectedStopButton.setVisibility(View.VISIBLE);
@@ -243,13 +266,14 @@ public class DailySelectInnerExerciseView {
         return new CountSecond.countSecondCallBack() {
             @Override
             public void countPerSecond(int sec) {
-                player.startPlay();
                 dailyExerciseSelectedTime.setText(SecToMin(sec));
                 dailyExerciseSelectedTime.invalidate();
             }
 
             @Override
             public void finishCount() {
+                if (null != pictureRunnable) pictureRunnable.pause();
+                if (null != textRunnable) textRunnable.pause();
                 Bundle bundle = new Bundle();
                 bundle.putInt(KEY_TOPIC_INDEX, index);
                 LayoutInflater inflater = LayoutInflater.from(activity);
@@ -277,10 +301,11 @@ public class DailySelectInnerExerciseView {
             public void finishCount() {
                 isFiveSecCountDown = false;
                 dailyExerciseSelectedImage.setVisibility(View.VISIBLE);
-//        dailyExerciseSelectedText.setVisibility(View.INVISIBLE);
                 counterContainer.setVisibility(View.INVISIBLE);
                 dailyExerciseSelectedDescription.setVisibility(View.INVISIBLE);
-                startCount();
+                player.setCompleteListener(DailySelectInnerExerciseView.this);
+                player.startPlay();
+                if (null != mGifDrawable) mGifDrawable.stop();
             }
         };
     }
@@ -347,5 +372,24 @@ public class DailySelectInnerExerciseView {
 
     public boolean isFiveSecCountDown() {
         return isFiveSecCountDown;
+    }
+
+    public TurnDataThread getPictureRunnable() {
+        return pictureRunnable;
+    }
+
+    public TurnDataThread getTextRunnable() {
+        return textRunnable;
+    }
+
+    @Override
+    public void onCompletion(android.media.MediaPlayer mp) {
+        if (isFirstIn) {
+            startCount();
+            if (null != mGifDrawable)
+                mGifDrawable.start();
+            player.stopPlay();
+            isFirstIn = false;
+        }
     }
 }

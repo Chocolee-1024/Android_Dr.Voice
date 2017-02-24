@@ -32,13 +32,14 @@ public class WeeklyPagerAdapter extends BasePagerAdapter {
     private SimpleDateFormat monthFormat;
     private int pointAddResult = 0;
     private Preferences preferences;
+
     public WeeklyPagerAdapter(Activity activity, String[] month, SqliteManager.DataStructure[] dataStructures) {
         super(activity, month, dataStructures);
         this.activity = activity;
         this.dataStructures = dataStructures;
         this.month = month;
 
-        preferences=new Preferences(activity);
+        preferences = new Preferences(activity);
         dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.getDefault());
         dayFormat = new SimpleDateFormat("MM/dd", Locale.getDefault());
         monthFormat = new SimpleDateFormat("MM/yyyy", Locale.getDefault());
@@ -63,7 +64,7 @@ public class WeeklyPagerAdapter extends BasePagerAdapter {
             monthCal.setTime(monthDate);
             int subYear = dayCal.get(Calendar.YEAR) - monthCal.get(Calendar.YEAR);
             if (subYear == 0) {
-                if (dayCal.get(Calendar.MONTH) == monthCal.get(Calendar.MONTH) &&dataStructures[index].getAccount().equals(preferences.getAccounnt())) {
+                if (dayCal.get(Calendar.MONTH) == monthCal.get(Calendar.MONTH) && dataStructures[index].getAccount().equals(preferences.getAccounnt())) {
                     content.add(dayFormat.format(dayDate));
                 }
             }
@@ -93,14 +94,14 @@ public class WeeklyPagerAdapter extends BasePagerAdapter {
             monthCal.setTime(monthDate);
             int subYear = dayCal.get(Calendar.YEAR) - monthCal.get(Calendar.YEAR);
             if (subYear == 0) {
-                if (dayCal.get(Calendar.MONTH) == monthCal.get(Calendar.MONTH)&&dataStructures[index].getAccount().equals(preferences.getAccounnt())) {
+                if (dayCal.get(Calendar.MONTH) == monthCal.get(Calendar.MONTH) && dataStructures[index].getAccount().equals(preferences.getAccounnt())) {
                     DataAppend dataAppend = new DataAppend();
                     ArrayList<String> weeklyArray = dataAppend.formatString(dataStructures[index].getWeeklyTopicPoint());
                     pointAddResult = 0;
                     for (int i = 0; i < weeklyArray.size(); i++) {
                         pointAddResult += Integer.valueOf(weeklyArray.get(i));
                     }
-                    pointAddContent.add(pointAddResult);
+                    pointAddContent.add(Math.round(((float)pointAddResult / 40) * 100));
                     content.add(((float) pointAddResult / 40));
                 }
             }
@@ -110,6 +111,7 @@ public class WeeklyPagerAdapter extends BasePagerAdapter {
         for (int i = 0; i < content.size(); i++) {
             result[i] = content.get(i);
             totalScoreResult[i] = String.valueOf(pointAddContent.get(i));
+            totalScoreResult[i] = totalScoreResult[i] + "%";
         }
         PointStruction struction = new PointStruction();
         struction.setPointPercent(result);

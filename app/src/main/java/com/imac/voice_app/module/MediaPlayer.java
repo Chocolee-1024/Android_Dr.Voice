@@ -20,7 +20,13 @@ public class MediaPlayer {
     public MediaPlayer(Activity activity, int id) {
         this.activity = activity;
         player = android.media.MediaPlayer.create(activity, id);
+        player.setLooping(false);
     }
+
+    public void setCompleteListener(android.media.MediaPlayer.OnCompletionListener listener) {
+        player.setOnCompletionListener(listener);
+    }
+
 
     public void startPlay() {
         if (player != null) {

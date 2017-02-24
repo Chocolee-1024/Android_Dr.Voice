@@ -122,7 +122,7 @@
             android:layout_weight="1"
             android:background="@drawable/item_self_setting_select"
             android:gravity="center"
-            android:text="SAVE"
+            android:text="@string/fragment_self_setting_settting_save"
             android:textColor="@color/white"
             android:textSize="30sp"/>
     </LinearLayout>

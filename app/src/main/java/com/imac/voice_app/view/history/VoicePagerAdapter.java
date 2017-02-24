@@ -102,7 +102,7 @@ public class VoicePagerAdapter extends BasePagerAdapter {
                     for (int i = 0; i < weeklyArray.size(); i++) {
                         pointAddResult += Integer.valueOf(weeklyArray.get(i));
                     }
-                    pointAddContent.add(pointAddResult);
+                    pointAddContent.add(pointAddResult * 100 / (3 * weeklyArray.size()));
                     content.add(((float) pointAddResult) / (3 * weeklyArray.size()));
                 }
             }
@@ -112,6 +112,7 @@ public class VoicePagerAdapter extends BasePagerAdapter {
         for (int i = 0; i < content.size(); i++) {
             result[i] = content.get(i);
             totalScoreResult[i] = String.valueOf(pointAddContent.get(i));
+            totalScoreResult[i] += "%";
         }
         PointStruction struction = new PointStruction();
         struction.setPointPercent(result);

@@ -41,8 +41,6 @@ public class DailyExercise {
         setFont();
     }
     private void setFont(){
-        //TODO 字體問題
-//        FontManager.setFont(activity,FontManager.MEDIUM,counter);
     }
     public void changeSelectFragment() {
         FragmentLauncher.change(

@@ -21,7 +21,6 @@
         android:background="@drawable/login_edittext_bg"
         android:gravity="center_horizontal"
         android:hint="@string/hint"
-        android:inputType="number"
         android:padding="0dp"
         android:singleLine="true"
         android:textColor="@color/login_text_color"

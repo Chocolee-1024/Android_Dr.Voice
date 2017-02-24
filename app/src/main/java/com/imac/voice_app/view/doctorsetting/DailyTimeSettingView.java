@@ -2,6 +2,7 @@ package com.imac.voice_app.view.doctorsetting;
 
 import android.app.Activity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.imac.voice_app.R;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by isa on 2017/2/13.
@@ -65,6 +67,8 @@ public class DailyTimeSettingView {
     TextView mTopic6Three;
     @BindView(R.id.topic6_five)
     TextView mTopic6Five;
+    @BindView(R.id.submit)
+    Button submit;
     private CallBackEvent mCallBackEvent;
     private InitCallBackEvent mInitCallBackEvent;
     private GroupHelper topicOne;
@@ -73,6 +77,12 @@ public class DailyTimeSettingView {
     private GroupHelper topicFour;
     private GroupHelper topicFive;
     private GroupHelper topicSix;
+    private int topicOnePosition;
+    private int topicTwoPosition;
+    private int topicThreePosition;
+    private int topicFourPosition;
+    private int topicFivePosition;
+    private int topicSixPosition;
 
     public DailyTimeSettingView(Activity activity, View view) {
         ButterKnife.bind(this, view);
@@ -122,22 +132,21 @@ public class DailyTimeSettingView {
     private GroupHelper.CallBack mGroupOneCallback = new GroupHelper.CallBack() {
         @Override
         public void onClick(int position, ArrayList<TextView> textViewArrayList) {
-            if (null != mCallBackEvent) mCallBackEvent.onTopicOneClick(position);
+            topicOnePosition = position;
         }
     };
 
     private GroupHelper.CallBack mGroupTwoCallback = new GroupHelper.CallBack() {
         @Override
         public void onClick(int position, ArrayList<TextView> textViewArrayList) {
-            if (null != mCallBackEvent) mCallBackEvent.onTopicTwoClick(position);
-
+            topicTwoPosition = position;
         }
     };
 
     private GroupHelper.CallBack mGroupThreeCallback = new GroupHelper.CallBack() {
         @Override
         public void onClick(int position, ArrayList<TextView> textViewArrayList) {
-            if (null != mCallBackEvent) mCallBackEvent.onTopicThreeClick(position);
+            topicThreePosition = position;
 
         }
     };
@@ -145,21 +154,21 @@ public class DailyTimeSettingView {
     private GroupHelper.CallBack mGroupFourCallback = new GroupHelper.CallBack() {
         @Override
         public void onClick(int position, ArrayList<TextView> textViewArrayList) {
-            if (null != mCallBackEvent) mCallBackEvent.onTopicFourClick(position);
+            topicFourPosition = position;
         }
     };
 
     private GroupHelper.CallBack mGroupFiveCallback = new GroupHelper.CallBack() {
         @Override
         public void onClick(int position, ArrayList<TextView> textViewArrayList) {
-            if (null != mCallBackEvent) mCallBackEvent.onTopicFiveClick(position);
+            topicFivePosition = position;
         }
     };
 
     private GroupHelper.CallBack mGroupSixCallback = new GroupHelper.CallBack() {
         @Override
         public void onClick(int position, ArrayList<TextView> textViewArrayList) {
-            if (null != mCallBackEvent) mCallBackEvent.onTopicSixClick(position);
+            topicSixPosition = position;
         }
     };
 
@@ -173,18 +182,39 @@ public class DailyTimeSettingView {
             mInitCallBackEvent.onInit(topicOne, topicTwo, topicThree, topicFour, topicFive, topicSix);
     }
 
+    @OnClick(R.id.submit)
+    public void onSubmitClick() {
+        if (null != mCallBackEvent)
+            mCallBackEvent.onSubmitClick(topicOnePosition, topicTwoPosition, topicThreePosition, topicFourPosition, topicFivePosition, topicSixPosition);
+    }
+
+    public void setTopicOnePosition(int topicOnePosition) {
+        this.topicOnePosition = topicOnePosition;
+    }
+
+    public void setTopicTwoPosition(int topicTwoPosition) {
+        this.topicTwoPosition = topicTwoPosition;
+    }
+
+    public void setTopicThreePosition(int topicThreePosition) {
+        this.topicThreePosition = topicThreePosition;
+    }
+
+    public void setTopicFourPosition(int topicFourPosition) {
+        this.topicFourPosition = topicFourPosition;
+    }
+
+    public void setTopicFivePosition(int topicFivePosition) {
+        this.topicFivePosition = topicFivePosition;
+    }
+
+    public void setTopicSixPosition(int topicSixPosition) {
+        this.topicSixPosition = topicSixPosition;
+    }
+
     public interface CallBackEvent {
-        void onTopicOneClick(int position);
 
-        void onTopicTwoClick(int position);
-
-        void onTopicThreeClick(int position);
-
-        void onTopicFourClick(int position);
-
-        void onTopicFiveClick(int position);
-
-        void onTopicSixClick(int position);
+        void onSubmitClick(int one, int two, int three, int four, int five, int six);
     }
 
     public interface InitCallBackEvent {

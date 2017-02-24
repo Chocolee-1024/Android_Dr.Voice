@@ -26,14 +26,16 @@ public class TurnDataThread extends Thread {
 
     @Override
     public void run() {
-        if (!isPause) {
-            witchPictureIndex = witchPictureIndex % recycle;
-            if (countScend % 10 == 0) {
-                event.onDataChangeEvent(witchPictureIndex);
-                witchPictureIndex++;
+        if (!isFinish) {
+            if (!isPause) {
+                witchPictureIndex = witchPictureIndex % recycle;
+                if (countScend % 10 == 0) {
+                    event.onDataChangeEvent(witchPictureIndex);
+                    witchPictureIndex++;
+                }
+                countScend++;
+                mHandler.postDelayed(this, 1000);
             }
-            countScend++;
-            mHandler.postDelayed(this, 1000);
         }
     }
 
@@ -57,5 +59,6 @@ public class TurnDataThread extends Thread {
 
     public void finish() {
         isFinish = true;
+        interrupt();
     }
 }

@@ -10,7 +10,6 @@ import com.imac.voice_app.core.ActivityLauncher;
 import com.imac.voice_app.module.DataAppend;
 import com.imac.voice_app.module.Preferences;
 import com.imac.voice_app.module.database.SqliteManager;
-import com.imac.voice_app.module.net.SearchName;
 import com.imac.voice_app.util.dailyexercise.DailyExerciseActivity;
 import com.imac.voice_app.util.history.HistoryActivity;
 import com.imac.voice_app.util.login.LoginActivity;
@@ -23,7 +22,6 @@ import com.imac.voice_app.view.mainmenu.MenuClickListener;
 import java.util.ArrayList;
 
 import static com.imac.voice_app.util.login.LoginActivity.KEY_DAILY_EXERCISE;
-import static com.imac.voice_app.util.login.LoginActivity.KEY_SETTING;
 import static com.imac.voice_app.util.login.LoginActivity.KEY_WEEKLY_EXERCISE;
 
 public class MainActivity extends AppCompatActivity {
@@ -56,7 +54,6 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
         mainMenu.speedEnabler();
         addPreferenceValue();
-        //TODO 暫時關閉 weekly dismiss 功能
 //        mainMenu.weeklyAssessmentEnabler();
         show();
     }
@@ -149,67 +146,4 @@ public class MainActivity extends AppCompatActivity {
         return result;
     }
 
-    private void searchDailyTopic() {
-        progressDialog.show();
-        String fileName = "每日練習" + loginAccount;
-        SearchName searchDailyTopic = new SearchName(MainActivity.this, fileName, new SearchName.onCallBackEvent() {
-            @Override
-            public void onSearchResult(ArrayList<String> search) {
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(KEY_DAILY_EXERCISE, search);
-                ActivityLauncher.go(MainActivity.this, DailyExerciseActivity.class, bundle);
-                progressDialog.dismiss();
-            }
-
-            @Override
-            public void onSearchFail() {
-                Toast.makeText(MainActivity.this, "請檢查網路或檔案是否存在", Toast.LENGTH_SHORT).show();
-                progressDialog.dismiss();
-            }
-        });
-        searchDailyTopic.execute();
-    }
-
-    private void searchWeeklyTopic() {
-        progressDialog.show();
-        String fileName = "每週用聲紀錄" + loginAccount;
-        SearchName searchDailyTopic = new SearchName(MainActivity.this, fileName, new SearchName.onCallBackEvent() {
-            @Override
-            public void onSearchResult(ArrayList<String> search) {
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(KEY_WEEKLY_EXERCISE, search);
-                ActivityLauncher.go(MainActivity.this, WeeklyAssessmentActivity.class, bundle);
-                progressDialog.dismiss();
-            }
-
-            @Override
-            public void onSearchFail() {
-                Toast.makeText(MainActivity.this, "請檢查網路或檔案是否存在", Toast.LENGTH_SHORT).show();
-                progressDialog.dismiss();
-            }
-        });
-        searchDailyTopic.execute();
-    }
-
-    private void getRemindTime() {
-        progressDialog.show();
-        String fileName = "提醒時間" + loginAccount;
-        SearchName searchName = new SearchName(MainActivity.this, fileName, new SearchName.onCallBackEvent() {
-            @Override
-            public void onSearchResult(ArrayList<String> search) {
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(KEY_SETTING, search);
-                ActivityLauncher.go(MainActivity.this, SettingActivity.class, bundle);
-                progressDialog.dismiss();
-            }
-
-            @Override
-            public void onSearchFail() {
-                ActivityLauncher.go(MainActivity.this, SettingActivity.class, null);
-                Toast.makeText(MainActivity.this, "請檢查網路或檔案是否存在", Toast.LENGTH_SHORT).show();
-                progressDialog.dismiss();
-            }
-        });
-        searchName.execute();
-    }
 }
