@@ -18,10 +18,11 @@ import com.imac.voice_app.view.dailyexercise.DailySelectInnerExerciseView;
 public class DailyExerciseInnerSelectFragment extends Fragment {
     private DailySelectInnerExerciseView dailySelectInnerExerciseView;
     private int topicIndex;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-         topicIndex = getArguments().getInt(DailySelectExerciseView.KEY_INNER_FRAGMENT_INDEX);
+        topicIndex = getArguments().getInt(DailySelectExerciseView.KEY_INNER_FRAGMENT_INDEX);
         View view = inflater.inflate(R.layout.fragment_select_page_inner, null);
         dailySelectInnerExerciseView = new DailySelectInnerExerciseView(
                 getActivity(),
@@ -44,17 +45,27 @@ public class DailyExerciseInnerSelectFragment extends Fragment {
             dailySelectInnerExerciseView.getPlayer().pausePlay();
         }
         dailySelectInnerExerciseView.getCounter().pauseCount();
-        dailySelectInnerExerciseView.getCounterFiveSec().stopCount();
+        dailySelectInnerExerciseView.getCounterFiveSec().pauseCount();
+        if (null != dailySelectInnerExerciseView.getPictureRunnable())
+            dailySelectInnerExerciseView.getPictureRunnable().pause();
+        if (null != dailySelectInnerExerciseView.getTextRunnable())
+            dailySelectInnerExerciseView.getTextRunnable().pause();
         super.onPause();
     }
 
     @Override
     public void onResume() {
-        if (!dailySelectInnerExerciseView.isFiveSecCountDown() &&
-                (dailySelectInnerExerciseView.getPlayer().getStatus() == MediaPlayer.Status.PAUSE)) {
-            dailySelectInnerExerciseView.getCounter().continueCount();
-            dailySelectInnerExerciseView.getCounterFiveSec().stopCount();
+        if (null != dailySelectInnerExerciseView.getPlayer() && MediaPlayer.Status.PAUSE.equals(dailySelectInnerExerciseView.getPlayer().getStatus())) {
+            dailySelectInnerExerciseView.getPlayer().startPlay();
         }
+        if (!dailySelectInnerExerciseView.isFiveSecCountDown()) {
+            dailySelectInnerExerciseView.getCounter().continueCount();
+        } else dailySelectInnerExerciseView.getCounterFiveSec().continueCount();
+        if (null != dailySelectInnerExerciseView.getPictureRunnable())
+            dailySelectInnerExerciseView.getPictureRunnable().restart();
+        if (null != dailySelectInnerExerciseView.getTextRunnable())
+            dailySelectInnerExerciseView.getTextRunnable().restart();
+
         super.onResume();
     }
 
@@ -65,7 +76,6 @@ public class DailyExerciseInnerSelectFragment extends Fragment {
         }
         dailySelectInnerExerciseView.getCounter().stopCount();
         dailySelectInnerExerciseView.getCounterFiveSec().stopCount();
-
         super.onDestroy();
     }
 }

@@ -27,9 +27,7 @@ public class FileWriter {
     }
 
     /**
-     * {@link com.imac.voice_app.util.speakSpeed.SpeakSpeedActivity}
-     * 寫入資料到儲存空間內
-     * 以日期命名
+     * {@link com.imac.voice_app.util.speakSpeed.SpeakSpeedActivity} 寫入資料到儲存空間內 以日期命名
      */
     public void write(String name, ArrayList<String> textArrayList) {
         ArrayList<Integer> textNumArrayList = new ArrayList<>();
@@ -105,17 +103,28 @@ public class FileWriter {
             for (String member : soundResult) soundTopicList += member;
             printWriter.append("," + soundTopicList);
             int soundAllPoint = 0;
+            int soundAllTopicPoint = 0;
             for (String menber : soundPoint) soundAllPoint += Integer.valueOf(menber);
-            printWriter.append("," + soundAllPoint);
+            for (String menber : soundTopic) soundAllTopicPoint += Integer.valueOf(menber);
+            try {
+                printWriter.append("," + soundAllPoint + "(" + Math.round(soundAllPoint * 100 / soundAllTopicPoint) + "%)");
+            } catch (ArithmeticException e) {
+                printWriter.append("," + soundAllPoint + "(" + 0 + "%)");
+            }
             printWriter.append("\n");
 
             String assementTopicList = "";
             for (String member : assessmentResult) assementTopicList += member;
             printWriter.append(dayFormatDate);
             int assessmentAllPoint = 0;
+
             printWriter.append("," + assementTopicList);
             for (String menber : assessmentPoint) assessmentAllPoint += Integer.valueOf(menber);
-            printWriter.append("," + assessmentAllPoint);
+            try {
+                printWriter.append("," + assessmentAllPoint + "(" + Math.round(assessmentAllPoint * 100 / 40) + "%)");
+            } catch (ArithmeticException e) {
+                printWriter.append("," + assessmentAllPoint + "(" + 0 + "%)");
+            }
             printWriter.append("\n");
             printWriter.flush();
             printWriter.close();

@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Dr. Voice</string>
-    <string name="key">863357276335-39chaeo82dlo51ficad9fhko2smsumi5.apps.googleusercontent.com</string>
+    <string name="key">329856021028-ff3v3s6gn61cs2ibemhcpufki6qjg158.apps.googleusercontent.com</string>
     <!--home page-->
     <string name="home_page_title">嗓音自我照護\n(練習版)</string>
     <string name="home_page_start">開始</string>
@@ -22,7 +22,7 @@
     </string-array>
     <string name="main_menu_daily_exercise">每日練習</string>
     <string name="main_menu_weekly_assessment">每週評量</string>
-    <string name="main_menu_history">歷史紀錄</string>
+    <string name="main_menu_history">評量紀錄</string>
     <string name="main_menu_speak_speed">語速監控</string>
     <string name="main_menu_setting">設"        "定</string>
 
@@ -131,7 +131,7 @@
     <string-array name="weekly_assessment_sound_topic_option_1">
         <item>常常</item>
         <item>有時候</item>
-        <item>偶爾</item>
+        <item>很少</item>
         <item>幾乎沒有</item>
     </string-array>
     <string-array name="weekly_assessment_sound_topic_option_2">
@@ -229,6 +229,20 @@
     <string name="fragment_self_setting_settting_seven">練習</string>
     <string name="fragment_self_setting_settting_save">儲存</string>
 
+
+    <string name="fragment_doctor_daily_time_topic">題目</string>
+    <string name="fragment_doctor_daily_time_topic_number0">0</string>
+    <string name="fragment_doctor_daily_time_topic_number1">1</string>
+    <string name="fragment_doctor_daily_time_topic_number2">3</string>
+    <string name="fragment_doctor_daily_time_topic_number3">5</string>
+    <string name="fragment_doctor_daily_time_topic1">放鬆</string>
+    <string name="fragment_doctor_daily_time_topic2">呼吸</string>
+    <string name="fragment_doctor_daily_time_topic3">飲水</string>
+    <string name="fragment_doctor_daily_time_topic4">高音</string>
+    <string name="fragment_doctor_daily_time_topic5">共鳴</string>
+    <string name="fragment_doctor_daily_time_topic6">軟起</string>
+
+    <string name="fragment_doctor_daily_time_setting_save">儲存</string>
     <string name="doctor_setting_title">醫師設定</string>
 
 </resources>

@@ -37,39 +37,27 @@ public class DailyTimeSettingFragment extends Fragment {
 
     private void init() {
         mPreferences = new Preferences(getActivity());
+        mDailyTimeSettingView.setTopicOnePosition(mPreferences.getTopicOnePosition());
+        mDailyTimeSettingView.setTopicTwoPosition(mPreferences.getTopicTwoPosition());
+        mDailyTimeSettingView.setTopicThreePosition(mPreferences.getTopicThreePosition());
+        mDailyTimeSettingView.setTopicFourPosition(mPreferences.getTopicFourPosition());
+        mDailyTimeSettingView.setTopicFivePosition(mPreferences.getTopicFivePosition());
+        mDailyTimeSettingView.setTopicSixPosition(mPreferences.getTopicSixPosition());
         mDailyTimeSettingView.setCallBackEvent(mCallBackEvent);
         mDailyTimeSettingView.setInitCallBackEvent(mInitCallBackEvent);
     }
 
     private DailyTimeSettingView.CallBackEvent mCallBackEvent = new DailyTimeSettingView.CallBackEvent() {
         @Override
-        public void onTopicOneClick(int position) {
-            mPreferences.saveTopicOnePosition(position);
-        }
+        public void onSubmitClick(int one, int two, int three, int four, int five, int six) {
+            mPreferences.saveTopicOnePosition(one);
+            mPreferences.saveTopicTwoPosition(two);
+            mPreferences.saveTopicThreePosition(three);
+            mPreferences.saveTopicFourPosition(four);
+            mPreferences.saveTopicFivePosition(five);
+            mPreferences.saveTopicSixPosition(six);
+            getActivity().onBackPressed();
 
-        @Override
-        public void onTopicTwoClick(int position) {
-            mPreferences.saveTopicTwoPosition(position);
-        }
-
-        @Override
-        public void onTopicThreeClick(int position) {
-            mPreferences.saveTopicThreePosition(position);
-        }
-
-        @Override
-        public void onTopicFourClick(int position) {
-            mPreferences.saveTopicFourPosition(position);
-        }
-
-        @Override
-        public void onTopicFiveClick(int position) {
-            mPreferences.saveTopicFivePosition(position);
-        }
-
-        @Override
-        public void onTopicSixClick(int position) {
-            mPreferences.saveTopicSixPosition(position);
         }
     };
     private DailyTimeSettingView.InitCallBackEvent mInitCallBackEvent = new DailyTimeSettingView.InitCallBackEvent() {

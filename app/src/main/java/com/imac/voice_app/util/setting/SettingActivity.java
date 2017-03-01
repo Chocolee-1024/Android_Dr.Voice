@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.imac.voice_app.R;
+import com.imac.voice_app.broadcastreceiver.AlarmReceiver;
 import com.imac.voice_app.component.ToolbarView;
 import com.imac.voice_app.core.ActivityLauncher;
 import com.imac.voice_app.module.AlarmConstantManager;
@@ -30,9 +31,11 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
-import static android.R.attr.mode;
-import static com.android.volley.VolleyLog.TAG;
+import static com.imac.voice_app.module.AlarmConstantManager.ID_DAILY_ONE;
+import static com.imac.voice_app.module.AlarmConstantManager.ID_DAILY_THREE;
+import static com.imac.voice_app.module.AlarmConstantManager.ID_DAILY_TWO;
 import static com.imac.voice_app.module.AlarmConstantManager.ID_WEEKLY_ALARM;
+import static com.imac.voice_app.module.AlarmConstantManager.MODE_WEEK;
 
 
 /**
@@ -57,9 +60,9 @@ public class SettingActivity extends Activity {
     }
 
     private void init() {
+        mAlarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         mPreferences = new Preferences(this);
         mSettingLayout = new SettingView(this, settingViewCallBack(), mPreferences);
-        mAlarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         mWeekPickDialog = getMultiItemDialog();
         mSettingLayout.setToolbarViewCallBack(toolbarCallBack());
     }
@@ -116,7 +119,7 @@ public class SettingActivity extends Activity {
                     mPreferences.saveWeeklyMillis(millis);
 
                     if (mPreferences.getWeeklyRepeat()) {
-                        setNotifyWeekly(AlarmConstantManager.MODE_WEEK, millis, ID_WEEKLY_ALARM);
+                        setNotifyWeekly(MODE_WEEK, millis, ID_WEEKLY_ALARM);
                     }
                 }
                 showLog("Time Picker", "Daily" + "/" + hour + ":" + min);
@@ -135,7 +138,7 @@ public class SettingActivity extends Activity {
                 String day = (String) getResources().getTextArray(R.array.week_array)[which];
                 mSettingLayout.setWeeklyWeekTextView(day);
                 mPreferences.saveWeeklyDay(which);
-                setNotifyWeekly(AlarmConstantManager.MODE_WEEK, mPreferences.getWeeklyMillis(), ID_WEEKLY_ALARM);
+                setNotifyWeekly(MODE_WEEK, mPreferences.getWeeklyMillis(), ID_WEEKLY_ALARM);
                 showLog("Day of Week", ":" + which);
             }
         });
@@ -149,20 +152,25 @@ public class SettingActivity extends Activity {
     }
 
     private void setNotifyDate(String mode, long notifyDateTime, int id) {
-        Intent intent = new Intent(BORADCASTFILTER);
+        Intent intent = new Intent(SettingActivity.this, AlarmReceiver.class);
         intent.putExtra(AlarmConstantManager.INTENT_MODE, mode);
-        PendingIntent backAlarmIntent = PendingIntent.getBroadcast(this, id, intent, 0);
+        PendingIntent backAlarmIntent = PendingIntent.getBroadcast(this, id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        if (null != backAlarmIntent) backAlarmIntent.cancel();
+        backAlarmIntent = PendingIntent.getBroadcast(this, id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         mAlarmManager.setRepeating(AlarmManager.RTC_WAKEUP, notifyDateTime, 24 * 60 * 60 * 1000, backAlarmIntent);
+        Log.d("tag", "setNotifyDate ");
     }
 
     private void setNotifyWeekly(String mode, long notifyDateTime, int id) {
-        Intent intent = new Intent(BORADCASTFILTER);
-        intent.putExtra(AlarmConstantManager.INTENT_MODE, mode);
-        intent.putExtra("AAA", mPreferences.getWeeklyDay());
-        Log.d(TAG, "setNotifyWeekly: " + mPreferences.getWeeklyDay());
-        PendingIntent backAlarmIntent = PendingIntent.getBroadcast(this, id, intent, 0);
-
-        mAlarmManager.setRepeating(AlarmManager.RTC_WAKEUP, notifyDateTime, 60 * 1000, backAlarmIntent);
+        Intent intent = new Intent(SettingActivity.this, AlarmReceiver.class);
+        PendingIntent backAlarmIntent = PendingIntent.getBroadcast(this, id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        if (null != backAlarmIntent) backAlarmIntent.cancel();
+        Bundle bundle = new Bundle();
+        bundle.putString(AlarmConstantManager.INTENT_MODE, mode);
+        bundle.putString(AlarmConstantManager.WEEK_DAY, String.valueOf(mPreferences.getWeeklyDay()));
+        intent.putExtras(bundle);
+        backAlarmIntent = PendingIntent.getBroadcast(this, id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        mAlarmManager.setRepeating(AlarmManager.RTC_WAKEUP, notifyDateTime, 24 * 60 * 60 * 1000, backAlarmIntent);
     }
 
     private DatePickerDialog.OnDateSetListener onDateSetListener(final String isBackTime,
@@ -198,6 +206,7 @@ public class SettingActivity extends Activity {
                     calIntent.setAllDay(true);
                     calIntent.setBeginTimeInMillis(calendar.getTimeInMillis());
                     calIntent.setEndTimeInMillis(calendar.getTimeInMillis());
+                    calIntent.setDescription(mPreferences.getBackNumber() + "號");
                     Intent intent = calIntent.getIntentAfterSetting();
                     startActivity(intent);
                 }
@@ -218,6 +227,15 @@ public class SettingActivity extends Activity {
                     calendar.set(Calendar.MINUTE, minute);
                     mPreferences.saveTreatmentTime(calendar.getTimeInMillis());
                     treatmentText.setText(hourOfDay + ":" + (minute > 9 ? minute : "0" + minute));
+
+                    CalendarIntentHelper calIntent = new CalendarIntentHelper();
+                    calIntent.setTitle(getString(R.string.setting_time));
+                    mPreferences.saveBackTime(calendar.getTimeInMillis());
+                    calIntent.setAllDay(false);
+                    calIntent.setBeginTimeInMillis(calendar.getTimeInMillis());
+                    calIntent.setEndTimeInMillis(calendar.getTimeInMillis());
+                    Intent intent = calIntent.getIntentAfterSetting();
+                    startActivity(intent);
                 }
             }
         };
@@ -255,29 +273,58 @@ public class SettingActivity extends Activity {
             @Override
             public void setWeeklyRepeat(boolean isChecked) {
                 mPreferences.saveWeeklyRepeat(isChecked);
+                if (!isChecked) {
+                    Intent intent = new Intent(SettingActivity.this, AlarmReceiver.class);
+                    intent.putExtra(AlarmConstantManager.INTENT_MODE, AlarmConstantManager.MODE_WEEK);
+                    intent.putExtra(AlarmConstantManager.WEEK_DAY, String.valueOf(mPreferences.getWeeklyDay()));
+                    PendingIntent backAlarmIntent = PendingIntent.getBroadcast(SettingActivity.this, AlarmConstantManager.ID_WEEKLY_ALARM, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                    mAlarmManager.cancel(backAlarmIntent);
+                    Log.d("tag", "cancel ");
+                } else {
+                    setNotifyWeekly(MODE_WEEK, mPreferences.getWeeklyMillis(), ID_WEEKLY_ALARM);
+                }
             }
 
             @Override
             public void setDailyOneRepeat(boolean isChecked) {
                 mPreferences.saveDailyOneRepeat(isChecked);
                 if (!isChecked) {
-                    Intent intent = new Intent(BORADCASTFILTER);
-                    intent.putExtra(AlarmConstantManager.INTENT_MODE, mode);
-                    PendingIntent pendingIntent = PendingIntent.getBroadcast(SettingActivity.this, AlarmConstantManager.ID_DAILY_ONE, intent, 0);
+                    Intent intent = new Intent(SettingActivity.this, AlarmReceiver.class);
+                    intent.putExtra(AlarmConstantManager.INTENT_MODE, AlarmConstantManager.MODE_DAILY_ONE);
+                    PendingIntent pendingIntent = PendingIntent.getBroadcast(SettingActivity.this, AlarmConstantManager.ID_DAILY_ONE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
                     mAlarmManager.cancel(pendingIntent);
+                    Log.d("tag", "cancel ");
                 } else {
-
+                    setNotifyDate(AlarmConstantManager.MODE_DAILY_ONE, mPreferences.getDailyTimeOneMillis(), ID_DAILY_ONE);
                 }
             }
 
             @Override
             public void setDailyTwoRepeat(boolean isChecked) {
                 mPreferences.saveDailyTwoRepeat(isChecked);
+                if (!isChecked) {
+                    Intent intent = new Intent(SettingActivity.this, AlarmReceiver.class);
+                    intent.putExtra(AlarmConstantManager.INTENT_MODE, AlarmConstantManager.MODE_DAILY_TWO);
+                    PendingIntent pendingIntent = PendingIntent.getBroadcast(SettingActivity.this, ID_DAILY_TWO, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                    mAlarmManager.cancel(pendingIntent);
+                    Log.d("tag", "cancel ");
+                } else {
+                    setNotifyDate(AlarmConstantManager.MODE_DAILY_TWO, mPreferences.getDailyTimeTwoMillis(), ID_DAILY_TWO);
+                }
             }
 
             @Override
             public void setDailyThreeRepeat(boolean isChecked) {
                 mPreferences.saveDailyThreeRepeat(isChecked);
+                if (!isChecked) {
+                    Intent intent = new Intent(SettingActivity.this, AlarmReceiver.class);
+                    intent.putExtra(AlarmConstantManager.INTENT_MODE, AlarmConstantManager.MODE_DAILY_THREE);
+                    PendingIntent pendingIntent = PendingIntent.getBroadcast(SettingActivity.this, AlarmConstantManager.ID_DAILY_THREE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                    mAlarmManager.cancel(pendingIntent);
+                    Log.d("tag", "cancel ");
+                } else {
+                    setNotifyDate(AlarmConstantManager.MODE_DAILY_THREE, mPreferences.getDailyTimeThreeMillis(), ID_DAILY_THREE);
+                }
             }
 
             @Override

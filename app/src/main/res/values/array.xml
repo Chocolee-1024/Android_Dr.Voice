@@ -31,6 +31,20 @@
         <item>@drawable/catsoup</item>
         <item>@drawable/beautylife</item>
     </integer-array>
+    <integer-array name="mu_raw_array">
+        <item>@raw/cat</item>
+        <item>@raw/cotton</item>
+        <item>@raw/tomorrow</item>
+        <item>@raw/rose</item>
+        <item>@raw/wood</item>
+        <item>@raw/monlong</item>
+        <item>@raw/slow</item>
+        <item>@raw/okay</item>
+        <item>@raw/cottonswab</item>
+        <item>@raw/eye</item>
+        <item>@raw/catsoup</item>
+        <item>@raw/beautylife</item>
+    </integer-array>
     <integer-array name="her_array">
         <item>@drawable/breath</item>
         <item>@drawable/flower</item>
@@ -44,5 +58,19 @@
         <item>@drawable/gohome</item>
         <item>@drawable/save</item>
         <item>@drawable/happy</item>
+    </integer-array>
+    <integer-array name="her_raw_array">
+        <item>@raw/breath</item>
+        <item>@raw/flower</item>
+        <item>@raw/peace</item>
+        <item>@raw/ha</item>
+        <item>@raw/butterfly</item>
+        <item>@raw/river</item>
+        <item>@raw/laugh</item>
+        <item>@raw/draw</item>
+        <item>@raw/redlight</item>
+        <item>@raw/gohome</item>
+        <item>@raw/save</item>
+        <item>@raw/happy</item>
     </integer-array>
 </resources>

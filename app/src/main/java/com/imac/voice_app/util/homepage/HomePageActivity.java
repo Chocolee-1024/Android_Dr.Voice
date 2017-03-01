@@ -4,14 +4,18 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import com.imac.voice_app.R;
 import com.imac.voice_app.core.ActivityLauncher;
 import com.imac.voice_app.module.AlarmConstantManager;
 import com.imac.voice_app.module.DataAppend;
+import com.imac.voice_app.module.Preferences;
 import com.imac.voice_app.util.login.LoginActivity;
 import com.imac.voice_app.util.mainmenu.MainActivity;
 import com.imac.voice_app.view.homepage.HomePage;
+
+import java.util.Date;
 
 import butterknife.ButterKnife;
 
@@ -29,6 +33,7 @@ public class HomePageActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         getBundle();
         init();
+        checkPrefence();
     }
 
     private void getBundle() {
@@ -36,6 +41,18 @@ public class HomePageActivity extends AppCompatActivity {
         if (null != whichMode) {
             mode = whichMode.getString(AlarmConstantManager.INTENT_MODE, "");
         }
+    }
+
+    private void checkPrefence(){
+        Preferences preferences =new Preferences(this);
+        Date dateW =new Date(preferences.getWeeklyMillis());
+        Date date1 =new Date(preferences.getDailyTimeOneMillis());
+        Date date2 =new Date(preferences.getDailyTimeTwoMillis());
+        Date date3 =new Date(preferences.getDailyTimeThreeMillis());
+        Log.d("debug", "dateW: "+dateW);
+        Log.d("debug", "date1: "+date1);
+        Log.d("debug", "date2: "+date2);
+        Log.d("debug", "date3: "+date3);
     }
 
     private void init() {
