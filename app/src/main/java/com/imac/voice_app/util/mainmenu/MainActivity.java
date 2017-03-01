@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
         mainMenu.speedEnabler();
         addPreferenceValue();
-//        mainMenu.weeklyAssessmentEnabler();
+        mainMenu.weeklyAssessmentEnabler();
         show();
     }
 
