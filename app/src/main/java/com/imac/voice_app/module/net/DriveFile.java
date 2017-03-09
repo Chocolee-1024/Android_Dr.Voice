@@ -1,9 +1,10 @@
 package com.imac.voice_app.module.net;
 
+import com.google.api.services.drive.model.FileList;
+
 import android.app.Activity;
 import android.os.Environment;
 
-import com.google.api.services.drive.model.FileList;
 import com.imac.voice_app.module.net.base.BaseGoogleDrive;
 
 import java.io.BufferedReader;
@@ -28,14 +29,14 @@ public class DriveFile extends BaseGoogleDrive {
     private String fileName;
     private final static String MINE_TYPE = "text/csv";
 
-    public DriveFile(Activity activity, CallbackEvent callbackEvent,String fileName,String name) {
+    public DriveFile(Activity activity, CallbackEvent callbackEvent,String fileName,String account) {
         super(activity);
         this.activity = activity;
         this.callbackEvent = callbackEvent;
         if (FILE_VOICE_SPEED.equals(fileName))
-            this.fileName = FILE_VOICE_SPEED + "(" + name + ")";
+            this.fileName = FILE_VOICE_SPEED + "(" + account + ")";
         else
-            this.fileName = FILE_WEEKLY_SOUND + "(" + name + ")";
+            this.fileName = FILE_WEEKLY_SOUND + "(" + account + ")";
 
     }
 

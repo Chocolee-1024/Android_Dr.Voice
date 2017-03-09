@@ -24,7 +24,7 @@ public class HomePage {
     private OnClickEvent event;
     private Activity activity;
     private String account = "";
-    private String name = "";
+//    private String name = "";
     private String dailyExercise = "";
     private String weeklyExercise = "";
     private Preferences preferences;
@@ -43,10 +43,10 @@ public class HomePage {
     private boolean isLogin() {
         boolean isLogin;
         account = preferences.getAccounnt();
-        name = preferences.getName();
+//        name = preferences.getName();
 //        dailyExercise = (String) sharePreferencesManager.get(LoginActivity.KEY_DAILY_EXERCISE, PreferencesHelper.Type.STRING);
 //        weeklyExercise = (String) sharePreferencesManager.get(LoginActivity.KEY_WEEKLY_EXERCISE, PreferencesHelper.Type.STRING);
-        if ("".equals(account) || "".equals(name)) {
+        if ("".equals(account)) {
             isLogin = false;
         } else {
             isLogin = true;
@@ -56,10 +56,10 @@ public class HomePage {
 
     @OnClick(R.id.start)
     public void clickStart() {
-        event.onClick(isLogin(), account, name, dailyExercise, weeklyExercise);
+        event.onClick(isLogin(), account, dailyExercise, weeklyExercise);
     }
 
     public interface OnClickEvent {
-        void onClick(boolean isLogin, String account, String name, String dailyExercise, String weeklyExercise);
+        void onClick(boolean isLogin, String account, String dailyExercise, String weeklyExercise);
     }
 }

@@ -39,7 +39,7 @@ public class SpeakSpeedActivity extends Activity implements FileWriter.WriterCal
     private Handler mHandlerTime;
     private FileWriter fileWriter;
     private String loginAccount;
-    private String loginName;
+//    private String loginName;
 
     private int speechState;
     private int sec;
@@ -100,7 +100,7 @@ private Preferences preferences;
     private void getBundle() {
         Bundle bundle = getIntent().getExtras();
         loginAccount = bundle.getString(LoginActivity.KEY_LOGIN_ACCOUNT);
-        loginName = bundle.getString(LoginActivity.KEY_LOGIN_NAME);
+//        loginName = bundle.getString(LoginActivity.KEY_LOGIN_NAME);
     }
 
     private void calculateNumPerMinute(int wordCount) {
@@ -120,7 +120,7 @@ private Preferences preferences;
     private void speakSpeedEnd() {
         //                    寫出
         speechState = STATUS_NOT_USING;
-        DriveFile driveFile = new DriveFile(SpeakSpeedActivity.this, callbackEvent,FileUploader.FILE_VOICE_SPEED,preferences.getName());
+        DriveFile driveFile = new DriveFile(SpeakSpeedActivity.this, callbackEvent,FileUploader.FILE_VOICE_SPEED,preferences.getAccounnt());
         driveFile.execute();
     }
 
@@ -128,7 +128,7 @@ private Preferences preferences;
         @Override
         public void onCallback() {
             fileWriter.setWriterCallBack(SpeakSpeedActivity.this);
-            fileWriter.write(loginName, textLogArray);
+            fileWriter.write(loginAccount, textLogArray);
         }
 
         @Override
@@ -283,7 +283,7 @@ private Preferences preferences;
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == BaseGoogleDrive.ASK_ACCOUNT && resultCode == RESULT_OK) {
             String account = data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
-            FileUploader uploader = new FileUploader(this, loginName, loginAccount,FileUploader.FILE_VOICE_SPEED);
+            FileUploader uploader = new FileUploader(this,  loginAccount,FileUploader.FILE_VOICE_SPEED);
             if (account.equals(LoginChecker.ACCOUNT_NAME))
                 uploader.getCredential().setSelectedAccountName(account);
             uploader.connect(fileWriter.getFile());
@@ -292,7 +292,7 @@ private Preferences preferences;
 
     @Override
     public void onWriteSuccessful(File file) {
-        FileUploader uploader = new FileUploader(this, loginName, loginAccount,FileUploader.FILE_VOICE_SPEED);
+        FileUploader uploader = new FileUploader(this,  loginAccount,FileUploader.FILE_VOICE_SPEED);
         uploader.connect(file);
     }
 

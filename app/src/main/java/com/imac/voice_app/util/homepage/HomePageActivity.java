@@ -48,7 +48,7 @@ public class HomePageActivity extends AppCompatActivity {
     private void init() {
         HomePage homePage = new HomePage(this, new HomePage.OnClickEvent() {
             @Override
-            public void onClick(boolean isLogin, String account, String name, String dailyExercise, String weeklyExercise) {
+            public void onClick(boolean isLogin, String account, String dailyExercise, String weeklyExercise) {
                 if (!isLogin) {
                     ActivityLauncher.go(HomePageActivity.this, LoginActivity.class, null);
                 } else {
@@ -56,7 +56,7 @@ public class HomePageActivity extends AppCompatActivity {
                     dataAppend.formatString(dailyExercise);
                     Bundle bundle = new Bundle();
                     bundle.putString(LoginActivity.KEY_LOGIN_ACCOUNT, account);
-                    bundle.putString(LoginActivity.KEY_LOGIN_NAME, name);
+//                    bundle.putString(LoginActivity.KEY_LOGIN_NAME, name);
                     ActivityLauncher.go(HomePageActivity.this, MainActivity.class, bundle);
                 }
             }

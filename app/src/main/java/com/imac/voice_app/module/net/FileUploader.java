@@ -1,11 +1,12 @@
 package com.imac.voice_app.module.net;
 
-import android.app.Activity;
-import android.os.Environment;
-
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
 import com.google.api.client.http.FileContent;
 import com.google.api.services.drive.model.FileList;
+
+import android.app.Activity;
+import android.os.Environment;
+
 import com.imac.voice_app.module.net.base.BaseGoogleDrive;
 
 import java.io.File;
@@ -15,11 +16,10 @@ import java.util.Collections;
 
 public class FileUploader extends BaseGoogleDrive {
     private final static String TAG = FileUploader.class.getName();
-    public final static String ACCOUNT_NAME = "voice.dr.wang@gmail.com";
     private final static int ASK_ACCESS_ACCOUNT_PERMISSION = 123;
     private final static int SET_ACCOUNT = 321;
-    public final static String FILE_VOICE_SPEED = "語速監控";
-    public final static String FILE_WEEKLY_SOUND = "每週用聲紀錄";
+    public final static String FILE_VOICE_SPEED = "speed";
+    public final static String FILE_WEEKLY_SOUND = "record";
     private final static String MINE_TYPE = "text/csv";
     private String fileName;
     private String name;
@@ -38,6 +38,17 @@ public class FileUploader extends BaseGoogleDrive {
             this.witchFile = FILE_VOICE_SPEED + "(" + name + ")";
         else
             this.witchFile = FILE_WEEKLY_SOUND + "(" + name + ")";
+    }
+
+    public FileUploader(Activity activity, String account, String witchFile) {
+        super(activity);
+        this.activity = activity;
+        this.account = account;
+        fileName = account;
+        if (FILE_VOICE_SPEED.equals(witchFile))
+            this.witchFile = FILE_VOICE_SPEED + "(" + account + ")";
+        else
+            this.witchFile = FILE_WEEKLY_SOUND + "(" + account + ")";
     }
 
     @Override
@@ -69,7 +80,7 @@ public class FileUploader extends BaseGoogleDrive {
                 FileContent fileContent = new FileContent(MINE_TYPE, filePath);
                 if (outputFile.getFiles().size() == 0) {
                     file.setParents(Collections.singletonList(folderId));
-                   drive.files().create(file, fileContent)
+                    drive.files().create(file, fileContent)
                             .setFields("id, parents")
                             .execute();
                 } else
