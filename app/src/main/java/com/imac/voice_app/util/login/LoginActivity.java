@@ -64,7 +64,12 @@ public class LoginActivity extends AppCompatActivity implements DataChangeListen
         return new LoginChecker.eventCallBack() {
             @Override
             public void onSuccessful(String account) {
-                searchUserName(account);
+//                searchUserName(account);
+                Bundle bundle = new Bundle();
+                bundle.putString(KEY_LOGIN_ACCOUNT, account);
+                ActivityLauncher.go(LoginActivity.this, MainActivity.class, bundle);
+                finish();
+                progressDialog.dismiss();
             }
 
             @Override

@@ -99,13 +99,13 @@ public class MainMenu {
     private void getBundle() {
         if ("".equals(preferences.getAccounnt())) {
             String loginAccount = bundle.getString(LoginActivity.KEY_LOGIN_ACCOUNT);
-            String loginName = bundle.getString(LoginActivity.KEY_LOGIN_NAME);
+//            String loginName = bundle.getString(LoginActivity.KEY_LOGIN_NAME);
 //            ArrayList<String> topicList = (ArrayList<String>) bundle.getSerializable(LoginActivity.KEY_DAILY_EXERCISE);
 //            ArrayList<String> weeklyTopic = (ArrayList<String>) bundle.getSerializable(LoginActivity.KEY_WEEKLY_EXERCISE);
 
             DataAppend dataAppend = new DataAppend();
             preferences.saveAccount(loginAccount);
-            preferences.saveName(loginName);
+//            preferences.saveName(loginName);
 //            sharePreferencesManager.save(PreferencesHelper.Type.STRING, LoginActivity.KEY_DAILY_EXERCISE, dataAppend.append(topicList));
 //            sharePreferencesManager.save(PreferencesHelper.Type.STRING, LoginActivity.KEY_WEEKLY_EXERCISE, dataAppend.append(weeklyTopic));
         }

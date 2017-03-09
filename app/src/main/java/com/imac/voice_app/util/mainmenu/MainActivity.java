@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
     private MainMenu mainMenu;
     private String loginAccount;
-    private String loginName;
+//    private String loginName;
     private ArrayList<String> dailyTopicList;
     private ArrayList<String> weeklyTopicList;
     private ProgressDialog progressDialog;
@@ -54,14 +54,14 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
         mainMenu.speedEnabler();
         addPreferenceValue();
-        mainMenu.weeklyAssessmentEnabler();
+//        mainMenu.weeklyAssessmentEnabler();
         show();
     }
 
     private void getBundle() {
         Bundle bundle = getIntent().getExtras();
         loginAccount = bundle.getString(LoginActivity.KEY_LOGIN_ACCOUNT);
-        loginName = bundle.getString(LoginActivity.KEY_LOGIN_NAME);
+//        loginName = bundle.getString(LoginActivity.KEY_LOGIN_NAME);
     }
 
     private void addPreferenceValue() {
@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
             public void onSpeakSpeedClick() {
                 Bundle bundle = new Bundle();
                 bundle.putString(LoginActivity.KEY_LOGIN_ACCOUNT, loginAccount);
-                bundle.putString(LoginActivity.KEY_LOGIN_NAME, loginName);
+//                bundle.putString(LoginActivity.KEY_LOGIN_NAME, loginName);
                 ActivityLauncher.go(MainActivity.this, SpeakSpeedActivity.class, bundle);
             }
 

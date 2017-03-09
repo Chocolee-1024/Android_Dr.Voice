@@ -28,7 +28,8 @@ public class WeeklyAssessmentContainerFragment extends Fragment implements DataW
     private String status;
     private String soundTopic;
     private Activity activity;
-private   Preferences preferences;
+    private Preferences preferences;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -44,7 +45,7 @@ private   Preferences preferences;
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-         preferences = new Preferences(activity);
+        preferences = new Preferences(activity);
 
     }
 
@@ -57,7 +58,7 @@ private   Preferences preferences;
 
     @Override
     public void onDataWrite(ArrayList<String> soundPoint, ArrayList<String> soundTopic, ArrayList<String> assessmentPoint) {
-        DriveFile driveFile = new DriveFile(activity, callbackEvent(soundPoint, soundTopic, assessmentPoint), FileUploader.FILE_WEEKLY_SOUND,preferences.getName());
+        DriveFile driveFile = new DriveFile(activity, callbackEvent(soundPoint, soundTopic, assessmentPoint), FileUploader.FILE_WEEKLY_SOUND, preferences.getAccounnt());
         driveFile.execute();
     }
 
@@ -65,7 +66,7 @@ private   Preferences preferences;
     public void onWriteSuccessful(File file) {
         String loginAccount = preferences.getAccounnt();
         String name = preferences.getName();
-        FileUploader uploader = new FileUploader(activity, name, loginAccount, FileUploader.FILE_WEEKLY_SOUND);
+        FileUploader uploader = new FileUploader(activity, loginAccount, FileUploader.FILE_WEEKLY_SOUND);
         uploader.connect(file);
     }
 
@@ -80,7 +81,7 @@ private   Preferences preferences;
             public void onCallback() {
                 FileWriter writer = new FileWriter(activity);
                 writer.setWriterCallBack(WeeklyAssessmentContainerFragment.this);
-                writer.write(soundPoint, soundTopic, assessmentPoint,preferences.getName());
+                writer.write(soundPoint, soundTopic, assessmentPoint, preferences.getAccounnt());
             }
 
             @Override
