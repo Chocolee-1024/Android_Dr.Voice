@@ -1,10 +1,11 @@
 package com.imac.voice_app.module.net;
 
+import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
+import com.google.api.services.drive.model.FileList;
+
 import android.app.Activity;
 import android.util.Log;
 
-import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
-import com.google.api.services.drive.model.FileList;
 import com.imac.voice_app.module.net.base.BaseGoogleDrive;
 
 import java.io.BufferedReader;
@@ -41,6 +42,7 @@ public class LoginChecker extends BaseGoogleDrive {
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream1));
             String line = "";
             while ((line = reader.readLine()) != null) {
+                line = line.split(",")[0];
                 Log.e(TAG, String.valueOf(line));
                 if (line.equals(account)) {
                     isSuccess = true;
