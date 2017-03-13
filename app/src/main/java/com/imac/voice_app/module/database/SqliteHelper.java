@@ -15,7 +15,7 @@ public class SqliteHelper extends SQLiteOpenHelper {
     private final String account = "Account";
     private final String soundTopicPoint = "SoundTopicPoint";
     private final String assessmentTopicPoint = "AssessmentTopicPoint";
-    private final String data = "Data";
+    private final String date = "Data";
 
     public SqliteHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -28,7 +28,7 @@ public class SqliteHelper extends SQLiteOpenHelper {
                         + account + " TEXT ,"
                         + soundTopicPoint + " TEXT,"
                         + assessmentTopicPoint + " TEXT,"
-                        + data + " DEFAULT (datetime('now','localtime'))"
+                        + date + " DEFAULT (datetime('now','localtime'))"
                         + ");";
         sqLiteDatabase.execSQL(CREATE_TABLE_SQL);
     }
@@ -56,7 +56,7 @@ public class SqliteHelper extends SQLiteOpenHelper {
         return assessmentTopicPoint;
     }
 
-    public String getData() {
-        return data;
+    public String getDate() {
+        return date;
     }
 }

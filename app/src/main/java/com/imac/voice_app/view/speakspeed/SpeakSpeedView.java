@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.imac.voice_app.R;
 import com.imac.voice_app.component.CustomProgressBar;
 import com.imac.voice_app.component.ToolbarView;
-import com.imac.voice_app.module.FontManager;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -84,22 +83,19 @@ public class SpeakSpeedView {
         mDetailContainer.getLayoutParams().width = viewLength;
         Log.e("123", Integer.toString(viewLength));
 
-        //        思源字體在數字使用上會造成上下間距變為極大
-        FontManager.setFont(mContext, FontManager.MEDIUM,
-                mDateText, mStatusHintText);
     }
 
-        @OnClick({R.id.btn_Check, R.id.btn_close})
-        public void startButtonListener (ImageView view){
-            switch (view.getId()) {
-                case R.id.btn_Check:
-                    listener.checkButton();
-                    break;
-                case R.id.btn_close:
-                    listener.closeButton();
-                    break;
-            }
+    @OnClick({R.id.btn_Check, R.id.btn_close})
+    public void startButtonListener(ImageView view) {
+        switch (view.getId()) {
+            case R.id.btn_Check:
+                listener.checkButton();
+                break;
+            case R.id.btn_close:
+                listener.closeButton();
+                break;
         }
+    }
 
     public void setButtonStatus(boolean status) {
         if (status) {
@@ -153,7 +149,7 @@ public class SpeakSpeedView {
         mStatusHintText.setText(text);
     }
 
-    public void setToolbarViewCallBack(ToolbarView.toolbarCallBack callBack){
+    public void setToolbarViewCallBack(ToolbarView.toolbarCallBack callBack) {
         mToolbarView.setToolbarButtonCallBack(callBack);
     }
 }

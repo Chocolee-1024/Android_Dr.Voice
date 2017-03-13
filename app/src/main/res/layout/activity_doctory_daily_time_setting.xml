@@ -1,0 +1,522 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="match_parent">
+
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            >
+
+        <TextView
+                android:textSize="20sp"
+                android:background="#ffeff0eb"
+                android:gravity="center"
+                android:text="@string/fragment_doctor_daily_time_topic"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                />
+
+        <View
+                android:layout_width="2dp"
+                android:layout_height="match_parent"/>
+
+        <TextView
+                android:textSize="20sp"
+                android:background="#ffeff0eb"
+                android:gravity="center"
+                android:text="@string/fragment_doctor_daily_time_topic_number0"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                />
+
+        <View
+                android:layout_width="2dp"
+                android:layout_height="match_parent"/>
+
+        <TextView
+                android:textSize="20sp"
+                android:background="#ffeff0eb"
+                android:gravity="center"
+                android:text="@string/fragment_doctor_daily_time_topic_number1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                />
+
+        <View
+                android:layout_width="2dp"
+                android:layout_height="match_parent"/>
+
+        <TextView
+                android:textSize="20sp"
+                android:background="#ffeff0eb"
+                android:gravity="center"
+                android:text="@string/fragment_doctor_daily_time_topic_number2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                />
+
+        <View
+                android:layout_width="2dp"
+                android:layout_height="match_parent"/>
+
+        <TextView
+                android:textSize="20sp"
+                android:background="#ffeff0eb"
+                android:gravity="center"
+                android:text="@string/fragment_doctor_daily_time_topic_number3"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                />
+    </LinearLayout>
+
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"/>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            >
+
+        <TextView
+                android:textSize="20sp"
+                android:background="#ffeff0eb"
+                android:gravity="center"
+                android:text="@string/fragment_doctor_daily_time_topic1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                />
+
+        <View
+                android:layout_width="2dp"
+                android:layout_height="match_parent"/>
+
+        <TextView
+                android:textSize="20sp"
+                android:background="#ffeff0eb"
+                android:gravity="center"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:id="@+id/topic1_zero"/>
+
+        <View
+                android:layout_width="2dp"
+                android:layout_height="match_parent"/>
+
+        <TextView
+                android:textSize="20sp"
+                android:background="#ffeff0eb"
+                android:gravity="center"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:id="@+id/topic1_one"/>
+
+        <View
+                android:layout_width="2dp"
+                android:layout_height="match_parent"/>
+
+        <TextView
+                android:textSize="20sp"
+                android:background="#ffeff0eb"
+                android:gravity="center"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:id="@+id/topic1_three"/>
+
+        <View
+                android:layout_width="2dp"
+                android:layout_height="match_parent"/>
+
+        <TextView
+                android:textSize="20sp"
+                android:background="#ffeff0eb"
+                android:gravity="center"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:id="@+id/topic1_five"/>
+    </LinearLayout>
+
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"/>
+
+    <LinearLayout
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            >
+
+        <TextView
+                android:textSize="20sp"
+                android:background="#ffeff0eb"
+                android:gravity="center"
+                android:text="@string/fragment_doctor_daily_time_topic2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                />
+
+        <View
+                android:layout_width="2dp"
+                android:layout_height="match_parent"/>
+
+        <TextView
+                android:textSize="20sp"
+                android:background="#ffeff0eb"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:id="@+id/topic2_zero"/>
+
+        <View
+                android:layout_width="2dp"
+                android:layout_height="match_parent"/>
+
+        <TextView
+                android:textSize="20sp"
+                android:background="#ffeff0eb"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:id="@+id/topic2_one"/>
+
+        <View
+                android:layout_width="2dp"
+                android:layout_height="match_parent"/>
+
+        <TextView
+                android:textSize="20sp"
+                android:background="#ffeff0eb"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:id="@+id/topic2_three"/>
+
+        <View
+                android:layout_width="2dp"
+                android:layout_height="match_parent"/>
+
+        <TextView
+                android:textSize="20sp"
+                android:background="#ffeff0eb"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:id="@+id/topic2_five"/>
+    </LinearLayout>
+
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"/>
+
+    <LinearLayout
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            >
+
+        <TextView
+                android:textSize="20sp"
+                android:background="#ffeff0eb"
+                android:gravity="center"
+                android:text="@string/fragment_doctor_daily_time_topic3"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                />
+
+        <View
+                android:layout_width="2dp"
+                android:layout_height="match_parent"/>
+
+        <TextView
+                android:textSize="20sp"
+                android:background="#ffeff0eb"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:id="@+id/topic3_zero"/>
+
+        <View
+                android:layout_width="2dp"
+                android:layout_height="match_parent"/>
+
+        <TextView
+                android:textSize="20sp"
+                android:background="#ffeff0eb"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:id="@+id/topic3_one"/>
+
+        <View
+                android:layout_width="2dp"
+                android:layout_height="match_parent"/>
+
+        <TextView
+                android:textSize="20sp"
+                android:background="#ffeff0eb"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:id="@+id/topic3_three"/>
+
+        <View
+                android:layout_width="2dp"
+                android:layout_height="match_parent"/>
+
+        <TextView
+                android:textSize="20sp"
+                android:background="#ffeff0eb"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:id="@+id/topic3_five"/>
+    </LinearLayout>
+
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"/>
+
+    <LinearLayout
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            >
+
+        <TextView
+                android:textSize="20sp"
+                android:background="#ffeff0eb"
+                android:gravity="center"
+                android:text="@string/fragment_doctor_daily_time_topic4"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                />
+
+        <View
+                android:layout_width="2dp"
+                android:layout_height="match_parent"/>
+
+        <TextView
+                android:textSize="20sp"
+                android:background="#ffeff0eb"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:id="@+id/topic4_zero"/>
+
+        <View
+                android:layout_width="2dp"
+                android:layout_height="match_parent"/>
+
+        <TextView
+                android:textSize="20sp"
+                android:background="#ffeff0eb"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:id="@+id/topic4_one"/>
+
+        <View
+                android:layout_width="2dp"
+                android:layout_height="match_parent"/>
+
+        <TextView
+                android:textSize="20sp"
+                android:background="#ffeff0eb"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:id="@+id/topic4_three"/>
+
+        <View
+                android:layout_width="2dp"
+                android:layout_height="match_parent"/>
+
+        <TextView
+                android:textSize="20sp"
+                android:background="#ffeff0eb"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:id="@+id/topic4_five"/>
+    </LinearLayout>
+
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"/>
+
+    <LinearLayout
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            >
+
+        <TextView
+                android:textSize="20sp"
+                android:background="#ffeff0eb"
+                android:gravity="center"
+                android:text="@string/fragment_doctor_daily_time_topic5"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                />
+
+        <View
+                android:layout_width="2dp"
+                android:layout_height="match_parent"/>
+
+        <TextView
+                android:textSize="20sp"
+                android:background="#ffeff0eb"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:id="@+id/topic5_zero"/>
+
+        <View
+                android:layout_width="2dp"
+                android:layout_height="match_parent"/>
+
+        <TextView
+                android:textSize="20sp"
+                android:background="#ffeff0eb"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:id="@+id/topic5_one"/>
+
+        <View
+                android:layout_width="2dp"
+                android:layout_height="match_parent"/>
+
+        <TextView
+                android:textSize="20sp"
+                android:background="#ffeff0eb"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:id="@+id/topic5_three"/>
+
+        <View
+                android:layout_width="2dp"
+                android:layout_height="match_parent"/>
+
+        <TextView
+                android:textSize="20sp"
+                android:background="#ffeff0eb"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:id="@+id/topic5_five"/>
+    </LinearLayout>
+
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"/>
+
+    <LinearLayout
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            >
+
+        <TextView
+                android:textSize="20sp"
+                android:background="#ffeff0eb"
+                android:gravity="center"
+                android:text="@string/fragment_doctor_daily_time_topic6"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                />
+
+        <View
+                android:layout_width="2dp"
+                android:layout_height="match_parent"/>
+
+        <TextView
+                android:textSize="20sp"
+                android:background="#ffeff0eb"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:id="@+id/topic6_zero"/>
+
+        <View
+                android:layout_width="2dp"
+                android:layout_height="match_parent"/>
+
+        <TextView
+                android:textSize="20sp"
+                android:background="#ffeff0eb"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:id="@+id/topic6_one"/>
+
+        <View
+                android:layout_width="2dp"
+                android:layout_height="match_parent"/>
+
+        <TextView
+                android:textSize="20sp"
+                android:background="#ffeff0eb"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:id="@+id/topic6_three"/>
+
+        <View
+                android:layout_width="2dp"
+                android:layout_height="match_parent"/>
+
+        <TextView
+                android:textSize="20sp"
+                android:background="#ffeff0eb"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:id="@+id/topic6_five"/>
+    </LinearLayout>
+
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"/>
+
+    <Button
+            android:id="@+id/submit"
+            android:textSize="20sp"
+            android:text="@string/fragment_doctor_daily_time_setting_save"
+            android:textColor="@color/white"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:background="#ffa36978"
+            android:layout_height="match_parent"/>
+
+</LinearLayout>

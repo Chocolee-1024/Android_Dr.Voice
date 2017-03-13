@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import com.imac.voice_app.R;
 import com.imac.voice_app.view.dailyexercise.DailySelectExerciseView;
 
+
 /**
  * Created by isa on 2016/9/19.
  */
@@ -22,6 +23,12 @@ public class DailyExerciseSelectFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_select_page, null);
         dailySelectExerciseView = new DailySelectExerciseView(getActivity(), view);
         return view;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+//        ((DailyExerciseActivity) getActivity()).setCountTextVisible(false);
     }
 
     @Override

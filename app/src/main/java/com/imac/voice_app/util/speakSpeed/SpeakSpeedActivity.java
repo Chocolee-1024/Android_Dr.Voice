@@ -10,15 +10,19 @@ import android.os.Handler;
 import android.os.Vibrator;
 import android.util.Log;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.imac.voice_app.R;
 import com.imac.voice_app.component.ToolbarView;
-import com.imac.voice_app.module.net.FileUploader;
 import com.imac.voice_app.module.FileWriter;
+import com.imac.voice_app.module.Preferences;
+import com.imac.voice_app.module.SpeechKitModule;
+import com.imac.voice_app.module.net.DriveFile;
+import com.imac.voice_app.module.net.FileUploader;
+import com.imac.voice_app.module.net.LoginChecker;
+import com.imac.voice_app.module.net.base.BaseGoogleDrive;
 import com.imac.voice_app.module.permission.PermissionsActivity;
 import com.imac.voice_app.module.permission.PermissionsChecker;
-import com.imac.voice_app.module.SpeechKitModule;
-import com.imac.voice_app.module.net.base.BaseGoogleDrive;
 import com.imac.voice_app.util.login.LoginActivity;
 import com.imac.voice_app.view.speakspeed.SpeakSpeedView;
 
@@ -35,7 +39,7 @@ public class SpeakSpeedActivity extends Activity implements FileWriter.WriterCal
     private Handler mHandlerTime;
     private FileWriter fileWriter;
     private String loginAccount;
-    private String loginName;
+//    private String loginName;
 
     private int speechState;
     private int sec;
@@ -61,13 +65,14 @@ public class SpeakSpeedActivity extends Activity implements FileWriter.WriterCal
             Manifest.permission.RECORD_AUDIO,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.VIBRATE};
-
+private Preferences preferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_speak_speed);
         mContext = this.getApplicationContext();
         fileWriter = new FileWriter(this);
+        preferences=new Preferences(this);
         initSet();
     }
 
@@ -95,7 +100,7 @@ public class SpeakSpeedActivity extends Activity implements FileWriter.WriterCal
     private void getBundle() {
         Bundle bundle = getIntent().getExtras();
         loginAccount = bundle.getString(LoginActivity.KEY_LOGIN_ACCOUNT);
-        loginName = bundle.getString(LoginActivity.KEY_LOGIN_NAME);
+//        loginName = bundle.getString(LoginActivity.KEY_LOGIN_NAME);
     }
 
     private void calculateNumPerMinute(int wordCount) {
@@ -114,12 +119,23 @@ public class SpeakSpeedActivity extends Activity implements FileWriter.WriterCal
 
     private void speakSpeedEnd() {
         //                    寫出
-        fileWriter.setWriterCallBack(this);
-        fileWriter.write(loginName, textLogArray);
-
         speechState = STATUS_NOT_USING;
-
+        DriveFile driveFile = new DriveFile(SpeakSpeedActivity.this, callbackEvent,FileUploader.FILE_VOICE_SPEED,preferences.getAccounnt());
+        driveFile.execute();
     }
+
+    private DriveFile.CallbackEvent callbackEvent = new DriveFile.CallbackEvent() {
+        @Override
+        public void onCallback() {
+            fileWriter.setWriterCallBack(SpeakSpeedActivity.this);
+            fileWriter.write(loginAccount, textLogArray);
+        }
+
+        @Override
+        public void onFailCallback() {
+            Toast.makeText(SpeakSpeedActivity.this, "存取失敗，請檢查網路", Toast.LENGTH_LONG).show();
+        }
+    };
 
     private void setVibrator(boolean level) {
         Vibrator myVibrator = (Vibrator) getApplication().getSystemService(VIBRATOR_SERVICE);
@@ -267,8 +283,8 @@ public class SpeakSpeedActivity extends Activity implements FileWriter.WriterCal
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == BaseGoogleDrive.ASK_ACCOUNT && resultCode == RESULT_OK) {
             String account = data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
-            FileUploader uploader = new FileUploader(this, loginName, loginAccount);
-            if (account.equals(FileUploader.ACCOUNT_NAME))
+            FileUploader uploader = new FileUploader(this,  loginAccount,FileUploader.FILE_VOICE_SPEED);
+            if (account.equals(LoginChecker.ACCOUNT_NAME))
                 uploader.getCredential().setSelectedAccountName(account);
             uploader.connect(fileWriter.getFile());
         }
@@ -276,12 +292,11 @@ public class SpeakSpeedActivity extends Activity implements FileWriter.WriterCal
 
     @Override
     public void onWriteSuccessful(File file) {
-        FileUploader uploader = new FileUploader(this, loginName, loginAccount);
+        FileUploader uploader = new FileUploader(this,  loginAccount,FileUploader.FILE_VOICE_SPEED);
         uploader.connect(file);
     }
 
     @Override
     public void onWriteFail() {
-
     }
 }

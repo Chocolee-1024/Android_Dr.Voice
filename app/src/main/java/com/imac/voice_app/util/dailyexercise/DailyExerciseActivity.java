@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.RelativeLayout;
 
 import com.imac.voice_app.R;
 import com.imac.voice_app.util.login.LoginActivity;
@@ -18,10 +20,12 @@ import butterknife.ButterKnife;
  */
 public class DailyExerciseActivity extends Activity {
 
-    ArrayList<Integer> topic = new ArrayList<>();
-    ArrayList<String> topicList = new ArrayList<>();
-    boolean[] isFinish;
+    private ArrayList<Integer> topic = new ArrayList<>();
+    private ArrayList<String> topicList = new ArrayList<>();
+    private boolean[] isFinish;
     private DailyExercise dailyExerciseView;
+    private RelativeLayout counterContainer;
+    private int witch = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,8 +39,10 @@ public class DailyExerciseActivity extends Activity {
     private void init() {
         dailyExerciseView = new DailyExercise(this);
         dailyExerciseView.changeSelectFragment();
+        counterContainer = (RelativeLayout) findViewById(R.id.counter_container);
         for (int i = 0; i < topicList.size(); i++) {
-            topic.add(Integer.valueOf(topicList.get(i)));
+            int topicValue = Integer.valueOf(topicList.get(i));
+            topic.add(topicValue);
         }
         isFinish = new boolean[topic.size()];
     }
@@ -49,8 +55,20 @@ public class DailyExerciseActivity extends Activity {
         return topic;
     }
 
+    public void setCountTextVisible(boolean visible) {
+        counterContainer.setVisibility(visible ? View.VISIBLE : View.INVISIBLE);
+    }
+
     public boolean[] isFinish() {
         return isFinish;
+    }
+
+    public void setWitch(int witch) {
+        this.witch = witch;
+    }
+
+    public int getWitch() {
+        return witch;
     }
 
     @Override

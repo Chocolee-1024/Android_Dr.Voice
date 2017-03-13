@@ -1,214 +1,652 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/activity_bg_color">
+                                               xmlns:app="http://schemas.android.com/apk/res-auto"
+                                               android:layout_width="match_parent"
+                                               android:layout_height="match_parent"
+                                               android:background="@color/activity_bg_color">
 
     <com.imac.voice_app.component.ToolbarView
-        android:id="@+id/setting_toolbar_view"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:backButtonVisibility="false"
-        app:layout_heightPercent="10%"
-        app:titleText="@string/setting_title" />
-
-    <ImageView
-        android:id="@+id/iv_connection_us"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ll_container"
-        android:background="@color/setting_connection_us"
-        android:scaleType="centerInside"
-        android:src="@drawable/email_button"
-        app:layout_heightPercent="10%" />
+            android:id="@+id/setting_toolbar_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:backButtonVisibility="false"
+            app:layout_heightPercent="10%"
+            app:titleText="@string/setting_title"/>
 
     <Button
-        android:id="@+id/setting_logout"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:gravity="center"
-        android:layout_below="@+id/iv_connection_us"
-        android:text="@string/setting_logout"
-        android:textSize="16sp"
-        app:layout_heightPercent="10%"/>
+            android:visibility="gone"
+            android:id="@+id/setting_logout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/transparent"
+            android:gravity="center"
+            android:text="@string/setting_logout"
+            android:textColor="@color/speak_speed_idle"
+            android:textSize="@dimen/setting_logout_text_size"
+            app:layout_heightPercent="10%"
+            app:layout_widthPercent="18%"/>
+
+    <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            >
+
+        <Button
+                android:id="@+id/doctor_setting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:gravity="center"
+                android:text="@string/doctor_setting"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textColor="@color/speak_speed_idle"
+                android:textSize="@dimen/setting_logout_text_size"
+                />
+    </RelativeLayout>
+    <!--android:layout_toRightOf="@id/setting_logout"-->
+
+    <ImageView
+            android:id="@+id/iv_connection_us"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/ll_container"
+            android:background="@color/setting_connection_us"
+            android:scaleType="centerInside"
+            android:src="@drawable/email_button"
+            app:layout_heightPercent="10%"/>
+
 
     <LinearLayout
-        android:id="@+id/ll_container"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:orientation="vertical"
-        app:layout_heightPercent="70%"
-        android:layout_below="@+id/setting_toolbar_view"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
-
-        <RelativeLayout
-            android:id="@+id/rl_please_set"
+            android:id="@+id/ll_container"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1">
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/setting_toolbar_view"
+            android:orientation="vertical"
+            app:layout_heightPercent="80%">
 
-            <TextView
-                android:id="@+id/tv_setting_please_set"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="@string/setting_please_set"
-                android:textSize="18sp" />
+        <!--<RelativeLayout-->
+        <!--android:id="@+id/rl_please_set"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:layout_weight="1">-->
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_alignParentBottom="true"
-                android:background="@color/toolbar_line" />
-        </RelativeLayout>
+        <!--<TextView-->
+        <!--android:id="@+id/tv_setting_please_set"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:gravity="center"-->
+        <!--android:text="@string/setting_please_set"-->
+        <!--android:textSize="@dimen/tv_setting_please_set_text_size" />-->
+
+        <!--<View-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="1dp"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:background="@color/toolbar_line" />-->
+        <!--</RelativeLayout>-->
 
         <android.support.percent.PercentRelativeLayout
-            android:id="@+id/rl_daily_setting"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2">
+                android:id="@+id/rl_daily_setting"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
 
             <TextView
-                android:id="@+id/tv_daily_notice_title"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:gravity="center"
-                android:text="@string/setting_daily_notice"
-                android:textSize="14sp"
-                app:layout_heightPercent="20%"
-                app:layout_marginLeftPercent="5%"
-                app:layout_marginTopPercent="15%" />
-
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_alignParentRight="true"
-                android:gravity="center"
-                app:layout_heightPercent="20%"
-                app:layout_marginRightPercent="5%"
-                app:layout_marginTopPercent="15%"
-                app:layout_widthPercent="20%">
-
-                <Switch
-                    android:id="@+id/sw_daily_notice_switch"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_alignParentRight="true"
+                    android:text="每日練習提醒設定"
+                    android:textSize="25sp"
                     android:gravity="center"
-                    android:switchMinWidth="50dp" />
-            </RelativeLayout>
+                    android:textColor="@color/history_text"
+                    android:id="@+id/daily_exercise_remind"/>
+            <!--<TextView-->
+            <!--android:textColor="@color/history_text"-->
+            <!--android:id="@+id/tv_daily_notice_title"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="0dp"-->
+            <!--android:gravity="center"-->
+            <!--android:text="@string/setting_daily_notice"-->
+            <!--android:textSize="@dimen/tv_daily_notice_title_text_size"-->
+            <!--app:layout_heightPercent="20%"-->
+            <!--app:layout_marginLeftPercent="5%"-->
+            <!--app:layout_marginTopPercent="15%"/>-->
+
+            <!--<RelativeLayout-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="0dp"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:gravity="center"-->
+            <!--app:layout_heightPercent="23%"-->
+            <!--app:layout_marginRightPercent="5%"-->
+            <!--app:layout_marginTopPercent="15%"-->
+            <!--app:layout_widthPercent="20%">-->
+
+            <!--<Switch-->
+            <!--android:id="@+id/sw_daily_notice_switch"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:gravity="center"-->
+            <!--android:switchMinWidth="50dp"-->
+            <!--android:thumb="@drawable/switch_setting_thumb"-->
+            <!--android:track="@drawable/switch_setting_track"/>-->
+            <!--</RelativeLayout>-->
 
 
-            <TextView
-                android:id="@+id/tv_daily_notice_time"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_below="@+id/tv_daily_notice_title"
-                android:layout_centerHorizontal="true"
-                android:gravity="center"
-                android:text="@string/speak_speed_time_default"
-                android:textSize="50sp"
-                app:layout_heightPercent="40%"
-                app:layout_marginTopPercent="10%" />
+            <!--<TextView-->
+            <!--android:id="@+id/tv_daily_notice_time"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="0dp"-->
+            <!--android:layout_below="@+id/tv_daily_notice_title"-->
+            <!--android:layout_centerHorizontal="true"-->
+            <!--android:gravity="center"-->
+            <!--android:text="@string/speak_speed_time_default"-->
+            <!--android:textSize="@dimen/tv_daily_notice_time_text_size"-->
+            <!--app:layout_heightPercent="40%"-->
+            <!--app:layout_marginTopPercent="10%"/>-->
 
-            <TextView
-                android:id="@+id/tv_daily_notice_repeat"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_alignParentRight="true"
-                android:layout_below="@+id/tv_daily_notice_title"
-                android:gravity="center"
-                android:text="@string/setting_repeat"
-                app:layout_heightPercent="35%"
-                app:layout_marginRightPercent="5%"
-                app:layout_marginTopPercent="10%"
-                app:layout_widthPercent="20%" />
+            <!--<TextView-->
+            <!--android:id="@+id/tv_daily_notice_repeat"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="0dp"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_below="@+id/tv_daily_notice_title"-->
+            <!--android:gravity="center"-->
+            <!--android:text="@string/setting_repeat"-->
+            <!--app:layout_heightPercent="35%"-->
+            <!--app:layout_marginRightPercent="5%"-->
+            <!--app:layout_marginTopPercent="10%"-->
+            <!--app:layout_widthPercent="20%"/>-->
 
             <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_alignParentBottom="true"
-                android:background="@color/toolbar_line" />
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/toolbar_line"/>
 
         </android.support.percent.PercentRelativeLayout>
 
         <android.support.percent.PercentRelativeLayout
-            android:id="@+id/rl_weekly_setting"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2">
+                android:id="@+id/rl_weekly_setting"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
 
             <TextView
-                android:id="@+id/tv_weekly_notice_title"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:gravity="center"
-                android:text="@string/setting_weekly_notice"
-                android:textSize="14sp"
-                app:layout_heightPercent="20%"
-                app:layout_marginLeftPercent="5%"
-                app:layout_marginTopPercent="15%" />
+                    android:textColor="@color/history_text"
+                    android:id="@+id/tv_weekly_notice_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:gravity="center"
+                    android:text="@string/setting_weekly_notice"
+                    android:textSize="@dimen/tv_daily_notice_title_text_size"
+                    app:layout_heightPercent="20%"
+                    app:layout_marginLeftPercent="5%"
+                    app:layout_marginTopPercent="15%"/>
 
             <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_alignParentRight="true"
-                android:gravity="center"
-                app:layout_heightPercent="20%"
-                app:layout_marginRightPercent="5%"
-                app:layout_marginTopPercent="15%"
-                app:layout_widthPercent="20%">
-
-                <Switch
-                    android:id="@+id/sw_weekly_notice_switch"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
                     android:layout_alignParentRight="true"
                     android:gravity="center"
-                    android:switchMinWidth="50dp" />
+                    app:layout_heightPercent="23%"
+                    app:layout_marginRightPercent="5%"
+                    app:layout_marginTopPercent="15%"
+                    app:layout_widthPercent="20%">
+
+                <Switch
+                        android:id="@+id/sw_weekly_notice_switch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentRight="true"
+                        android:gravity="center"
+                        android:switchMinWidth="50dp"
+                        android:thumb="@drawable/switch_setting_thumb"
+                        android:track="@drawable/switch_setting_track"/>
             </RelativeLayout>
 
             <TextView
-                android:id="@+id/tv_weekly_notice_time"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_below="@+id/tv_weekly_notice_title"
-                android:layout_centerHorizontal="true"
-                android:gravity="center_vertical"
-                android:text="@string/speak_speed_time_default"
-                android:textSize="50sp"
-                app:layout_heightPercent="40%"
-                app:layout_marginTopPercent="10%" />
+                    android:id="@+id/tv_weekly_notice_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_weekly_notice_title"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center_vertical"
+                    android:text="@string/speak_speed_time_default"
+                    android:textSize="@dimen/tv_daily_notice_time_text_size"
+                    app:layout_marginTopPercent="10%"/>
+            <!--app:layout_heightPercent="40%"-->
 
             <TextView
-                android:id="@+id/tv_weekly_notice_week"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@+id/tv_weekly_notice_title"
-                android:gravity="center"
-                android:text="星期一"
-                android:textSize="14sp"
-                app:layout_heightPercent="35%"
-                app:layout_marginLeftPercent="5%"
-                app:layout_marginTopPercent="10%"
-                app:layout_widthPercent="20%" />
+                    android:id="@+id/tv_weekly_notice_week"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@+id/tv_weekly_notice_title"
+                    android:gravity="center"
+                    android:text="星期一"
+                    android:textSize="@dimen/tv_daily_notice_title_text_size"
+                    app:layout_heightPercent="35%"
+                    app:layout_marginLeftPercent="5%"
+                    app:layout_marginTopPercent="10%"
+                    app:layout_widthPercent="20%"/>
 
             <TextView
-                android:id="@+id/tv_weekly_notice_repeat"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_alignParentRight="true"
-                android:layout_below="@+id/tv_weekly_notice_title"
-                android:gravity="center"
-                android:text="@string/setting_repeat"
-                app:layout_heightPercent="35%"
-                app:layout_marginRightPercent="5%"
-                app:layout_marginTopPercent="10%"
-                app:layout_widthPercent="20%" />
+                    android:id="@+id/tv_weekly_notice_repeat"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/tv_weekly_notice_title"
+                    android:gravity="center"
+                    android:text="@string/setting_repeat"
+                    app:layout_heightPercent="35%"
+                    app:layout_marginRightPercent="5%"
+                    app:layout_marginTopPercent="10%"
+                    app:layout_widthPercent="20%"/>
         </android.support.percent.PercentRelativeLayout>
+
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/toolbar_line"/>
+
+        <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:layout_weight="1">
+
+            <TextView
+                    android:id="@+id/back_to_the_clinic_time_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:gravity="center"
+                    android:text="@string/setting_back_to_the_clinic_time"
+                    android:textColor="@color/history_text"
+                    android:textSize="@dimen/tv_daily_notice_title_text_size"
+                    app:layout_heightPercent="20%"
+                    app:layout_marginTopPercent="15%"/>
+
+            <LinearLayout
+                    android:id="@+id/top_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/back_to_the_clinic_time_title"
+                    android:gravity="center"
+                    app:layout_heightPercent="32.5%">
+
+                <TextView
+                        android:id="@+id/back_to_the_clinic_time_year"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/setting_none_value"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/setting_time_text_size"/>
+
+                <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/setting_year"
+                        android:textColor="@color/history_text"
+                        android:textSize="@dimen/tv_daily_notice_title_text_size"/>
+
+                <TextView
+                        android:id="@+id/back_to_the_clinic_time_month"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/setting_none_value"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/setting_time_text_size"/>
+
+                <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/setting_month"
+                        android:textColor="@color/history_text"
+                        android:textSize="@dimen/tv_daily_notice_title_text_size"/>
+
+                <TextView
+                        android:id="@+id/back_to_the_clinic_time_day"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/setting_none_value"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/setting_time_text_size"/>
+
+                <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/setting_day"
+                        android:textColor="@color/history_text"
+                        android:textSize="@dimen/tv_daily_notice_title_text_size"/>
+            </LinearLayout>
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/top_container"
+                    android:gravity="center"
+                    app:layout_heightPercent="32.5%">
+
+                <TextView
+                        android:id="@+id/back_to_the_clinic_time_week"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:textColor="@color/history_text"
+                        android:textSize="@dimen/tv_daily_notice_title_text_size"/>
+
+                <TextView
+                        android:id="@+id/back_to_the_clinic_time_time"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="下午"
+                        android:textColor="@color/history_text"
+                        android:textSize="@dimen/tv_daily_notice_title_text_size"/>
+
+                <EditText
+                        android:id="@+id/back_to_the_clinic_time_number"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:inputType="number"
+                        android:background="#ffffffff"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:gravity="center"
+                        android:textColor="@color/black"
+                        />
+
+                <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/setting_number"
+                        android:textColor="@color/history_text"
+                        android:textSize="@dimen/tv_daily_notice_title_text_size"/>
+            </LinearLayout>
+        </android.support.percent.PercentRelativeLayout>
+
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/toolbar_line"/>
+
+        <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:layout_weight="1">
+
+            <TextView
+                    android:id="@+id/treatment_time_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:gravity="center"
+                    android:text="@string/setting_treatment_time"
+                    android:textColor="@color/history_text"
+                    android:textSize="@dimen/tv_daily_notice_title_text_size"
+                    app:layout_heightPercent="20%"
+                    app:layout_marginTopPercent="15%"/>
+
+            <LinearLayout
+                    android:id="@+id/bottom_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/treatment_time_title"
+                    android:gravity="center"
+                    app:layout_heightPercent="32.5%">
+
+                <TextView
+                        android:id="@+id/treatment_year"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/setting_none_value"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/setting_time_text_size"/>
+
+                <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/setting_year"
+                        android:textColor="@color/history_text"
+                        android:textSize="@dimen/tv_daily_notice_title_text_size"/>
+
+                <TextView
+                        android:id="@+id/treatment_month"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/setting_none_value"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/setting_time_text_size"/>
+
+                <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/setting_month"
+                        android:textColor="@color/history_text"
+                        android:textSize="@dimen/tv_daily_notice_title_text_size"/>
+
+                <TextView
+                        android:id="@+id/treatment_day"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/setting_none_value"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/setting_time_text_size"/>
+
+                <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/setting_day"
+                        android:textColor="@color/history_text"
+                        android:textSize="@dimen/tv_daily_notice_title_text_size"/>
+            </LinearLayout>
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/bottom_container"
+                    android:gravity="center"
+                    app:layout_heightPercent="32.5%">
+
+                <TextView
+                        android:id="@+id/treatment_week"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:textColor="@color/history_text"
+                        android:textSize="@dimen/tv_daily_notice_title_text_size"/>
+
+                <!--<TextView-->
+                <!--android:id="@+id/treatment_time"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:gravity="center"-->
+                <!--android:text="下午"-->
+                <!--android:textColor="@color/history_text"-->
+                <!--android:textSize="@dimen/tv_daily_notice_title_text_size"/>-->
+
+                <TextView
+                        android:id="@+id/treatment_number"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:gravity="center"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/setting_time_text_size"/>
+
+                <!--<TextView-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:gravity="center"-->
+                <!--android:text="@string/setting_number"-->
+                <!--android:textColor="@color/history_text"-->
+                <!--android:textSize="@dimen/tv_daily_notice_title_text_size"/>-->
+            </LinearLayout>
+        </android.support.percent.PercentRelativeLayout>
+
     </LinearLayout>
 
+    <android.support.percent.PercentRelativeLayout
+            android:visibility="gone"
+            android:id="@+id/dialog_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#8c000000"
+            android:clickable="true"
+            >
+
+        <LinearLayout
+                android:background="#ffffffff"
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                app:layout_widthPercent="80%"
+                app:layout_heightPercent="78%"
+                >
+
+            <android.support.percent.PercentRelativeLayout
+                    android:layout_width="match_parent"
+                    android:background="#BD7580"
+                    android:layout_height="wrap_content">
+
+                <ImageView
+                        android:id="@+id/close_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/close_button"
+                        android:padding="5dp"
+                        />
+
+                <TextView
+                        android:layout_centerInParent="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#ffffffff"
+                        android:textSize="20sp"
+                        android:text="每日練習提醒"/>
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                <TextView
+                        android:id="@+id/daily_text1"
+                        android:textSize="35sp"
+                        android:layout_width="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_height="wrap_content"
+                        app:layout_marginLeftPercent="20%"
+                        android:text="00:00"/>
+
+                <Switch
+                        android:id="@+id/daily_switch1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentRight="true"
+                        android:gravity="center"
+                        app:layout_marginRightPercent="5%"
+                        android:switchMinWidth="50dp"
+                        android:thumb="@drawable/switch_setting_thumb"
+                        android:track="@drawable/switch_setting_track"/>
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                <TextView
+                        android:id="@+id/daily_text2"
+                        app:layout_marginLeftPercent="20%"
+                        android:layout_centerVertical="true"
+                        android:textSize="35sp"
+                        android:gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="00:00"/>
+
+                <Switch
+                        android:id="@+id/daily_switch2"
+                        app:layout_marginRightPercent="5%"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentRight="true"
+                        android:gravity="center"
+                        android:switchMinWidth="50dp"
+                        android:thumb="@drawable/switch_setting_thumb"
+                        android:track="@drawable/switch_setting_track"/>
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                <TextView
+                        android:id="@+id/daily_text3"
+                        app:layout_marginLeftPercent="20%"
+                        android:layout_centerVertical="true"
+                        android:textSize="35sp"
+                        android:gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="00:00"/>
+
+                <Switch
+                        android:id="@+id/daily_switch3"
+                        app:layout_marginRightPercent="5%"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentRight="true"
+                        android:gravity="center"
+                        android:switchMinWidth="50dp"
+                        android:thumb="@drawable/switch_setting_thumb"
+                        android:track="@drawable/switch_setting_track"/>
+            </android.support.percent.PercentRelativeLayout>
+        </LinearLayout>
+    </android.support.percent.PercentRelativeLayout>
 </android.support.percent.PercentRelativeLayout>

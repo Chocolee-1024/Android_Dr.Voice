@@ -9,7 +9,6 @@ import android.widget.TextView;
 import com.imac.voice_app.R;
 import com.imac.voice_app.core.FragmentLauncher;
 import com.imac.voice_app.module.CountSecond;
-import com.imac.voice_app.module.FontManager;
 import com.imac.voice_app.util.dailyexercise.DailyExerciseActivity;
 import com.imac.voice_app.util.dailyexercise.DailyExerciseCompleteFragment;
 import com.imac.voice_app.util.dailyexercise.DailyExerciseSelectFragment;
@@ -47,10 +46,11 @@ public class DailyExerciseFinishView {
                 finish[i] = true;
             }
         }
+        setFont();
     }
 
     private void setFont() {
-        FontManager.setFont(activity, FontManager.MEDIUM, dailyExerciseFinishTitle, dailyExerciseFinishTime);
+//        FontManager.setFont(activity, FontManager.MEDIUM, dailyExerciseFinishTitle, dailyExerciseFinishTime);
     }
 
     private String SecToMin(int inputSec) {
@@ -101,6 +101,7 @@ public class DailyExerciseFinishView {
                 null,
                 new DailyExerciseSelectFragment().getClass().getName()
         );
+//        activity.onBackPressed();
     }
 
     private void changeComplete() {

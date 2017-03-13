@@ -10,7 +10,7 @@ import android.util.Log;
 
 import com.imac.voice_app.broadcastreceiver.AlarmReceiver;
 import com.imac.voice_app.module.AlarmConstantManager;
-import com.imac.voice_app.module.AlarmPreferences;
+import com.imac.voice_app.module.Preferences;
 
 import java.util.Calendar;
 
@@ -20,19 +20,19 @@ import java.util.Calendar;
 
 public class AlarmService extends Service {
     private AlarmManager mAlarmManager;
-    private AlarmPreferences mAlarmPreferences;
+    private Preferences mPreferences;
 
     @Override
     public void onCreate() {
         super.onCreate();
         mAlarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        mAlarmPreferences = new AlarmPreferences(AlarmService.this);
+        mPreferences = new Preferences(AlarmService.this);
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (null == intent) {
-            Log.e ("service", "intent was null, flags=" + flags + " bits=" + Integer.toBinaryString (flags));
+            Log.e("service", "intent was null, flags=" + flags + " bits=" + Integer.toBinaryString(flags));
             return START_REDELIVER_INTENT;
         }
         int action = intent.getIntExtra(AlarmConstantManager.ACTION_MODE, AlarmConstantManager.ACTION_CLOSE);
@@ -41,9 +41,8 @@ public class AlarmService extends Service {
         } else {
             setAlarmClose(intent.getStringExtra(AlarmConstantManager.INTENT_MODE));
         }
-
-        Log.e("service","action start");
-        return super.onStartCommand(intent, flags, startId);
+        Log.e("service", "action start");
+        return START_REDELIVER_INTENT;
     }
 
     @Nullable
@@ -64,20 +63,20 @@ public class AlarmService extends Service {
 
         if (type.equals(AlarmConstantManager.MODE_DAILY)) {
             mAlarmIntent.putExtra(AlarmConstantManager.INTENT_MODE, AlarmConstantManager.MODE_DAILY);
-            settingHour = Integer.valueOf(mAlarmPreferences.getDailyHour());
-            settingMin = Integer.valueOf(mAlarmPreferences.getDailyMin());
+            settingHour = Integer.valueOf(mPreferences.getDailyHour());
+            settingMin = Integer.valueOf(mPreferences.getDailyMin());
             pendingIntent = PendingIntent.getBroadcast(this, AlarmConstantManager.ID_DAILY_ALARM, mAlarmIntent, PendingIntent.FLAG_ONE_SHOT);
         } else {
             mAlarmIntent.putExtra(AlarmConstantManager.INTENT_MODE, AlarmConstantManager.MODE_WEEK);
-            mAlarmIntent.putExtra(AlarmConstantManager.WEEK_DAY, mAlarmPreferences.getWeeklyDay());
-            settingHour = Integer.valueOf(mAlarmPreferences.getWeeklyHour());
-            settingMin = Integer.valueOf(mAlarmPreferences.getWeeklyMin());
+            mAlarmIntent.putExtra(AlarmConstantManager.WEEK_DAY, mPreferences.getWeeklyDay());
+            settingHour = Integer.valueOf(mPreferences.getWeeklyHour());
+            settingMin = Integer.valueOf(mPreferences.getWeeklyMin());
             pendingIntent = PendingIntent.getBroadcast(this, AlarmConstantManager.ID_WEEKLY_ALARM, mAlarmIntent, PendingIntent.FLAG_ONE_SHOT);
         }
 
         calendar.set(Calendar.HOUR_OF_DAY, settingHour);
         calendar.set(Calendar.MINUTE, settingMin);
-        calendar.set(Calendar.SECOND,0);
+        calendar.set(Calendar.SECOND, 0);
         if (nowHour >= settingHour && nowMin >= settingMin) {
             calendar.add(Calendar.DAY_OF_MONTH, 1);
         }
@@ -93,7 +92,6 @@ public class AlarmService extends Service {
         } else {
             pendingIntent = PendingIntent.getBroadcast(this, AlarmConstantManager.ID_WEEKLY_ALARM, intent, PendingIntent.FLAG_ONE_SHOT);
         }
-
         mAlarmManager.cancel(pendingIntent);
     }
 }

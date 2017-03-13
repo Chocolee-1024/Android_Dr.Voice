@@ -5,10 +5,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.imac.voice_app.R;
-import com.imac.voice_app.core.PreferencesHelper;
-import com.imac.voice_app.module.FontManager;
-import com.imac.voice_app.module.SharePreferencesManager;
-import com.imac.voice_app.util.login.LoginActivity;
+import com.imac.voice_app.module.Preferences;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,31 +24,29 @@ public class HomePage {
     private OnClickEvent event;
     private Activity activity;
     private String account = "";
-    private String name = "";
+//    private String name = "";
     private String dailyExercise = "";
     private String weeklyExercise = "";
-    private SharePreferencesManager sharePreferencesManager;
+    private Preferences preferences;
 
     public HomePage(Activity activity, OnClickEvent event) {
         ButterKnife.bind(this, activity);
-        sharePreferencesManager = SharePreferencesManager.getInstance(activity);
+        preferences = new Preferences(activity);
         this.event = event;
         this.activity = activity;
         setFontType();
     }
 
     private void setFontType() {
-        FontManager.setFont(activity, FontManager.LIGHT, title, developer);
-        FontManager.setFont(activity, FontManager.MEDIUM, start);
     }
 
     private boolean isLogin() {
         boolean isLogin;
-        account = (String) sharePreferencesManager.get(LoginActivity.KEY_LOGIN_ACCOUNT, PreferencesHelper.Type.STRING);
-        name = (String) sharePreferencesManager.get(LoginActivity.KEY_LOGIN_NAME, PreferencesHelper.Type.STRING);
-        dailyExercise = (String) sharePreferencesManager.get(LoginActivity.KEY_DAILY_EXERCISE, PreferencesHelper.Type.STRING);
-        weeklyExercise = (String) sharePreferencesManager.get(LoginActivity.KEY_WEEKLY_EXERCISE, PreferencesHelper.Type.STRING);
-        if ("".equals(account) || "".equals(name) || "".equals(dailyExercise) || "".equals(weeklyExercise)) {
+        account = preferences.getAccounnt();
+//        name = preferences.getName();
+//        dailyExercise = (String) sharePreferencesManager.get(LoginActivity.KEY_DAILY_EXERCISE, PreferencesHelper.Type.STRING);
+//        weeklyExercise = (String) sharePreferencesManager.get(LoginActivity.KEY_WEEKLY_EXERCISE, PreferencesHelper.Type.STRING);
+        if ("".equals(account)) {
             isLogin = false;
         } else {
             isLogin = true;
@@ -61,10 +56,10 @@ public class HomePage {
 
     @OnClick(R.id.start)
     public void clickStart() {
-        event.onClick(isLogin(), account, name, dailyExercise, weeklyExercise);
+        event.onClick(isLogin(), account, dailyExercise, weeklyExercise);
     }
 
     public interface OnClickEvent {
-        void onClick(boolean isLogin, String account, String name, String dailyExercise, String weeklyExercise);
+        void onClick(boolean isLogin, String account, String dailyExercise, String weeklyExercise);
     }
 }

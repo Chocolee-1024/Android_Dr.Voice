@@ -8,15 +8,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.imac.voice_app.R;
-import com.imac.voice_app.core.PreferencesHelper;
+import com.imac.voice_app.module.Preferences;
 import com.imac.voice_app.module.DataAppend;
 import com.imac.voice_app.module.DateChecker;
-import com.imac.voice_app.module.FontManager;
-import com.imac.voice_app.module.SharePreferencesManager;
 import com.imac.voice_app.util.login.LoginActivity;
-import com.imac.voice_app.util.weeklyassessment.WeeklyAssessmentActivity;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 
 import butterknife.BindView;
@@ -60,12 +56,12 @@ public class MainMenu {
     PercentRelativeLayout settingContainer;
     private Bundle bundle;
     private MenuClickListener menuClickListener;
-    private SharePreferencesManager sharePreferencesManager;
+    private Preferences preferences;
 
     public MainMenu(Activity activity, MenuClickListener menuClickListener, Bundle bundle) {
         this.activity = activity;
         this.bundle = bundle;
-        sharePreferencesManager = SharePreferencesManager.getInstance(activity);
+        preferences = new Preferences(activity);
         ButterKnife.bind(this, activity);
         this.menuClickListener = menuClickListener;
         getBundle();
@@ -76,11 +72,11 @@ public class MainMenu {
         DateChecker dateChecker = new DateChecker(activity);
         boolean isOverWeek = dateChecker.isOverWeek(Calendar.getInstance());
         if (isOverWeek) {
-            sharePreferencesManager.save(PreferencesHelper.Type.BOOLEAN, WeeklyAssessmentActivity.KEY_COMPLETE, false);
+            preferences.saveComplete(false);
             weeklyAssessmentContainer.setClickable(true);
             weeklyAssessmentText.setTextColor(Color.BLACK);
         } else {
-            if ((Boolean) sharePreferencesManager.get(WeeklyAssessmentActivity.KEY_COMPLETE, PreferencesHelper.Type.BOOLEAN)) {
+            if (preferences.getComplete()) {
                 weeklyAssessmentContainer.setClickable(false);
                 weeklyAssessmentText.setTextColor(Color.GRAY);
             } else {
@@ -90,23 +86,32 @@ public class MainMenu {
         }
     }
 
+    public void speedEnabler() {
+        if (preferences.getSpeedDoctorSetting()) {
+            speakSpeedContainer.setClickable(false);
+            speakSpeedText.setTextColor(Color.GRAY);
+        } else {
+            speakSpeedContainer.setClickable(true);
+            speakSpeedText.setTextColor(Color.BLACK);
+        }
+    }
+
     private void getBundle() {
-        if ("".equals(sharePreferencesManager.get(LoginActivity.KEY_LOGIN_ACCOUNT, PreferencesHelper.Type.STRING))) {
+        if ("".equals(preferences.getAccounnt())) {
             String loginAccount = bundle.getString(LoginActivity.KEY_LOGIN_ACCOUNT);
-            String loginName = bundle.getString(LoginActivity.KEY_LOGIN_NAME);
-            ArrayList<String> topicList = (ArrayList<String>) bundle.getSerializable(LoginActivity.KEY_DAILY_EXERCISE);
-            ArrayList<String> weeklyTopic = (ArrayList<String>) bundle.getSerializable(LoginActivity.KEY_WEEKLY_EXERCISE);
+//            String loginName = bundle.getString(LoginActivity.KEY_LOGIN_NAME);
+//            ArrayList<String> topicList = (ArrayList<String>) bundle.getSerializable(LoginActivity.KEY_DAILY_EXERCISE);
+//            ArrayList<String> weeklyTopic = (ArrayList<String>) bundle.getSerializable(LoginActivity.KEY_WEEKLY_EXERCISE);
 
             DataAppend dataAppend = new DataAppend();
-            sharePreferencesManager.save(PreferencesHelper.Type.STRING, LoginActivity.KEY_LOGIN_ACCOUNT, loginAccount);
-            sharePreferencesManager.save(PreferencesHelper.Type.STRING, LoginActivity.KEY_LOGIN_NAME, loginName);
-            sharePreferencesManager.save(PreferencesHelper.Type.STRING, LoginActivity.KEY_DAILY_EXERCISE, dataAppend.append(topicList));
-            sharePreferencesManager.save(PreferencesHelper.Type.STRING, LoginActivity.KEY_WEEKLY_EXERCISE, dataAppend.append(weeklyTopic));
+            preferences.saveAccount(loginAccount);
+//            preferences.saveName(loginName);
+//            sharePreferencesManager.save(PreferencesHelper.Type.STRING, LoginActivity.KEY_DAILY_EXERCISE, dataAppend.append(topicList));
+//            sharePreferencesManager.save(PreferencesHelper.Type.STRING, LoginActivity.KEY_WEEKLY_EXERCISE, dataAppend.append(weeklyTopic));
         }
     }
 
     private void setFontType() {
-        FontManager.setFont(activity, FontManager.NORMAL, dailyExerciseText, weeklyAssessmentText, historyText, speakSpeedText, settingText);
     }
 
     @OnClick(R.id.daily_exercise_container)

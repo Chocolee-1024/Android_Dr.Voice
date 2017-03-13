@@ -6,11 +6,11 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 
 import com.imac.voice_app.R;
 import com.imac.voice_app.component.CustomIndicator;
 import com.imac.voice_app.core.FragmentLauncher;
-import com.imac.voice_app.module.FontManager;
 import com.imac.voice_app.util.dailyexercise.DailyExerciseActivity;
 import com.imac.voice_app.util.dailyexercise.DailyExerciseInnerSelectFragment;
 
@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.OnTouch;
 
 /**
  * Created by isa on 2016/9/20.
@@ -52,22 +51,28 @@ public class DailySelectExerciseView implements ViewPager.OnPageChangeListener {
 
     private void init() {
         setFont();
+        hideCountDown();
         adapter = new DailySelectExerciseAdapter(activity, topic);
         fragmentContainer.setAdapter(adapter);
         fragmentContainer.addOnPageChangeListener(this);
         indicator.setIsFinish(isFinish);
         indicator.setViewPager(fragmentContainer);
-        previousStepButton.setVisibility(View.INVISIBLE);
+        fragmentContainer.setCurrentItem(((DailyExerciseActivity) activity).getWitch());
+        previousStepButton.setVisibility(View.VISIBLE);
+        nextStepButton.setVisibility(View.VISIBLE);
+        if (((DailyExerciseActivity) activity).getWitch() == 0)
+            previousStepButton.setVisibility(View.INVISIBLE);
+        else if (((DailyExerciseActivity) activity).getWitch() == topic.size() - 1)
+            nextStepButton.setVisibility(View.INVISIBLE);
     }
 
     private void setFont() {
-        FontManager.setFont(activity, FontManager.MEDIUM, previousStepButton, nextStepButton, startButton);
     }
-
-    @OnTouch(R.id.fragment_container)
-    public boolean onTouch() {
-        return true;
-    }
+// TODO: 2016/10/24  viewPager 改為可滑動
+//    @OnTouch(R.id.fragment_container)
+//    public boolean onTouch() {
+//        return true;
+//    }
 
     @OnClick(R.id.next_step_button)
     public void onNextButtonClick() {
@@ -81,6 +86,7 @@ public class DailySelectExerciseView implements ViewPager.OnPageChangeListener {
 
     @OnClick(R.id.start_button)
     public void onStartButtonClick() {
+        ((DailyExerciseActivity) activity).setWitch(fragmentContainer.getCurrentItem());
         Bundle bundle = new Bundle();
         bundle.putInt(KEY_INNER_FRAGMENT_INDEX, topic.get(fragmentContainer.getCurrentItem()));
         LayoutInflater inflater = LayoutInflater.from(activity);
@@ -122,6 +128,11 @@ public class DailySelectExerciseView implements ViewPager.OnPageChangeListener {
             nextStepButton.setVisibility(View.VISIBLE);
             previousStepButton.setVisibility(View.VISIBLE);
         }
+    }
+
+    public void hideCountDown() {
+        RelativeLayout counterContainer = (RelativeLayout) activity.findViewById(R.id.counter_container);
+        counterContainer.setVisibility(View.INVISIBLE);
     }
 
     @Override

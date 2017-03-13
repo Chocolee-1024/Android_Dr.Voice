@@ -8,7 +8,6 @@ import android.widget.TextView;
 
 import com.imac.voice_app.R;
 import com.imac.voice_app.component.ToolbarView;
-import com.imac.voice_app.module.FontManager;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,7 +32,7 @@ public class DailyExerciseCompleteView {
         setFont();
     }
     private void setFont() {
-        FontManager.setFont(activity, FontManager.MEDIUM, dailyExerciseFinishTitle, dailyExerciseFinishButton);
+//        FontManager.setFont(activity, FontManager.MEDIUM, dailyExerciseFinishTitle, dailyExerciseFinishButton);
     }
 
     @OnClick(R.id.daily_exercise_finish_button)

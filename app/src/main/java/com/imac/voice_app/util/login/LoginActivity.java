@@ -28,7 +28,6 @@ import java.util.ArrayList;
 import butterknife.ButterKnife;
 
 public class LoginActivity extends AppCompatActivity implements DataChangeListener {
-    private ProgressDialog progressDialog;
     private Login login;
     private Activity activity;
     private PermissionsChecker permissionsChecker;
@@ -36,11 +35,14 @@ public class LoginActivity extends AppCompatActivity implements DataChangeListen
     private final String[] permission = new String[]{
             Manifest.permission.GET_ACCOUNTS
     };
-    public final  static  String NAME_SHAREPREFERENCE="name_share_preference";
+    public final static String NAME_SHAREPREFERENCE = "name_share_preference";
     public final static String KEY_LOGIN_ACCOUNT = "key_login_account";
     public final static String KEY_LOGIN_NAME = "key_login_name";
     public final static String KEY_DAILY_EXERCISE = "key_daily_exercise";
     public final static String KEY_WEEKLY_EXERCISE = "key_weekly_exercise";
+    public final static String KEY_SETTING = "key_setting";
+    private ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,13 +55,21 @@ public class LoginActivity extends AppCompatActivity implements DataChangeListen
     private void init() {
         activity = this;
         login = new Login(activity, this);
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle(getString(R.string.login_loading));
+        progressDialog.setMessage(getString(R.string.login_wait));
     }
 
     private LoginChecker.eventCallBack setEventCallBack() {
         return new LoginChecker.eventCallBack() {
             @Override
             public void onSuccessful(String account) {
-                searchUserName(account);
+//                searchUserName(account);
+                Bundle bundle = new Bundle();
+                bundle.putString(KEY_LOGIN_ACCOUNT, account);
+                ActivityLauncher.go(LoginActivity.this, MainActivity.class, bundle);
+                finish();
+                progressDialog.dismiss();
             }
 
             @Override
@@ -70,11 +80,7 @@ public class LoginActivity extends AppCompatActivity implements DataChangeListen
 
             @Override
             public void showProgress() {
-                progressDialog = ProgressDialog.show(LoginActivity.this,
-                        getString(R.string.login_loading),
-                        getString(R.string.login_wait),
-                        true
-                );
+                progressDialog.show();
             }
 
             @Override
@@ -120,10 +126,15 @@ public class LoginActivity extends AppCompatActivity implements DataChangeListen
         SearchName search = new SearchName(LoginActivity.this, account, new SearchName.onCallBackEvent() {
             @Override
             public void onSearchResult(ArrayList<String> search) {
-                Bundle bundle = new Bundle();
-                bundle.putString(KEY_LOGIN_ACCOUNT, account);
-                bundle.putString(KEY_LOGIN_NAME, search.get(0));
-                searchDailyTopic(account, bundle);
+                if (search.size() != 0) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString(KEY_LOGIN_ACCOUNT, account);
+                    bundle.putString(KEY_LOGIN_NAME, search.get(0));
+                    ActivityLauncher.go(LoginActivity.this, MainActivity.class, bundle);
+                    finish();
+                } else
+                    Toast.makeText(LoginActivity.this, "請檢查google Drive 帳號設定", Toast.LENGTH_SHORT).show();
+                progressDialog.dismiss();
             }
 
             @Override
@@ -134,43 +145,4 @@ public class LoginActivity extends AppCompatActivity implements DataChangeListen
         });
         search.execute();
     }
-
-    private void searchDailyTopic(final String account, final Bundle bundle) {
-        String fileName = "每日練習" + account;
-        SearchName searchDailyTopic = new SearchName(LoginActivity.this, fileName, new SearchName.onCallBackEvent() {
-            @Override
-            public void onSearchResult(ArrayList<String> search) {
-                bundle.putSerializable(KEY_DAILY_EXERCISE, search);
-                searchWeeklyTopic(account,bundle);
-            }
-
-            @Override
-            public void onSearchFail() {
-                Toast.makeText(LoginActivity.this, "無此帳號每日練習題目", Toast.LENGTH_SHORT).show();
-                progressDialog.dismiss();
-            }
-        });
-        searchDailyTopic.execute();
-    }
-    private void searchWeeklyTopic(String account, final Bundle bundle) {
-        String fileName = "每週用聲紀錄" + account;
-        SearchName searchDailyTopic = new SearchName(LoginActivity.this, fileName, new SearchName.onCallBackEvent() {
-            @Override
-            public void onSearchResult(ArrayList<String> search) {
-                bundle.putSerializable(KEY_WEEKLY_EXERCISE, search);
-                ActivityLauncher.go(LoginActivity.this, MainActivity.class, bundle);
-                finish();
-                progressDialog.dismiss();
-            }
-
-            @Override
-            public void onSearchFail() {
-                Toast.makeText(LoginActivity.this, "無此每週用聲紀錄", Toast.LENGTH_SHORT).show();
-                progressDialog.dismiss();
-            }
-        });
-        searchDailyTopic.execute();
-    }
-
-
 }
