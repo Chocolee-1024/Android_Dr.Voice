@@ -50,6 +50,10 @@ public class MediaPlayer {
         }
     }
 
+    public int getDuration(){
+        return player.getDuration();
+    }
+
     public Status getStatus() {
         return status;
     }

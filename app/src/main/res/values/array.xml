@@ -73,4 +73,10 @@
         <item>@raw/save</item>
         <item>@raw/happy</item>
     </integer-array>
+    <integer-array name="relax_array">
+        <item>@raw/relax1</item>
+        <item>@raw/relax2</item>
+        <item>@raw/relax3</item>
+        <item>@raw/relax4</item>
+    </integer-array>
 </resources>
