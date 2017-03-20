@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -56,6 +57,9 @@ public class DailySelectInnerExerciseView implements android.media.MediaPlayer.O
     TypedArray muRawArray;
     @BindArray(R.array.her_raw_array)
     TypedArray herRawArray;
+    @BindArray(R.array.relax_array)
+    TypedArray relaxArray;
+
     private Activity activity;
     private int index;
     private Handler handler;
@@ -183,6 +187,7 @@ public class DailySelectInnerExerciseView implements android.media.MediaPlayer.O
         pictureRunnable = new TurnDataThread(
                 activity
                 , 4
+                , 10
         );
         pictureRunnable.setDataChangeEvent(onChangeEvent());
         pictureRunnable.start();
@@ -201,7 +206,6 @@ public class DailySelectInnerExerciseView implements android.media.MediaPlayer.O
         return new TurnDataThread.DataChangeEvent() {
             @Override
             public void onDataChangeEvent(final int witchData) {
-
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
@@ -213,6 +217,7 @@ public class DailySelectInnerExerciseView implements android.media.MediaPlayer.O
                             dailyExerciseSelectedImage.setImageResource(herArray.getResourceId(witchData, 0));
                             player = new MediaPlayer(activity, herRawArray.getResourceId(witchData, 0));
                         }
+                        textRunnable.setDelaySec(player.getDuration() / 1000 * 2);
                         player.startPlay();
                     }
                 });
@@ -305,6 +310,7 @@ public class DailySelectInnerExerciseView implements android.media.MediaPlayer.O
                 dailyExerciseSelectedDescription.setVisibility(View.INVISIBLE);
                 player.setCompleteListener(DailySelectInnerExerciseView.this);
                 player.startPlay();
+                Toast.makeText(activity, activity.getString(R.string.daily_exercise_playing), Toast.LENGTH_LONG).show();
                 if (null != mGifDrawable) mGifDrawable.stop();
             }
         };
@@ -323,24 +329,30 @@ public class DailySelectInnerExerciseView implements android.media.MediaPlayer.O
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
+                        player.stopPlay();
                         switch (witchData) {
                             case 0:
                                 dailyExerciseSelectedImage.setImageResource(R.drawable.practice4_action_a_icon);
                                 dailyExerciseSelectedDescription.setText(R.string.daily_exercise_practice4_action_a);
+                                player = new MediaPlayer(activity, relaxArray.getResourceId(witchData, 0));
                                 break;
                             case 1:
                                 dailyExerciseSelectedImage.setImageResource(R.drawable.practice4_action_b_icon);
                                 dailyExerciseSelectedDescription.setText(R.string.daily_exercise_practice4_action_b);
+                                player = new MediaPlayer(activity, relaxArray.getResourceId(witchData, 0));
                                 break;
                             case 2:
                                 dailyExerciseSelectedImage.setImageResource(R.drawable.practice4_action_c_icon);
                                 dailyExerciseSelectedDescription.setText(R.string.daily_exercise_practice4_action_c);
+                                player = new MediaPlayer(activity, relaxArray.getResourceId(witchData, 0));
                                 break;
                             case 3:
                                 dailyExerciseSelectedImage.setImageResource(R.drawable.practice4_action_d_icon);
                                 dailyExerciseSelectedDescription.setText(R.string.daily_exercise_practice4_action_d);
+                                player = new MediaPlayer(activity, relaxArray.getResourceId(witchData, 0));
                                 break;
                         }
+                        player.startPlay();
                     }
                 });
             }
