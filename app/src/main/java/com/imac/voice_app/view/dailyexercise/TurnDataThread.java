@@ -16,12 +16,18 @@ public class TurnDataThread extends Thread {
     private int countScend = 0;
     private Object mObject;
     private Handler mHandler;
+    private int delaySec = 10;
 
-    public TurnDataThread(Activity activity, int recycle) {
+    public TurnDataThread(Activity activity, int recycle, int delaySec) {
         this.activity = activity;
+        this.delaySec = delaySec;
         this.recycle = recycle;
         mObject = new Object();
         mHandler = new Handler();
+    }
+
+    public TurnDataThread(Activity activity, int recycle) {
+        this(activity, recycle, 10);
     }
 
     @Override
@@ -29,7 +35,7 @@ public class TurnDataThread extends Thread {
         if (!isFinish) {
             if (!isPause) {
                 witchPictureIndex = witchPictureIndex % recycle;
-                if (countScend % 10 == 0) {
+                if (countScend % delaySec == 0) {
                     event.onDataChangeEvent(witchPictureIndex);
                     witchPictureIndex++;
                 }
@@ -37,6 +43,10 @@ public class TurnDataThread extends Thread {
                 mHandler.postDelayed(this, 1000);
             }
         }
+    }
+
+    public void setDelaySec(int delaySec) {
+        this.delaySec = delaySec;
     }
 
     public interface DataChangeEvent {

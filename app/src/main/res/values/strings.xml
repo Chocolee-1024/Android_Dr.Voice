@@ -63,6 +63,7 @@
     <string name="daily_exercise_practice4_action_b">慢慢低頭再回來</string>
     <string name="daily_exercise_practice4_action_c">頭往左邊側躺在換邊</string>
     <string name="daily_exercise_practice4_action_d">雙手用力推再放鬆</string>
+    <string name="daily_exercise_playing">播放音檔中 . . .</string>
     <string-array name="soft_attack">
         <item>貓咪</item>
         <item>綿花</item>
