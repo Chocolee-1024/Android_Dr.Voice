@@ -1,12 +1,15 @@
 package com.imac.voice_app.module;
 
 import android.app.Activity;
+import android.content.res.AssetFileDescriptor;
+
+import java.io.IOException;
 
 /**
  * Created by isa on 2016/9/26.
  */
 public class MediaPlayer {
-    private android.media.MediaPlayer player;
+    private android.media.MediaPlayer mMediaPlayer;
     private Activity activity;
 
     public enum Status {
@@ -19,42 +22,53 @@ public class MediaPlayer {
 
     public MediaPlayer(Activity activity, int id) {
         this.activity = activity;
-        player = android.media.MediaPlayer.create(activity, id);
-        player.setLooping(false);
+        mMediaPlayer = android.media.MediaPlayer.create(activity, id);
+        mMediaPlayer.setLooping(false);
     }
 
     public void setCompleteListener(android.media.MediaPlayer.OnCompletionListener listener) {
-        player.setOnCompletionListener(listener);
+        mMediaPlayer.setOnCompletionListener(listener);
     }
 
 
     public void startPlay() {
-        if (player != null) {
-            player.start();
+        if (mMediaPlayer != null) {
+            mMediaPlayer.start();
             status = Status.PLAY;
         }
     }
 
     public void pausePlay() {
-        if (player != null && status == Status.PLAY) {
-            player.pause();
+        if (mMediaPlayer != null && status == Status.PLAY) {
+            mMediaPlayer.pause();
             status = Status.PAUSE;
         }
     }
 
     public void stopPlay() {
-        if (player != null && status == Status.PAUSE) {
-            player.stop();
-            player.release();
+        if (mMediaPlayer != null && status == Status.PAUSE) {
+            mMediaPlayer.stop();
+            mMediaPlayer.release();
             status = Status.STOP;
         }
     }
 
-    public int getDuration(){
-        return player.getDuration();
+    public int getDuration() {
+        return mMediaPlayer.getDuration();
     }
 
     public Status getStatus() {
         return status;
+    }
+
+    public void setDataSource(int resid) {
+        AssetFileDescriptor assetFileDescriptor = activity.getResources().openRawResourceFd(resid);
+        mMediaPlayer.reset();
+        try {
+            mMediaPlayer.setDataSource(assetFileDescriptor.getFileDescriptor(), assetFileDescriptor.getStartOffset(), assetFileDescriptor.getDeclaredLength());
+            mMediaPlayer.prepare();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -14,20 +14,14 @@ public class TurnDataThread extends Thread {
     private boolean isPause = false;
     private boolean isFinish = false;
     private int countScend = 0;
-    private Object mObject;
     private Handler mHandler;
-    private int delaySec = 10;
-
-    public TurnDataThread(Activity activity, int recycle, int delaySec) {
-        this.activity = activity;
-        this.delaySec = delaySec;
-        this.recycle = recycle;
-        mObject = new Object();
-        mHandler = new Handler();
-    }
+    private int delaySec = 2;
+    private boolean isFirst = true;
 
     public TurnDataThread(Activity activity, int recycle) {
-        this(activity, recycle, 10);
+        this.activity = activity;
+        this.recycle = recycle;
+        mHandler = new Handler();
     }
 
     @Override
@@ -35,11 +29,17 @@ public class TurnDataThread extends Thread {
         if (!isFinish) {
             if (!isPause) {
                 witchPictureIndex = witchPictureIndex % recycle;
-                if (countScend % delaySec == 0) {
+                if (isFirst) {
                     event.onDataChangeEvent(witchPictureIndex);
                     witchPictureIndex++;
+                    isFirst = false;
+                } else if (countScend == delaySec) {
+                    event.onDataChangeEvent(witchPictureIndex);
+                    witchPictureIndex++;
+                    countScend = 0;
                 }
                 countScend++;
+
                 mHandler.postDelayed(this, 1000);
             }
         }
