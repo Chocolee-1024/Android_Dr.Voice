@@ -157,25 +157,25 @@ public class WeeklyAssessmentViewPagerAdapter extends PagerAdapter implements Ra
     public void onCheckedChanged(RadioGroup radioGroup, int i) {
         if (status.equals(WeeklyAssessmentActivity.SOUND_RECORDING)) {
             if (i == R.id.option_one) {
-                topic.set(position, "3");
-            } else if (i == R.id.option_two) {
-                topic.set(position, "2");
-            } else if (i == R.id.option_three) {
-                topic.set(position, "1");
-            } else if (i == R.id.option_four) {
                 topic.set(position, "0");
+            } else if (i == R.id.option_two) {
+                topic.set(position, "1");
+            } else if (i == R.id.option_three) {
+                topic.set(position, "2");
+            } else if (i == R.id.option_four) {
+                topic.set(position, "3");
             }
         } else {
             if (i == R.id.option_one) {
-                topic.set(position, "4");
+                topic.set(position, "0");
             } else if (i == R.id.option_two) {
-                topic.set(position, "23");
+                topic.set(position, "1");
             } else if (i == R.id.option_three) {
                 topic.set(position, "2");
             } else if (i == R.id.option_four) {
-                topic.set(position, "1");
+                topic.set(position, "3");
             } else if (i == R.id.option_five) {
-                topic.set(position, "0");
+                topic.set(position, "4");
             }
         }
     }
@@ -184,34 +184,34 @@ public class WeeklyAssessmentViewPagerAdapter extends PagerAdapter implements Ra
         int topicInt = Integer.valueOf(topic.get(position));
         if (status.equals(WeeklyAssessmentActivity.SOUND_RECORDING))
             switch (topicInt) {
-                case 3:
+                case 0:
                     optionOne.setChecked(true);
                     break;
-                case 2:
+                case 1:
                     optionTwo.setChecked(true);
                     break;
-                case 1:
+                case 2:
                     optionThree.setChecked(true);
                     break;
-                case 0:
+                case 3:
                     optionFour.setChecked(true);
                     break;
             }
         else
             switch (topicInt) {
-                case 4:
+                case 0:
                     optionOne.setChecked(true);
                     break;
-                case 3:
+                case 1:
                     optionTwo.setChecked(true);
                     break;
                 case 2:
                     optionThree.setChecked(true);
                     break;
-                case 1:
+                case 3:
                     optionFour.setChecked(true);
                     break;
-                case 0:
+                case 4:
                     optionFive.setChecked(true);
                     break;
             }
