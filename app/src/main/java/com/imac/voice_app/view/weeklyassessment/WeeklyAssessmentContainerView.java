@@ -57,10 +57,10 @@ public class WeeklyAssessmentContainerView implements ViewPager.OnPageChangeList
     private void init() {
         weeklyTopic = ((WeeklyAssessmentActivity) activity).getWeeklyTopic();
         for (int i = 0; i < weeklyTopic.size(); i++) {
-            soundPointArray.add("3");
+            soundPointArray.add("0");
         }
         for (int i = 0; i < 10; i++) {
-            assessmentPointArray.add("4");
+            assessmentPointArray.add("0");
         }
         if (status.equals(WeeklyAssessmentActivity.SOUND_RECORDING)) {
             ((ToolbarView) activity.findViewById(R.id.toolbar)).setTitleTextViewText(activity.getResources().getString(R.string.weekly_assessment_sound_title));
