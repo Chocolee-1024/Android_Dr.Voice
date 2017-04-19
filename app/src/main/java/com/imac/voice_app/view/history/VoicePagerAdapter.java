@@ -64,7 +64,7 @@ public class VoicePagerAdapter extends BasePagerAdapter {
             monthCal.setTime(monthDate);
             int subYear = dayCal.get(Calendar.YEAR) - monthCal.get(Calendar.YEAR);
             if (subYear == 0) {
-                if (dayCal.get(Calendar.MONTH) == monthCal.get(Calendar.MONTH) && dataStructures[index].getAccount().equals(preferences.getAccounnt())) {
+                if (dayCal.get(Calendar.MONTH) == monthCal.get(Calendar.MONTH)) {
                     content.add(dayFormat.format(dayDate));
                 }
             }
@@ -95,7 +95,7 @@ public class VoicePagerAdapter extends BasePagerAdapter {
             monthCal.setTime(monthDate);
             int subYear = dayCal.get(Calendar.YEAR) - monthCal.get(Calendar.YEAR);
             if (subYear == 0) {
-                if (dayCal.get(Calendar.MONTH) == monthCal.get(Calendar.MONTH) && dataStructures[index].getAccount().equals(preferences.getAccounnt())) {
+                if (dayCal.get(Calendar.MONTH) == monthCal.get(Calendar.MONTH)) {
                     DataAppend dataAppend = new DataAppend();
                     ArrayList<String> weeklyArray = dataAppend.formatString(dataStructures[index].getSoundTopicPoint());
                     pointAddResult = 0;

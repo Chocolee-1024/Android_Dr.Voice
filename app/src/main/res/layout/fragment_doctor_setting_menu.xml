@@ -43,11 +43,13 @@
         android:textSize="30sp"
         android:text="語速監控" />
     <View
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/black" />
 
     <Button
+            android:visibility="gone"
             android:id="@+id/daily_time_button"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

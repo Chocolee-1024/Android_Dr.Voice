@@ -12,7 +12,6 @@ import com.imac.voice_app.module.AlarmConstantManager;
 import com.imac.voice_app.module.DataAppend;
 import com.imac.voice_app.module.permission.PermissionsActivity;
 import com.imac.voice_app.module.permission.PermissionsChecker;
-import com.imac.voice_app.util.login.LoginActivity;
 import com.imac.voice_app.util.mainmenu.MainActivity;
 import com.imac.voice_app.view.homepage.HomePage;
 
@@ -48,17 +47,10 @@ public class HomePageActivity extends AppCompatActivity {
     private void init() {
         HomePage homePage = new HomePage(this, new HomePage.OnClickEvent() {
             @Override
-            public void onClick(boolean isLogin, String account, String dailyExercise, String weeklyExercise) {
-                if (!isLogin) {
-                    ActivityLauncher.go(HomePageActivity.this, LoginActivity.class, null);
-                } else {
+            public void onClick(String dailyExercise, String weeklyExercise) {
                     DataAppend dataAppend = new DataAppend();
                     dataAppend.formatString(dailyExercise);
-                    Bundle bundle = new Bundle();
-                    bundle.putString(LoginActivity.KEY_LOGIN_ACCOUNT, account);
-//                    bundle.putString(LoginActivity.KEY_LOGIN_NAME, name);
-                    ActivityLauncher.go(HomePageActivity.this, MainActivity.class, bundle);
-                }
+                    ActivityLauncher.go(HomePageActivity.this, MainActivity.class, null);
             }
 
         });
