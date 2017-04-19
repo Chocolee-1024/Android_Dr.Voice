@@ -40,8 +40,8 @@ public class DoctorSettingMenuFragment extends Fragment {
     private DoctorSettingMenuView.CallbackEvent callbackEvent = new DoctorSettingMenuView.CallbackEvent() {
         @Override
         public void onDailyClick() {
-            FragmentLauncher.changeToBack(getActivity(), R.id.container, null, DailySettingFragment.class.getName());
-
+//            FragmentLauncher.changeToBack(getActivity(), R.id.container, null, DailySettingFragment.class.getName());
+            FragmentLauncher.changeToBack(getActivity(), R.id.container, null, DailyTimeSettingFragment.class.getName());
         }
 
         @Override

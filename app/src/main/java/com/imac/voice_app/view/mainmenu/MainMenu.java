@@ -2,16 +2,13 @@ package com.imac.voice_app.view.mainmenu;
 
 import android.app.Activity;
 import android.graphics.Color;
-import android.os.Bundle;
 import android.support.percent.PercentRelativeLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.imac.voice_app.R;
-import com.imac.voice_app.module.Preferences;
-import com.imac.voice_app.module.DataAppend;
 import com.imac.voice_app.module.DateChecker;
-import com.imac.voice_app.util.login.LoginActivity;
+import com.imac.voice_app.module.Preferences;
 
 import java.util.Calendar;
 
@@ -54,18 +51,14 @@ public class MainMenu {
     TextView settingText;
     @BindView(R.id.setting_container)
     PercentRelativeLayout settingContainer;
-    private Bundle bundle;
     private MenuClickListener menuClickListener;
     private Preferences preferences;
 
-    public MainMenu(Activity activity, MenuClickListener menuClickListener, Bundle bundle) {
+    public MainMenu(Activity activity, MenuClickListener menuClickListener) {
         this.activity = activity;
-        this.bundle = bundle;
         preferences = new Preferences(activity);
         ButterKnife.bind(this, activity);
         this.menuClickListener = menuClickListener;
-        getBundle();
-        setFontType();
     }
 
     public void weeklyAssessmentEnabler() {
@@ -94,24 +87,6 @@ public class MainMenu {
             speakSpeedContainer.setClickable(true);
             speakSpeedText.setTextColor(Color.BLACK);
         }
-    }
-
-    private void getBundle() {
-        if ("".equals(preferences.getAccounnt())) {
-            String loginAccount = bundle.getString(LoginActivity.KEY_LOGIN_ACCOUNT);
-//            String loginName = bundle.getString(LoginActivity.KEY_LOGIN_NAME);
-//            ArrayList<String> topicList = (ArrayList<String>) bundle.getSerializable(LoginActivity.KEY_DAILY_EXERCISE);
-//            ArrayList<String> weeklyTopic = (ArrayList<String>) bundle.getSerializable(LoginActivity.KEY_WEEKLY_EXERCISE);
-
-            DataAppend dataAppend = new DataAppend();
-            preferences.saveAccount(loginAccount);
-//            preferences.saveName(loginName);
-//            sharePreferencesManager.save(PreferencesHelper.Type.STRING, LoginActivity.KEY_DAILY_EXERCISE, dataAppend.append(topicList));
-//            sharePreferencesManager.save(PreferencesHelper.Type.STRING, LoginActivity.KEY_WEEKLY_EXERCISE, dataAppend.append(weeklyTopic));
-        }
-    }
-
-    private void setFontType() {
     }
 
     @OnClick(R.id.daily_exercise_container)

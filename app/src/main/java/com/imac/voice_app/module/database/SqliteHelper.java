@@ -25,7 +25,7 @@ public class SqliteHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         String CREATE_TABLE_SQL =
                 "create table " + TABLE_NAME + " ("
-                        + account + " TEXT ,"
+//                        + account + " TEXT ,"
                         + soundTopicPoint + " TEXT,"
                         + assessmentTopicPoint + " TEXT,"
                         + date + " DEFAULT (datetime('now','localtime'))"

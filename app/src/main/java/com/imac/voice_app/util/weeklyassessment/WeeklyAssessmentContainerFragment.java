@@ -13,7 +13,6 @@ import com.imac.voice_app.R;
 import com.imac.voice_app.module.FileWriter;
 import com.imac.voice_app.module.Preferences;
 import com.imac.voice_app.module.net.DriveFile;
-import com.imac.voice_app.module.net.FileUploader;
 import com.imac.voice_app.view.weeklyassessment.DataWriteEvent;
 import com.imac.voice_app.view.weeklyassessment.WeeklyAssessmentContainerView;
 
@@ -58,16 +57,19 @@ public class WeeklyAssessmentContainerFragment extends Fragment implements DataW
 
     @Override
     public void onDataWrite(ArrayList<String> soundPoint, ArrayList<String> soundTopic, ArrayList<String> assessmentPoint) {
-        DriveFile driveFile = new DriveFile(activity, callbackEvent(soundPoint, soundTopic, assessmentPoint), FileUploader.FILE_WEEKLY_SOUND, preferences.getAccounnt());
-        driveFile.execute();
+//        DriveFile driveFile = new DriveFile(activity, callbackEvent(soundPoint, soundTopic, assessmentPoint), FileUploader.FILE_WEEKLY_SOUND, preferences.getAccounnt());
+//        driveFile.execute();
+        FileWriter writer = new FileWriter(activity);
+        writer.setWriterCallBack(WeeklyAssessmentContainerFragment.this);
+        writer.write(soundPoint, soundTopic, assessmentPoint);
     }
 
     @Override
     public void onWriteSuccessful(File file) {
-        String loginAccount = preferences.getAccounnt();
-        String name = preferences.getName();
-        FileUploader uploader = new FileUploader(activity, loginAccount, FileUploader.FILE_WEEKLY_SOUND);
-        uploader.connect(file);
+//        String loginAccount = preferences.getAccounnt();
+//        String name = preferences.getName();
+//        FileUploader uploader = new FileUploader(activity, loginAccount, FileUploader.FILE_WEEKLY_SOUND);
+//        uploader.connect(file);
     }
 
     @Override
@@ -81,7 +83,7 @@ public class WeeklyAssessmentContainerFragment extends Fragment implements DataW
             public void onCallback() {
                 FileWriter writer = new FileWriter(activity);
                 writer.setWriterCallBack(WeeklyAssessmentContainerFragment.this);
-                writer.write(soundPoint, soundTopic, assessmentPoint, preferences.getAccounnt());
+                writer.write(soundPoint, soundTopic, assessmentPoint);
             }
 
             @Override

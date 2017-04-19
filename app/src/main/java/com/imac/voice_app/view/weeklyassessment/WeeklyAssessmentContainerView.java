@@ -159,12 +159,10 @@ public class WeeklyAssessmentContainerView implements ViewPager.OnPageChangeList
     public void onPageScrollStateChanged(int state) {
     }
 
-    //TODO  database save 方式需修改
     private void saveDataToDataBase() {
         DataAppend dataAppend = new DataAppend();
         SqliteManager sqliteManager = SqliteManager.getIntence(activity);
-        String account = preferences.getAccounnt();
-        sqliteManager.write(new String[]{account, soundTopic, dataAppend.append(assessmentPointArray)});
+        sqliteManager.write(new String[]{ soundTopic, dataAppend.append(assessmentPointArray)});
     }
 
     public void setSoundTopic(String soundTopic) {
