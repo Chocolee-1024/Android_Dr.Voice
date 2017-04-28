@@ -91,4 +91,12 @@
         app:layout_marginLeftPercent="7%"
         app:layout_widthPercent="16%"
         app:layout_heightPercent="20%"/>
+
+    <TextView
+            android:text="@string/speak_waiting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/notify"
+            android:layout_below="@+id/rl_detail_data"
+            android:layout_centerHorizontal="true"/>
 </android.support.percent.PercentRelativeLayout>

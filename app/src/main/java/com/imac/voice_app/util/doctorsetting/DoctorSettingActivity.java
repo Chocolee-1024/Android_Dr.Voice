@@ -43,4 +43,8 @@ public class DoctorSettingActivity extends Activity {
     private void init() {
         FragmentLauncher.change(this, R.id.container, null, InputPasswordFragment.class.getName());
     }
+
+    public ToolbarView getToolBarView(){
+        return toolbar;
+    }
 }

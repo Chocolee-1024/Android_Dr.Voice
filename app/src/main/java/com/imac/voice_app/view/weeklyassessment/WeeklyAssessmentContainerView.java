@@ -161,8 +161,8 @@ public class WeeklyAssessmentContainerView implements ViewPager.OnPageChangeList
 
     private void saveDataToDataBase() {
         DataAppend dataAppend = new DataAppend();
-        SqliteManager sqliteManager = SqliteManager.getIntence(activity);
-        sqliteManager.write(new String[]{ soundTopic, dataAppend.append(assessmentPointArray)});
+        SqliteManager sqliteManager = SqliteManager.getInstence(activity);
+        sqliteManager.writeWeeklyData(new String[]{ dataAppend.append(weeklyTopic),soundTopic, dataAppend.append(assessmentPointArray)});
     }
 
     public void setSoundTopic(String soundTopic) {
