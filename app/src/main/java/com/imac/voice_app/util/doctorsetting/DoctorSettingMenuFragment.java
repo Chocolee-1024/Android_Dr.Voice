@@ -58,5 +58,15 @@ public class DoctorSettingMenuFragment extends Fragment {
         public void onDailyTimeClick() {
             FragmentLauncher.changeToBack(getActivity(), R.id.container, null, DailyTimeSettingFragment.class.getName());
         }
+
+        @Override
+        public void onWeeklyScoreClick() {
+            FragmentLauncher.changeToBack(getActivity(), R.id.container, null, WeeklySocureListFragment.class.getName());
+        }
+
+        @Override
+        public void onSpeedScoreClick() {
+            FragmentLauncher.changeToBack(getActivity(), R.id.container, null, SpeedScoreListFragment.class.getName());
+        }
     };
 }

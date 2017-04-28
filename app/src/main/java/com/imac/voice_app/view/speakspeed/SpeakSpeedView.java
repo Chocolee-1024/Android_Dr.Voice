@@ -43,6 +43,8 @@ public class SpeakSpeedView {
     ImageView mCheckButton;
     @BindView(R.id.btn_close)
     ImageView mCloseButton;
+    @BindView(R.id.notify)
+    TextView mNotify;
 
     @BindColor(R.color.speak_speed_idle)
     int colorStatusIdle;
@@ -52,7 +54,10 @@ public class SpeakSpeedView {
     int colorStatusTooFast;
     @BindColor(R.color.speak_speed_slower)
     int colorStatusSlower;
-
+    @BindColor(R.color.speak_speed_waiting)
+    int colorSpeedWaiting;
+    @BindColor(R.color.speak_speed_recording)
+    int colorSpeedRecording;
     private Context mContext;
 
     public interface callBackListener {
@@ -111,7 +116,7 @@ public class SpeakSpeedView {
         if (mEmoticonImageView.getVisibility() == View.INVISIBLE) {
             mEmoticonImageView.setVisibility(View.VISIBLE);
         }
-
+        changeNotify(false);
         if (wordNum > 200) {
             mStatusHintText.setText(R.string.speak_too_fast);
             mEmoticonImageView.setImageResource(R.drawable.too_fast);
@@ -151,5 +156,15 @@ public class SpeakSpeedView {
 
     public void setToolbarViewCallBack(ToolbarView.toolbarCallBack callBack) {
         mToolbarView.setToolbarButtonCallBack(callBack);
+    }
+
+    public void changeNotify(boolean isRecording) {
+        if (isRecording) {
+            mNotify.setText(mContext.getString(R.string.speak_recording));
+            mNotify.setTextColor(colorSpeedRecording);
+        } else {
+            mNotify.setText(mContext.getString(R.string.speak_waiting));
+            mNotify.setTextColor(colorSpeedWaiting);
+        }
     }
 }

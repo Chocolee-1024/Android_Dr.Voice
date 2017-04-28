@@ -17,6 +17,9 @@
     <color name="speak_speed_good">#00AF82</color>
     <color name="speak_speed_slower">#FFB464</color>
     <color name="speak_speed_too_fast">#FF5064</color>
+    <color name="speak_speed_waiting">#3AC546</color>
+    <color name="speak_speed_recording">#F17C8E</color>
+
 
     <color name="login_button_color">#FAE673</color>
     <color name="activity_bg_color">#F0F0EB</color>
@@ -43,4 +46,6 @@
     <!--歷史紀錄-->
     <color name="history_text">#BD7580</color>
     <color name="history_base_line">#BFBFC0</color>
+    <!--醫師設定-->
+    <color name="doctor_menu_text">#A26978</color>
 </resources>

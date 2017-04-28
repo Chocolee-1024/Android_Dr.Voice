@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
         mainMenu.speedEnabler();
         addPreferenceValue();
-        mainMenu.weeklyAssessmentEnabler();
+//        mainMenu.weeklyAssessmentEnabler();
         show();
     }
 
@@ -104,8 +104,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void show() {
-        SqliteManager manger = SqliteManager.getIntence(this);
-        manger.getALlSqlData();
+        SqliteManager manger = SqliteManager.getInstence(this);
+        manger.getWeeklyTableALlSqlData();
     }
 
     private ArrayList<String> setDailyTopic() {

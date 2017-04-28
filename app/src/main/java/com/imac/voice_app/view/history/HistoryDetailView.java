@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.imac.voice_app.R;
 import com.imac.voice_app.module.database.SqliteManager;
+import com.imac.voice_app.module.database.data.WeeklyDataStructure;
 import com.imac.voice_app.util.history.HistoryActivity;
 
 import java.util.ArrayList;
@@ -64,7 +65,7 @@ public class HistoryDetailView implements ViewPager.OnPageChangeListener {
     private DateSpinnerAdapter dateTopicSpinnerAdapter = null;
     private ArrayList<String> weeklyTpicList = null;
     private String[] month = null;
-    private SqliteManager.DataStructure[] dataStructures = null;
+    private WeeklyDataStructure[] mWeeklyDataStructures = null;
     private SqliteManager manger = null;
     private int dataItemIndex = 0;
 
@@ -72,11 +73,11 @@ public class HistoryDetailView implements ViewPager.OnPageChangeListener {
         this.activity = activity;
         weeklyTpicList = ((HistoryActivity) activity).getWeeklyTopicList();
         ButterKnife.bind(this, view);
-        manger = SqliteManager.getIntence(activity);
-        month = manger.selectMonth();
-        dataStructures = manger.getALlSqlData();
-        weeklyPagerAdapter = new WeeklyPagerAdapter(activity, month, dataStructures);
-        voicePagerAdapter = new VoicePagerAdapter(activity, month, dataStructures);
+        manger = SqliteManager.getInstence(activity);
+        month = manger.selectWeeklyTableMonth();
+        mWeeklyDataStructures = manger.getWeeklyTableALlSqlData();
+        weeklyPagerAdapter = new WeeklyPagerAdapter(activity, month, mWeeklyDataStructures);
+        voicePagerAdapter = new VoicePagerAdapter(activity, month, mWeeklyDataStructures);
 //        topicTopicSpinnerAdapter = new TopicSpinnerAdapter(activity, weeklyTpicList);
 //        historyDetailTopicSpinner.setAdapter(topicTopicSpinnerAdapter);
         dateTopicSpinnerAdapter = new DateSpinnerAdapter(activity, month);

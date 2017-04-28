@@ -15,6 +15,7 @@ import com.imac.voice_app.component.ToolbarView;
 import com.imac.voice_app.module.FileWriter;
 import com.imac.voice_app.module.Preferences;
 import com.imac.voice_app.module.SpeechKitModule;
+import com.imac.voice_app.module.database.SqliteManager;
 import com.imac.voice_app.module.net.DriveFile;
 import com.imac.voice_app.module.permission.PermissionsActivity;
 import com.imac.voice_app.module.permission.PermissionsChecker;
@@ -22,6 +23,7 @@ import com.imac.voice_app.view.speakspeed.SpeakSpeedView;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 
@@ -58,6 +60,8 @@ public class SpeakSpeedActivity extends Activity implements FileWriter.WriterCal
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.VIBRATE};
     private Preferences preferences;
+    private long startTimeMillin;
+    private long endTimeMillin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,6 +114,7 @@ public class SpeakSpeedActivity extends Activity implements FileWriter.WriterCal
 //        driveFile.execute();
         fileWriter.setWriterCallBack(SpeakSpeedActivity.this);
         fileWriter.write(textLogArray);
+        saveDataToDataBase();
     }
 
     private DriveFile.CallbackEvent callbackEvent = new DriveFile.CallbackEvent() {
@@ -165,6 +170,39 @@ public class SpeakSpeedActivity extends Activity implements FileWriter.WriterCal
         }
     };
 
+    private void saveDataToDataBase() {
+        Calendar calendar = Calendar.getInstance();
+        endTimeMillin = calendar.getTimeInMillis();
+        int recordTime = (int) ((endTimeMillin - startTimeMillin) / 1000);
+        int speedCount = calculateSpeedCount(textLogArray);
+        float speed = calculateSpeed(speedCount, recordTime);
+        SqliteManager sqliteManager = SqliteManager.getInstence(this);
+        sqliteManager.writeSpeedData(new String[]{
+                String.valueOf(startTimeMillin)
+                , String.valueOf(endTimeMillin)
+                , String.valueOf(speedCount)
+                , String.valueOf(speed)
+                , String.valueOf(recordTime)
+        });
+    }
+
+    private int calculateSpeedCount(ArrayList<String> data) {
+        int result = 0;
+        for (int i = 0; i < data.size(); i++) {
+            result += data.get(i).length();
+        }
+        return result;
+    }
+
+    private int calculateSpeed(int speedCount, int recordTime) {
+        return  Math.round(((float)speedCount / recordTime) * 60);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+    }
+
     /************
      * Callback Func
      ***********/
@@ -193,6 +231,7 @@ public class SpeakSpeedActivity extends Activity implements FileWriter.WriterCal
             public void UserTalking() {
                 if (speechState == STATUS_IDLE) {
                     speechState = STATUS_NEED_START;
+                    layout.changeNotify(true);
                 }
             }
         };
@@ -218,8 +257,9 @@ public class SpeakSpeedActivity extends Activity implements FileWriter.WriterCal
                         layout.setmStatusHintText("");
                         layout.setStartTextViewVisibility(false);
                         Date date = new Date();
+                        Calendar calendar = Calendar.getInstance();
+                        startTimeMillin = calendar.getTimeInMillis();
                         fileWriter.setStartTime(date);
-                        Toast.makeText(mContext, "錄音中...", Toast.LENGTH_LONG).show();
                     }
                 } else {
                     if (speechState == STATUS_RECORDING) {
@@ -232,6 +272,7 @@ public class SpeakSpeedActivity extends Activity implements FileWriter.WriterCal
                     layout.setButtonStatus(false);
                     layout.stopButtonResetView();
                     layout.setStartTextViewVisibility(true);
+                    layout.changeNotify(false);
                     speakSpeedEnd();
                 }
             }

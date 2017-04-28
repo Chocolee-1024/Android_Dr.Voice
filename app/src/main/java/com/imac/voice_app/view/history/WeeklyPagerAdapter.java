@@ -7,6 +7,7 @@ import com.imac.voice_app.component.Histogram;
 import com.imac.voice_app.module.DataAppend;
 import com.imac.voice_app.module.Preferences;
 import com.imac.voice_app.module.database.SqliteManager;
+import com.imac.voice_app.module.database.data.WeeklyDataStructure;
 import com.imac.voice_app.view.history.base.BasePagerAdapter;
 
 import java.text.ParseException;
@@ -25,7 +26,7 @@ public class WeeklyPagerAdapter extends BasePagerAdapter {
     @BindView(R.id.chart)
     Histogram chart;
     private Activity activity = null;
-    private SqliteManager.DataStructure[] dataStructures = null;
+    private WeeklyDataStructure[] mWeeklyDataStructures = null;
     private String[] month = null;
     private SimpleDateFormat dateFormat;
     private SimpleDateFormat dayFormat;
@@ -33,10 +34,10 @@ public class WeeklyPagerAdapter extends BasePagerAdapter {
     private int pointAddResult = 0;
     private Preferences preferences;
 
-    public WeeklyPagerAdapter(Activity activity, String[] month, SqliteManager.DataStructure[] dataStructures) {
-        super(activity, month, dataStructures);
+    public WeeklyPagerAdapter(Activity activity, String[] month, WeeklyDataStructure[] weeklyDataStructures) {
+        super(activity, month, weeklyDataStructures);
         this.activity = activity;
-        this.dataStructures = dataStructures;
+        this.mWeeklyDataStructures = weeklyDataStructures;
         this.month = month;
 
         preferences = new Preferences(activity);
@@ -49,11 +50,11 @@ public class WeeklyPagerAdapter extends BasePagerAdapter {
     protected String[] dateCompare(int position) {
         ArrayList<String> content = new ArrayList<>();
         String[] result;
-        for (int index = 0; index < dataStructures.length; index++) {
+        for (int index = 0; index < mWeeklyDataStructures.length; index++) {
             Date dayDate = null;
             Date monthDate = null;
             try {
-                dayDate = dateFormat.parse(dataStructures[index].getDate());
+                dayDate = dateFormat.parse(mWeeklyDataStructures[index].getDate());
                 monthDate = monthFormat.parse(month[position]);
             } catch (ParseException e) {
                 e.printStackTrace();
@@ -79,11 +80,11 @@ public class WeeklyPagerAdapter extends BasePagerAdapter {
         String[] totalScoreResult = null;
         ArrayList<Float> content = new ArrayList<>();
         ArrayList<Integer> pointAddContent = new ArrayList<>();
-        for (int index = 0; index < dataStructures.length; index++) {
+        for (int index = 0; index < mWeeklyDataStructures.length; index++) {
             Date dayDate = null;
             Date monthDate = null;
             try {
-                dayDate = dateFormat.parse(dataStructures[index].getDate());
+                dayDate = dateFormat.parse(mWeeklyDataStructures[index].getDate());
                 monthDate = monthFormat.parse(month[position]);
             } catch (ParseException e) {
                 e.printStackTrace();
@@ -96,7 +97,7 @@ public class WeeklyPagerAdapter extends BasePagerAdapter {
             if (subYear == 0) {
                 if (dayCal.get(Calendar.MONTH) == monthCal.get(Calendar.MONTH)) {
                     DataAppend dataAppend = new DataAppend();
-                    ArrayList<String> weeklyArray = dataAppend.formatString(dataStructures[index].getWeeklyTopicPoint());
+                    ArrayList<String> weeklyArray = dataAppend.formatString(mWeeklyDataStructures[index].getWeeklyTopicPoint());
                     pointAddResult = 0;
                     for (int i = 0; i < weeklyArray.size(); i++) {
                         pointAddResult += Integer.valueOf(weeklyArray.get(i));

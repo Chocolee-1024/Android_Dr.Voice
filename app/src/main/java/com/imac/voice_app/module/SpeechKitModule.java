@@ -150,7 +150,6 @@ public class SpeechKitModule {
         );
         //initial and start AudioRecord
         recorder.startRecording();
-
         //new a thread to run and log volume
         mHandlerTime.post(recordRun);
     }
