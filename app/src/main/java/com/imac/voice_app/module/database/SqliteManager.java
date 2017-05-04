@@ -7,14 +7,17 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.imac.voice_app.module.Preferences;
+import com.imac.voice_app.module.database.data.SpeedDataStricture;
+import com.imac.voice_app.module.database.data.WeeklyDataStructure;
 
+import java.lang.ref.WeakReference;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedHashSet;
+import java.util.Locale;
 
 /**
  * Created by isa on 2016/10/6.
@@ -22,16 +25,15 @@ import java.util.LinkedHashSet;
 public class SqliteManager {
     private SqliteHelper sqliteHelper;
     private static SqliteManager manger = null;
-    private Context context;
     private Preferences preferences;
 
     private SqliteManager(Context context) {
-        this.context = context;
-        sqliteHelper = new SqliteHelper(context);
-        preferences = new Preferences(context);
+        WeakReference<Context> weakReference = new WeakReference<Context>(context);
+        sqliteHelper = new SqliteHelper(weakReference.get());
+        preferences = new Preferences(weakReference.get());
     }
 
-    public static SqliteManager getIntence(Context context) {
+    public static SqliteManager getInstence(Context context) {
         if (manger == null) {
             synchronized (SqliteManager.class) {
                 if (manger == null) {
@@ -43,155 +45,119 @@ public class SqliteManager {
     }
 
     private SQLiteDatabase create() {
-        SQLiteDatabase dataBase = sqliteHelper.getWritableDatabase();
-        return dataBase;
+        return sqliteHelper.getWritableDatabase();
     }
 
-    /**
-     * 用於加入假資料
-     */
-    public void insertValue() {
+    public void writeWeeklyData(String[] value) {
         SQLiteDatabase dataBase = create();
         ContentValues values = new ContentValues();
         String[] key = {
-                sqliteHelper.getAccount(),
-                sqliteHelper.getSoundTopicPointKey(),
-                sqliteHelper.getAssessmentTopicPointKey()
-        };
-        Calendar calendar = Calendar.getInstance();
-        Date date = new Date();
-//        for (int i = 0; i < 12; i++) {
-        calendar.set(2016, 0, 0);
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        date.setTime(calendar.getTimeInMillis());
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        values.put(sqliteHelper.getDate(), simpleDateFormat.format(date));
-        values.put(sqliteHelper.getAccount(), "0919333333");
-        values.put(sqliteHelper.getSoundTopicPointKey(), "_,_0_,_1_,_2_,_3_,_0");
-        values.put(sqliteHelper.getAssessmentTopicPointKey(), "_,_0_,_1_,_2_,_3_,_4_,_0_,_1_,_2_,_3_,_4");
-        dataBase.insert(sqliteHelper.getTableName(), null, values);
-//        }
-        calendar.set(2016, 1, 1);
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        date.setTime(calendar.getTimeInMillis());
-//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        values.put(sqliteHelper.getDate(), simpleDateFormat.format(date));
-        values.put(sqliteHelper.getAccount(), "0919333333");
-        values.put(sqliteHelper.getSoundTopicPointKey(), "_,_0_,_3_,_2_,_1_,_0");
-        values.put(sqliteHelper.getAssessmentTopicPointKey(), "_,_0_,_0_,_0_,_0_,_0_,_0_,_0_,_0_,_0_,_0");
-        dataBase.insert(sqliteHelper.getTableName(), null, values);
-    }
-
-    public void write(String[] value) {
-        SQLiteDatabase dataBase = create();
-        ContentValues values = new ContentValues();
-        String[] key = {
-                sqliteHelper.getAccount(),
+                sqliteHelper.getSoundTopicKey(),
                 sqliteHelper.getSoundTopicPointKey(),
                 sqliteHelper.getAssessmentTopicPointKey()
         };
         for (int i = 0; i < value.length; i++) {
             values.put(key[i], value[i]);
         }
-        dataBase.insert(sqliteHelper.getTableName(), null, values);
+        dataBase.insert(sqliteHelper.getWeeklyTableName(), null, values);
     }
 
-    public DataStructure[] getALlSqlData() {
-        String selectSql;
-        DataStructure dataStructure[] = null;
-        ArrayList<DataStructure> DataObj = new ArrayList<>();
+    public void writeSpeedData(String[] value) {
         SQLiteDatabase dataBase = create();
-        selectSql = "SELECT * FROM " + sqliteHelper.getTableName();
+        ContentValues values = new ContentValues();
+        String[] key = {
+                sqliteHelper.getStartTimeKey(),
+                sqliteHelper.getEndTimeKey(),
+                sqliteHelper.getSpeedCountKey(),
+                sqliteHelper.getSpeedKey(),
+                sqliteHelper.getRecordTimeKey()
+        };
+        for (int i = 0; i < value.length; i++) {
+            values.put(key[i], value[i]);
+        }
+        dataBase.insert(sqliteHelper.getSpeedTableName(), null, values);
+    }
+
+    public WeeklyDataStructure[] getWeeklyTableALlSqlData() {
+        String selectSql;
+        WeeklyDataStructure weeklyDataStructure[];
+        ArrayList<WeeklyDataStructure> dataObj = new ArrayList<>();
+        SQLiteDatabase dataBase = create();
+        selectSql = "SELECT * FROM " + sqliteHelper.getWeeklyTableName();
         Cursor cursor = dataBase.rawQuery(selectSql, null);
         if (cursor.getCount() == 0) {
-            return dataStructure = new DataStructure[0];
+            return new WeeklyDataStructure[0];
         }
         cursor.moveToFirst();
         do {
-            DataStructure structure = new DataStructure();
-            structure.setAccount(cursor.getString(cursor.getColumnIndex(sqliteHelper.getAccount())));
+            WeeklyDataStructure structure = new WeeklyDataStructure();
+            structure.setSoundTopic(cursor.getString(cursor.getColumnIndex(sqliteHelper.getSoundTopicKey())));
             structure.setSoundTopicPoint(cursor.getString(cursor.getColumnIndex(sqliteHelper.getSoundTopicPointKey())));
             structure.setWeeklyTopicPoint(cursor.getString(cursor.getColumnIndex(sqliteHelper.getAssessmentTopicPointKey())));
             structure.setDate(cursor.getString(cursor.getColumnIndex(sqliteHelper.getDate())));
-            DataObj.add(structure);
+            dataObj.add(structure);
 
-            Log.e("getAccount", cursor.getString(cursor.getColumnIndex(sqliteHelper.getAccount())));
+            Log.e("SoundTopicKey", "" + cursor.getString(cursor.getColumnIndex(sqliteHelper.getSoundTopicKey())));
             Log.e("SoundTopicPointKey", "" + cursor.getString(cursor.getColumnIndex(sqliteHelper.getSoundTopicPointKey())));
             Log.e("AssessmentTopicPointKey", cursor.getString(cursor.getColumnIndex(sqliteHelper.getAssessmentTopicPointKey())));
             Log.e("getDate", cursor.getString(cursor.getColumnIndex(sqliteHelper.getDate())));
-        }
-        while (cursor.moveToNext());
+        } while (cursor.moveToNext());
         cursor.close();
         dataBase.close();
-        dataStructure = new DataStructure[DataObj.size()];
-        for (int i = 0; i < DataObj.size(); i++) {
-            dataStructure[i] = DataObj.get(i);
+        weeklyDataStructure = new WeeklyDataStructure[dataObj.size()];
+        for (int i = 0; i < dataObj.size(); i++) {
+            weeklyDataStructure[i] = dataObj.get(i);
         }
-        return dataStructure;
+        return weeklyDataStructure;
     }
 
-    public String[] selectDate() {
-        LinkedHashSet<String> dateArrayList = new LinkedHashSet<>();
-        String[] result = null;
+    public SpeedDataStricture[] getSpeedTableALlSqlData() {
+        String selectSql;
+        SpeedDataStricture speedDataStrictures[];
+        ArrayList<SpeedDataStricture> dataObj = new ArrayList<>();
         SQLiteDatabase dataBase = create();
-        String selectSql = "SELECT * FROM " + sqliteHelper.getTableName() + " WhRER " + sqliteHelper.getAccount() + " = " + preferences.getAccounnt();
+        selectSql = "SELECT * FROM " + sqliteHelper.getSpeedTableName();
         Cursor cursor = dataBase.rawQuery(selectSql, null);
-
-        cursor.moveToFirst();
-        do {
-            dateArrayList.add(cursor.getString(cursor.getColumnIndex(sqliteHelper.getDate())));
-        }
-        while (cursor.moveToNext());
-        cursor.close();
-        dataBase.close();
-        result = toArray(dateArrayList);
-        return result;
-    }
-
-    public String[] selectMonth() {
-        LinkedHashSet<String> linkHashSet = new LinkedHashSet<>();
-        String[] result = null;
-        SQLiteDatabase dataBase = create();
-        String selectSql = "SELECT " + sqliteHelper.getDate() + " FROM " + sqliteHelper.getTableName() + " WHERE " + sqliteHelper.getAccount() + " = '" + preferences.getAccounnt() + "' ORDER BY " + sqliteHelper.getDate() + " DESC";
-        Cursor cursor = dataBase.rawQuery(selectSql, null);
-        SimpleDateFormat format = new SimpleDateFormat("MM/yyyy");
-        SimpleDateFormat parse = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         if (cursor.getCount() == 0) {
-            return result = new String[0];
+            return new SpeedDataStricture[0];
         }
         cursor.moveToFirst();
         do {
-            String sqlDate = cursor.getString(cursor.getColumnIndex(sqliteHelper.getDate()));
-            Log.e("sqlDate", selectSql);
-            Date date = null;
-            try {
-                date = parse.parse(sqlDate);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            String formatDate = format.format(date);
-            Log.e("formatDate", formatDate);
-            linkHashSet.add(formatDate);
-        }
-        while (cursor.moveToNext());
+            SpeedDataStricture structure = new SpeedDataStricture();
+            structure.setStartTime(cursor.getString(cursor.getColumnIndex(sqliteHelper.getStartTimeKey())));
+            structure.setEndTime(cursor.getString(cursor.getColumnIndex(sqliteHelper.getEndTimeKey())));
+            structure.setSpeedCount(cursor.getString(cursor.getColumnIndex(sqliteHelper.getSpeedCountKey())));
+            structure.setSpeed(cursor.getString(cursor.getColumnIndex(sqliteHelper.getSpeedKey())));
+            structure.setRecord(cursor.getString(cursor.getColumnIndex(sqliteHelper.getRecordTimeKey())));
+            dataObj.add(structure);
+
+            Log.e(sqliteHelper.getStartTimeKey(), "" + cursor.getString(cursor.getColumnIndex(sqliteHelper.getStartTimeKey())));
+            Log.e(sqliteHelper.getEndTimeKey(), "" + cursor.getString(cursor.getColumnIndex(sqliteHelper.getEndTimeKey())));
+            Log.e(sqliteHelper.getSpeedCountKey(), "" + cursor.getString(cursor.getColumnIndex(sqliteHelper.getSpeedCountKey())));
+            Log.e(sqliteHelper.getSpeedKey(), "" + cursor.getString(cursor.getColumnIndex(sqliteHelper.getSpeedKey())));
+            Log.e(sqliteHelper.getRecordTimeKey(), "" + cursor.getString(cursor.getColumnIndex(sqliteHelper.getRecordTimeKey())));
+
+        } while (cursor.moveToNext());
         cursor.close();
         dataBase.close();
-        result = toArray(linkHashSet);
-        return result;
+        speedDataStrictures = new SpeedDataStricture[dataObj.size()];
+        for (int i = 0; i < dataObj.size(); i++) {
+            speedDataStrictures[i] = dataObj.get(i);
+        }
+        return speedDataStrictures;
     }
 
-    public String[] selectDay() {
+    public String[] selectWeeklyTableMonth() {
         LinkedHashSet<String> linkHashSet = new LinkedHashSet<>();
-        String[] result = null;
+        String[] result;
         SQLiteDatabase dataBase = create();
-        String selectSql = "SELECT " + sqliteHelper.getDate() + " FROM " + sqliteHelper.getTableName() + " WHERE " + sqliteHelper.getAccount() + " = " + preferences.getAccounnt();
+        String selectSql = "SELECT " + sqliteHelper.getDate() + " FROM " + sqliteHelper.getWeeklyTableName() + " ORDER BY " + sqliteHelper.getDate() + " DESC";
         Cursor cursor = dataBase.rawQuery(selectSql, null);
-        SimpleDateFormat format = new SimpleDateFormat("MM/dd");
-        SimpleDateFormat parse = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        SimpleDateFormat format = new SimpleDateFormat("MM/yyyy", Locale.TAIWAN);
+        SimpleDateFormat parse = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.TAIWAN);
+        if (cursor.getCount() == 0) {
+            return new String[0];
+        }
         cursor.moveToFirst();
         do {
             String sqlDate = cursor.getString(cursor.getColumnIndex(sqliteHelper.getDate()));
@@ -205,8 +171,7 @@ public class SqliteManager {
             String formatDate = format.format(date);
             Log.e("formatDate", formatDate);
             linkHashSet.add(formatDate);
-        }
-        while (cursor.moveToNext());
+        } while (cursor.moveToNext());
         cursor.close();
         dataBase.close();
         result = toArray(linkHashSet);
@@ -219,44 +184,5 @@ public class SqliteManager {
             result[i] = (String) input.toArray()[i];
         }
         return result;
-    }
-
-    public class DataStructure {
-        private String account = null;
-        private String date = null;
-        private String soundTopicPoint = "0";
-        private String weeklyTopicPoint = null;
-
-        public void setAccount(String account) {
-            this.account = account;
-        }
-
-        public void setDate(String date) {
-            this.date = date;
-        }
-
-        public void setSoundTopicPoint(String soundTopicPoint) {
-            if (null != soundTopicPoint) this.soundTopicPoint = soundTopicPoint;
-        }
-
-        public void setWeeklyTopicPoint(String weeklyTopicPoint) {
-            this.weeklyTopicPoint = weeklyTopicPoint;
-        }
-
-        public String getAccount() {
-            return account;
-        }
-
-        public String getDate() {
-            return date;
-        }
-
-        public String getSoundTopicPoint() {
-            return soundTopicPoint;
-        }
-
-        public String getWeeklyTopicPoint() {
-            return weeklyTopicPoint;
-        }
     }
 }

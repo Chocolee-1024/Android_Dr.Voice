@@ -40,26 +40,26 @@ public class HomePage {
     private void setFontType() {
     }
 
-    private boolean isLogin() {
-        boolean isLogin;
-        account = preferences.getAccounnt();
-//        name = preferences.getName();
-//        dailyExercise = (String) sharePreferencesManager.get(LoginActivity.KEY_DAILY_EXERCISE, PreferencesHelper.Type.STRING);
-//        weeklyExercise = (String) sharePreferencesManager.get(LoginActivity.KEY_WEEKLY_EXERCISE, PreferencesHelper.Type.STRING);
-        if ("".equals(account)) {
-            isLogin = false;
-        } else {
-            isLogin = true;
-        }
-        return isLogin;
-    }
+//    private boolean isLogin() {
+//        boolean isLogin;
+//        account = preferences.getAccounnt();
+////        name = preferences.getName();
+////        dailyExercise = (String) sharePreferencesManager.get(LoginActivity.KEY_DAILY_EXERCISE, PreferencesHelper.Type.STRING);
+////        weeklyExercise = (String) sharePreferencesManager.get(LoginActivity.KEY_WEEKLY_EXERCISE, PreferencesHelper.Type.STRING);
+//        if ("".equals(account)) {
+//            isLogin = false;
+//        } else {
+//            isLogin = true;
+//        }
+//        return isLogin;
+//    }
 
     @OnClick(R.id.start)
     public void clickStart() {
-        event.onClick(isLogin(), account, dailyExercise, weeklyExercise);
+        event.onClick( dailyExercise, weeklyExercise);
     }
 
     public interface OnClickEvent {
-        void onClick(boolean isLogin, String account, String dailyExercise, String weeklyExercise);
+        void onClick(String dailyExercise, String weeklyExercise);
     }
 }

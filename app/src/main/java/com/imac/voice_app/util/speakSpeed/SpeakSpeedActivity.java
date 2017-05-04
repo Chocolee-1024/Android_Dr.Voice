@@ -1,10 +1,8 @@
 package com.imac.voice_app.util.speakSpeed;
 
 import android.Manifest;
-import android.accounts.AccountManager;
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
@@ -17,17 +15,15 @@ import com.imac.voice_app.component.ToolbarView;
 import com.imac.voice_app.module.FileWriter;
 import com.imac.voice_app.module.Preferences;
 import com.imac.voice_app.module.SpeechKitModule;
+import com.imac.voice_app.module.database.SqliteManager;
 import com.imac.voice_app.module.net.DriveFile;
-import com.imac.voice_app.module.net.FileUploader;
-import com.imac.voice_app.module.net.LoginChecker;
-import com.imac.voice_app.module.net.base.BaseGoogleDrive;
 import com.imac.voice_app.module.permission.PermissionsActivity;
 import com.imac.voice_app.module.permission.PermissionsChecker;
-import com.imac.voice_app.util.login.LoginActivity;
 import com.imac.voice_app.view.speakspeed.SpeakSpeedView;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 
@@ -38,8 +34,6 @@ public class SpeakSpeedActivity extends Activity implements FileWriter.WriterCal
     private Context mContext;
     private Handler mHandlerTime;
     private FileWriter fileWriter;
-    private String loginAccount;
-//    private String loginName;
 
     private int speechState;
     private int sec;
@@ -65,14 +59,17 @@ public class SpeakSpeedActivity extends Activity implements FileWriter.WriterCal
             Manifest.permission.RECORD_AUDIO,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.VIBRATE};
-private Preferences preferences;
+    private Preferences preferences;
+    private long startTimeMillin;
+    private long endTimeMillin;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_speak_speed);
         mContext = this.getApplicationContext();
         fileWriter = new FileWriter(this);
-        preferences=new Preferences(this);
+        preferences = new Preferences(this);
         initSet();
     }
 
@@ -94,13 +91,6 @@ private Preferences preferences;
 
         mSpeechModule.setTextUpdateListener(TextUpdateListener());
         layout.setToolbarViewCallBack(toolbarCallBack());
-        getBundle();
-    }
-
-    private void getBundle() {
-        Bundle bundle = getIntent().getExtras();
-        loginAccount = bundle.getString(LoginActivity.KEY_LOGIN_ACCOUNT);
-//        loginName = bundle.getString(LoginActivity.KEY_LOGIN_NAME);
     }
 
     private void calculateNumPerMinute(int wordCount) {
@@ -120,15 +110,18 @@ private Preferences preferences;
     private void speakSpeedEnd() {
         //                    寫出
         speechState = STATUS_NOT_USING;
-        DriveFile driveFile = new DriveFile(SpeakSpeedActivity.this, callbackEvent,FileUploader.FILE_VOICE_SPEED,preferences.getAccounnt());
-        driveFile.execute();
+//        DriveFile driveFile = new DriveFile(SpeakSpeedActivity.this, callbackEvent,FileUploader.FILE_VOICE_SPEED,preferences.getAccounnt());
+//        driveFile.execute();
+        fileWriter.setWriterCallBack(SpeakSpeedActivity.this);
+        fileWriter.write(textLogArray);
+        saveDataToDataBase();
     }
 
     private DriveFile.CallbackEvent callbackEvent = new DriveFile.CallbackEvent() {
         @Override
         public void onCallback() {
             fileWriter.setWriterCallBack(SpeakSpeedActivity.this);
-            fileWriter.write(loginAccount, textLogArray);
+            fileWriter.write(textLogArray);
         }
 
         @Override
@@ -177,6 +170,39 @@ private Preferences preferences;
         }
     };
 
+    private void saveDataToDataBase() {
+        Calendar calendar = Calendar.getInstance();
+        endTimeMillin = calendar.getTimeInMillis();
+        int recordTime = (int) ((endTimeMillin - startTimeMillin) / 1000);
+        int speedCount = calculateSpeedCount(textLogArray);
+        float speed = calculateSpeed(speedCount, recordTime);
+        SqliteManager sqliteManager = SqliteManager.getInstence(this);
+        sqliteManager.writeSpeedData(new String[]{
+                String.valueOf(startTimeMillin)
+                , String.valueOf(endTimeMillin)
+                , String.valueOf(speedCount)
+                , String.valueOf(speed)
+                , String.valueOf(recordTime)
+        });
+    }
+
+    private int calculateSpeedCount(ArrayList<String> data) {
+        int result = 0;
+        for (int i = 0; i < data.size(); i++) {
+            result += data.get(i).length();
+        }
+        return result;
+    }
+
+    private int calculateSpeed(int speedCount, int recordTime) {
+        return  Math.round(((float)speedCount / recordTime) * 60);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+    }
+
     /************
      * Callback Func
      ***********/
@@ -205,6 +231,7 @@ private Preferences preferences;
             public void UserTalking() {
                 if (speechState == STATUS_IDLE) {
                     speechState = STATUS_NEED_START;
+                    layout.changeNotify(true);
                 }
             }
         };
@@ -230,6 +257,8 @@ private Preferences preferences;
                         layout.setmStatusHintText("");
                         layout.setStartTextViewVisibility(false);
                         Date date = new Date();
+                        Calendar calendar = Calendar.getInstance();
+                        startTimeMillin = calendar.getTimeInMillis();
                         fileWriter.setStartTime(date);
                     }
                 } else {
@@ -243,6 +272,7 @@ private Preferences preferences;
                     layout.setButtonStatus(false);
                     layout.stopButtonResetView();
                     layout.setStartTextViewVisibility(true);
+                    layout.changeNotify(false);
                     speakSpeedEnd();
                 }
             }
@@ -279,21 +309,9 @@ private Preferences preferences;
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == BaseGoogleDrive.ASK_ACCOUNT && resultCode == RESULT_OK) {
-            String account = data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
-            FileUploader uploader = new FileUploader(this,  loginAccount,FileUploader.FILE_VOICE_SPEED);
-            if (account.equals(LoginChecker.ACCOUNT_NAME))
-                uploader.getCredential().setSelectedAccountName(account);
-            uploader.connect(fileWriter.getFile());
-        }
-    }
-
-    @Override
     public void onWriteSuccessful(File file) {
-        FileUploader uploader = new FileUploader(this,  loginAccount,FileUploader.FILE_VOICE_SPEED);
-        uploader.connect(file);
+//        FileUploader uploader = new FileUploader(this,  loginAccount,FileUploader.FILE_VOICE_SPEED);
+//        uploader.connect(file);
     }
 
     @Override

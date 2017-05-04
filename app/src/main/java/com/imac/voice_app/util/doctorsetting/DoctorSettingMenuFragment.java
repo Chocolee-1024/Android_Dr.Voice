@@ -40,8 +40,8 @@ public class DoctorSettingMenuFragment extends Fragment {
     private DoctorSettingMenuView.CallbackEvent callbackEvent = new DoctorSettingMenuView.CallbackEvent() {
         @Override
         public void onDailyClick() {
-            FragmentLauncher.changeToBack(getActivity(), R.id.container, null, DailySettingFragment.class.getName());
-
+//            FragmentLauncher.changeToBack(getActivity(), R.id.container, null, DailySettingFragment.class.getName());
+            FragmentLauncher.changeToBack(getActivity(), R.id.container, null, DailyTimeSettingFragment.class.getName());
         }
 
         @Override
@@ -57,6 +57,16 @@ public class DoctorSettingMenuFragment extends Fragment {
         @Override
         public void onDailyTimeClick() {
             FragmentLauncher.changeToBack(getActivity(), R.id.container, null, DailyTimeSettingFragment.class.getName());
+        }
+
+        @Override
+        public void onWeeklyScoreClick() {
+            FragmentLauncher.changeToBack(getActivity(), R.id.container, null, WeeklySocureListFragment.class.getName());
+        }
+
+        @Override
+        public void onSpeedScoreClick() {
+            FragmentLauncher.changeToBack(getActivity(), R.id.container, null, SpeedScoreListFragment.class.getName());
         }
     };
 }

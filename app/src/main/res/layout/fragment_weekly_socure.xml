@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <LinearLayout
+            android:layout_marginTop="2dp"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_height="0dp">
+
+        <TextView
+                android:textSize="17sp"
+                android:textColor="@color/black"
+                android:layout_marginRight="2dp"
+                android:background="#ffeff0eb"
+                android:gravity="center"
+                android:text="不當行為"
+                android:layout_weight="2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"/>
+
+        <TextView
+                android:textSize="17sp"
+                android:textColor="@color/black"
+                android:background="#ffeff0eb"
+                android:gravity="center"
+                android:layout_weight="3"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="0"
+                android:id="@+id/topic_one"/>
+    </LinearLayout>
+
+    <LinearLayout
+            android:layout_marginTop="2dp"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_height="0dp">
+
+        <TextView
+                android:textSize="17sp"
+                android:textColor="@color/black"
+                android:layout_marginRight="2dp"
+                android:background="#ffeff0eb"
+                android:gravity="center"
+                android:layout_weight="2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="說話量"/>
+
+        <TextView
+                android:textSize="17sp"
+                android:textColor="@color/black"
+                android:background="#ffeff0eb"
+                android:gravity="center"
+                android:layout_weight="3"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="0"
+                android:id="@+id/topic_two"/>
+    </LinearLayout>
+
+    <LinearLayout
+            android:layout_marginTop="2dp"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_height="0dp">
+
+        <TextView
+                android:textSize="17sp"
+                android:textColor="@color/black"
+                android:layout_marginRight="2dp"
+                android:background="#ffeff0eb"
+                android:gravity="center"
+                android:layout_weight="2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="清喉嚨"/>
+
+        <TextView
+                android:textSize="17sp"
+                android:textColor="@color/black"
+                android:background="#ffeff0eb"
+                android:gravity="center"
+                android:layout_weight="3"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="0"
+                android:id="@+id/topic_three"/>
+    </LinearLayout>
+
+    <LinearLayout
+            android:layout_marginTop="2dp"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_height="0dp">
+
+        <TextView
+                android:textSize="17sp"
+                android:textColor="@color/black"
+                android:layout_marginRight="2dp"
+                android:background="#ffeff0eb"
+                android:gravity="center"
+                android:layout_weight="2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="喝咖啡/茶"
+                />
+
+        <TextView
+                android:textSize="17sp"
+                android:textColor="@color/black"
+                android:background="#ffeff0eb"
+                android:gravity="center"
+                android:layout_weight="3"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="0"
+                android:id="@+id/topic_four"/>
+    </LinearLayout>
+
+    <LinearLayout
+            android:layout_marginTop="2dp"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_height="0dp">
+
+        <TextView
+                android:textSize="17sp"
+                android:textColor="@color/black"
+                android:layout_marginRight="2dp"
+                android:background="#ffeff0eb"
+                android:gravity="center"
+                android:layout_weight="2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="抽煙"/>
+
+        <TextView
+                android:textSize="17sp"
+                android:textColor="@color/black"
+                android:background="#ffeff0eb"
+                android:gravity="center"
+                android:layout_weight="3"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="0"
+                android:id="@+id/topic_five"/>
+    </LinearLayout>
+
+    <LinearLayout
+            android:layout_marginTop="2dp"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_height="0dp">
+
+        <TextView
+                android:textSize="17sp"
+                android:textColor="@color/black"
+                android:layout_marginRight="2dp"
+                android:background="#ffeff0eb"
+                android:gravity="center"
+                android:layout_weight="2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="喝水"/>
+
+        <TextView
+                android:textSize="17sp"
+                android:textColor="@color/black"
+                android:background="#ffeff0eb"
+                android:gravity="center"
+                android:layout_weight="3"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="0"
+                android:id="@+id/topic_six"/>
+    </LinearLayout>
+
+    <LinearLayout
+            android:layout_marginTop="2dp"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_height="0dp">
+
+        <TextView
+                android:textSize="17sp"
+                android:textColor="@color/black"
+                android:layout_marginRight="2dp"
+                android:background="#ffeff0eb"
+                android:gravity="center"
+                android:layout_weight="2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="練習"/>
+
+        <TextView
+                android:textSize="17sp"
+                android:textColor="@color/black"
+                android:background="#ffeff0eb"
+                android:gravity="center"
+                android:layout_weight="3"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="0"
+                android:id="@+id/topic_seven"/>
+    </LinearLayout>
+
+    <LinearLayout
+            android:layout_marginTop="2dp"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_height="0dp">
+
+        <TextView
+                android:textSize="17sp"
+                android:textColor="@color/black"
+                android:layout_marginRight="2dp"
+                android:background="#ffeff0eb"
+                android:gravity="center"
+                android:layout_weight="2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="每週用聲總分"/>
+
+        <TextView
+                android:textSize="17sp"
+                android:textColor="@color/black"
+                android:background="#ffeff0eb"
+                android:gravity="center"
+                android:layout_weight="3"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="0"
+                android:id="@+id/weekly_score"/>
+    </LinearLayout>
+
+    <LinearLayout
+            android:layout_marginTop="2dp"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_height="0dp">
+
+        <TextView
+                android:textSize="17sp"
+                android:textColor="@color/black"
+                android:layout_marginRight="2dp"
+                android:background="#ffeff0eb"
+                android:gravity="center"
+                android:layout_weight="2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="自我評估總分"/>
+
+        <TextView
+                android:textSize="17sp"
+                android:textColor="@color/black"
+                android:background="#ffeff0eb"
+                android:gravity="center"
+                android:layout_weight="3"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="0"
+                android:id="@+id/self_score"/>
+    </LinearLayout>
+</LinearLayout>

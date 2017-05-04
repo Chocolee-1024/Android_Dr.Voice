@@ -15,8 +15,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import static com.android.volley.VolleyLog.TAG;
-
 /**
  * Created by user on 2016/6/29.
  */
@@ -34,7 +32,7 @@ public class FileWriter {
     /**
      * {@link com.imac.voice_app.util.speakSpeed.SpeakSpeedActivity} 寫入資料到儲存空間內 以日期命名
      */
-    public void write(String account, ArrayList<String> textArrayList) {
+    public void write( ArrayList<String> textArrayList) {
         ArrayList<Integer> textNumArrayList = new ArrayList<>();
         for (int i = 0; i < textArrayList.size(); i++) {
             textNumArrayList.add(textArrayList.get(i).length());
@@ -60,7 +58,7 @@ public class FileWriter {
             String minFormatDate = minFormat.format(date);
             String startMinFormatDate = secFormat.format(startDate);
             String secFormatDate = secFormat.format(date);
-            File file = new File(sdFile, "speed" + "(" + account + ")" + ".csv");
+            File file = new File(sdFile, "speed"  + ".csv");
             PrintWriter printWriter = new PrintWriter(new FileOutputStream(file, true));
             if (isFileEmpty(file)) {
                 printWriter.append("日期,開始時間,結束時間,總字數,總錄製時間,語速\n");
@@ -87,8 +85,7 @@ public class FileWriter {
         }
     }
 
-    public void write(ArrayList<String> soundPoint, ArrayList<String> soundTopic, ArrayList<String> assessmentPoint, String name) {
-        Log.d(TAG, "write: "+name);
+    public void write(ArrayList<String> soundPoint, ArrayList<String> soundTopic, ArrayList<String> assessmentPoint) {
         ArrayList<String> assessmentTopic = new ArrayList<>();
         for (int i = 1; i < 11; i++) {
             assessmentTopic.add(String.valueOf(i));
@@ -104,7 +101,7 @@ public class FileWriter {
             Date date = new Date();
             SimpleDateFormat dayFormat = new SimpleDateFormat("yyyy/MM/dd");
             String dayFormatDate = dayFormat.format(date);
-            File file = new File(sdFile, "record" + "(" + name + ")" + ".csv");
+            File file = new File(sdFile, "record"  + ".csv");
             ArrayList<String> soundResult = pointAddTopic(soundPoint, soundTopic, true);
             ArrayList<String> assessmentResult = pointAddTopic(assessmentPoint, assessmentTopic, false);
 

@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 
 import com.imac.voice_app.R;
 import com.imac.voice_app.component.Histogram;
-import com.imac.voice_app.module.database.SqliteManager;
+import com.imac.voice_app.module.database.data.WeeklyDataStructure;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -20,12 +20,12 @@ public abstract class BasePagerAdapter extends PagerAdapter {
     @BindView(R.id.chart)
     Histogram chart;
     private Activity activity = null;
-    private SqliteManager.DataStructure[] dataStructures = null;
+    private WeeklyDataStructure[] mWeeklyDataStructures = null;
     private String[] month = null;
 
-    public BasePagerAdapter(Activity activity, String[] month, SqliteManager.DataStructure[] dataStructures) {
+    public BasePagerAdapter(Activity activity, String[] month, WeeklyDataStructure[] weeklyDataStructures) {
         this.activity = activity;
-        this.dataStructures = dataStructures;
+        this.mWeeklyDataStructures = weeklyDataStructures;
         this.month = month;
     }
 

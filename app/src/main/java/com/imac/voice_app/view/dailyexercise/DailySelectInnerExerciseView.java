@@ -191,7 +191,7 @@ public class DailySelectInnerExerciseView implements android.media.MediaPlayer.O
                 , 4
         );
         pictureRunnable.setDataChangeEvent(onChangeEvent());
-        pictureRunnable.setDelaySec(10);
+        pictureRunnable.setDelaySec(15);
         pictureRunnable.start();
     }
 

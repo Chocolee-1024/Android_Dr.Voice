@@ -57,10 +57,19 @@ public class DoctorSettingMenuView {
             callbackEvent.onDailyTimeClick();
     }
 
+    @OnClick(R.id.weekly_score)
+    public void onWeeklyScoreClick() {
+        callbackEvent.onWeeklyScoreClick();
+    }
+
+    @OnClick(R.id.speed_score)
+    public void onSpeedScoreClick() {
+        callbackEvent.onSpeedScoreClick();
+    }
+
     public void setCallbackEvent(CallbackEvent callbackEvent) {
         this.callbackEvent = callbackEvent;
     }
-
 
 
     public interface CallbackEvent {
@@ -71,5 +80,9 @@ public class DoctorSettingMenuView {
         void onSpeedClick();
 
         void onDailyTimeClick();
+
+        void onWeeklyScoreClick();
+
+        void onSpeedScoreClick();
     }
 }

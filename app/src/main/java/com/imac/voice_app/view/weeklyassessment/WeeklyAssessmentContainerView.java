@@ -57,10 +57,10 @@ public class WeeklyAssessmentContainerView implements ViewPager.OnPageChangeList
     private void init() {
         weeklyTopic = ((WeeklyAssessmentActivity) activity).getWeeklyTopic();
         for (int i = 0; i < weeklyTopic.size(); i++) {
-            soundPointArray.add("3");
+            soundPointArray.add("0");
         }
         for (int i = 0; i < 10; i++) {
-            assessmentPointArray.add("4");
+            assessmentPointArray.add("0");
         }
         if (status.equals(WeeklyAssessmentActivity.SOUND_RECORDING)) {
             ((ToolbarView) activity.findViewById(R.id.toolbar)).setTitleTextViewText(activity.getResources().getString(R.string.weekly_assessment_sound_title));
@@ -159,12 +159,10 @@ public class WeeklyAssessmentContainerView implements ViewPager.OnPageChangeList
     public void onPageScrollStateChanged(int state) {
     }
 
-    //TODO  database save 方式需修改
     private void saveDataToDataBase() {
         DataAppend dataAppend = new DataAppend();
-        SqliteManager sqliteManager = SqliteManager.getIntence(activity);
-        String account = preferences.getAccounnt();
-        sqliteManager.write(new String[]{account, soundTopic, dataAppend.append(assessmentPointArray)});
+        SqliteManager sqliteManager = SqliteManager.getInstence(activity);
+        sqliteManager.writeWeeklyData(new String[]{ dataAppend.append(weeklyTopic),soundTopic, dataAppend.append(assessmentPointArray)});
     }
 
     public void setSoundTopic(String soundTopic) {
