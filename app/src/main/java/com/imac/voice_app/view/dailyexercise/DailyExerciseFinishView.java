@@ -37,7 +37,7 @@ public class DailyExerciseFinishView {
         this.activity = activity;
         ButterKnife.bind(this, view);
         countSecond = new CountSecond(countEvent());
-        countSecond.startCountWithCountDown(30);
+        countSecond.startCountWithCountDown(10);
 
         finish = ((DailyExerciseActivity) activity).isFinish();
         ArrayList<Integer> topicList = ((DailyExerciseActivity) activity).getTopic();
