@@ -32,6 +32,12 @@ public class DailyExerciseSelectFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        dailySelectExerciseView.setNotFinishTopic();
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
     }
