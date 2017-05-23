@@ -68,11 +68,6 @@ public class DailySelectExerciseView implements ViewPager.OnPageChangeListener {
 
     private void setFont() {
     }
-// TODO: 2016/10/24  viewPager 改為可滑動
-//    @OnTouch(R.id.fragment_container)
-//    public boolean onTouch() {
-//        return true;
-//    }
 
     @OnClick(R.id.next_step_button)
     public void onNextButtonClick() {
@@ -138,5 +133,14 @@ public class DailySelectExerciseView implements ViewPager.OnPageChangeListener {
     @Override
     public void onPageScrollStateChanged(int state) {
 
+    }
+
+    public void setNotFinishTopic() {
+        for (int i = 0; i < isFinish.length; i++) {
+            if (!isFinish[i]) {
+                fragmentContainer.setCurrentItem(i);
+                break;
+            }
+        }
     }
 }
