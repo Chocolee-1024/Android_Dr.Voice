@@ -76,10 +76,46 @@
         app:layout_heightPercent="0.1%" />
 
     <android.support.percent.PercentRelativeLayout
-        android:id="@+id/history_container"
+        android:id="@+id/health_education_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/weekly_assessment_container"
+        android:gravity="center_horizontal"
+        app:layout_heightPercent="20%">
+
+
+        <ImageView
+            android:id="@+id/health_education_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@drawable/water_glass" />
+
+        <TextView
+            android:id="@+id/health_education_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/health_education_icon"
+            android:text="@string/main_menu_health_education"
+            android:textColor="@color/black"
+            android:textSize="@dimen/main_menu_text_size"
+            app:layout_marginLeftPercent="15%" />
+
+    </android.support.percent.PercentRelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/health_education_container"
+        android:background="@color/black"
+        app:layout_heightPercent="0.1%" />
+
+    <android.support.percent.PercentRelativeLayout
+        android:id="@+id/history_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/health_education_container"
         android:gravity="center_horizontal"
         app:layout_heightPercent="20%">
 
@@ -110,9 +146,10 @@
         android:layout_below="@+id/history_container"
         android:background="@color/black"
         app:layout_heightPercent="0.1%" />
-
+<!-- 語速監控關閉 android:visibility="gone" 取消可打開-->
     <android.support.percent.PercentRelativeLayout
         android:id="@+id/speak_speed_container"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/history_container"
