@@ -5,7 +5,7 @@
                                                android:layout_height="match_parent"
                                                android:background="@color/activity_bg_color">
 
-    <com.imac.voice_app.component.ToolbarView
+    <com.imac.dr.voice_app.component.ToolbarView
             android:id="@+id/setting_toolbar_view"
             android:layout_width="match_parent"
             android:layout_height="0dp"

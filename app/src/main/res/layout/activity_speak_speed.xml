@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/activity_bg_color">
 
-    <com.imac.voice_app.component.ToolbarView
+    <com.imac.dr.voice_app.component.ToolbarView
         android:id="@+id/toolbar_speak_speed"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -33,7 +33,7 @@
         app:layout_heightPercent="50%"
         app:layout_widthPercent="80%">
 
-        <com.imac.voice_app.component.CustomProgressBar
+        <com.imac.dr.voice_app.component.CustomProgressBar
             android:id="@+id/bar_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

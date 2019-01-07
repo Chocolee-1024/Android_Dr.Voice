@@ -25,9 +25,13 @@
     </string-array>
     <string name="main_menu_daily_exercise">每日練習</string>
     <string name="main_menu_weekly_assessment">每週評量</string>
-    <string name="main_menu_history">評量紀錄</string>
+    <string name="main_menu_history">歷史紀錄</string>
+    <string name="main_menu_health_education">嗓音衛教</string>
     <string name="main_menu_speak_speed">語速監控</string>
     <string name="main_menu_setting">設"        "定</string>
+    <string name="main_menu_dialog_title">提醒</string>
+    <string name="main_menu_dialog_message">此功能需經由亞東嗓音團隊設定</string>
+    <string name="main_menu_dialog_positivebutton_message">知道了！！</string>
 
 
     <!--speak speed-->
@@ -250,5 +254,9 @@
 
     <string name="fragment_doctor_daily_time_setting_save">儲存</string>
     <string name="doctor_setting_title">醫師設定</string>
+
+    <!-- 嗓音衛教-->
+    <string name="health_education_toolbar_title">嗓音衛教</string>
+
 
 </resources>
