@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.imac.voice_app.component.DisableSwipeViewPager
+    <com.imac.dr.voice_app.component.DisableSwipeViewPager
         android:id="@+id/view_pager_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

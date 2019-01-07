@@ -51,7 +51,7 @@
         android:textColor="@color/daily_exercise_step_button_text"
         android:textSize="@dimen/daily_exercise_select_page_next_step_button_text_size" />
 
-    <com.imac.voice_app.component.CustomIndicator
+    <com.imac.dr.voice_app.component.CustomIndicator
         android:id="@+id/indicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

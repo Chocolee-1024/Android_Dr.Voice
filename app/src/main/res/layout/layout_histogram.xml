@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.imac.voice_app.component.Histogram
+    <com.imac.dr.voice_app.component.Histogram
         android:id="@+id/chart"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

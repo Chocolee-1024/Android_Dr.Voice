@@ -17,6 +17,16 @@
         <item>@drawable/practice6_icon</item>
     </integer-array>
 
+    <integer-array name="health_viewpager_array">
+        <item>@drawable/teach_1</item>
+        <item>@drawable/teach_2</item>
+        <item>@drawable/teach_3</item>
+        <item>@drawable/teach_4</item>
+        <item>@drawable/teach_5</item>
+        <item>@drawable/teach_6</item>
+        <item>@drawable/teach_7</item>
+    </integer-array>
+
     <integer-array name="mu_image_array">
         <item>@drawable/cat</item>
         <item>@drawable/cotton</item>
