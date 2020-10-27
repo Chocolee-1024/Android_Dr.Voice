@@ -5,7 +5,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.imac.dr.voice_app.R;
 import com.imac.dr.voice_app.core.ActivityLauncher;

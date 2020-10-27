@@ -10,10 +10,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
 @TargetApi(Build.VERSION_CODES.M)
 public class PermissionsActivity extends AppCompatActivity {
@@ -30,11 +27,12 @@ public class PermissionsActivity extends AppCompatActivity {
     public static void startPermissionsForResult(Activity activity, int requestCode, String... permissions) {
         Intent intent = new Intent(activity, PermissionsActivity.class);
         intent.putExtra(EXTRA_PERMISSIONS, permissions);
-        ActivityCompat.startActivityForResult(activity, intent, requestCode, null);
+//        ActivityCompat.startActivityForResult(activity, intent, requestCode, null);
+        activity.startActivityForResult(intent,requestCode);
     }
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getIntent() == null || !getIntent().hasExtra(EXTRA_PERMISSIONS)) {
             throw new RuntimeException("PermissionsActivity need to use a static method startPermissionsForResult to start!");
@@ -76,7 +74,7 @@ public class PermissionsActivity extends AppCompatActivity {
      * @param grantResults grantResults
      */
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         if (requestCode == PERMISSION_REQUEST_CODE && isAllPermissionsAccept(grantResults)) {
             isRequireCheck = true;
             allPermissionsAccept();
@@ -86,7 +84,7 @@ public class PermissionsActivity extends AppCompatActivity {
         }
     }
 
-    private boolean isAllPermissionsAccept(@NonNull int[] grantResults) {
+    private boolean isAllPermissionsAccept(int[] grantResults) {
         for (int grantResult : grantResults) {
             if (grantResult == PackageManager.PERMISSION_DENIED) {
                 return false;

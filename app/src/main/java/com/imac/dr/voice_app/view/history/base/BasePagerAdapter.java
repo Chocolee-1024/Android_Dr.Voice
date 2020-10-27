@@ -1,7 +1,7 @@
 package com.imac.dr.voice_app.view.history.base;
 
 import android.app.Activity;
-import android.support.v4.view.PagerAdapter;
+import androidx.viewpager.widget.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

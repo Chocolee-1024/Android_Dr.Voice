@@ -2,8 +2,9 @@ package com.imac.dr.voice_app.view.history;
 
 import android.app.Activity;
 import android.graphics.PorterDuff;
-import android.support.percent.PercentRelativeLayout;
-import android.support.v4.view.ViewPager;
+
+import androidx.percentlayout.widget.PercentRelativeLayout;
+import androidx.viewpager.widget.ViewPager;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;

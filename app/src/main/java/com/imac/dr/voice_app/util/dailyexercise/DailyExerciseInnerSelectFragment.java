@@ -2,7 +2,6 @@ package com.imac.dr.voice_app.util.dailyexercise;
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +18,7 @@ public class DailyExerciseInnerSelectFragment extends Fragment {
     private DailySelectInnerExerciseView dailySelectInnerExerciseView;
     private int topicIndex;
 
-    @Nullable
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         topicIndex = getArguments().getInt(DailySelectExerciseView.KEY_INNER_FRAGMENT_INDEX);

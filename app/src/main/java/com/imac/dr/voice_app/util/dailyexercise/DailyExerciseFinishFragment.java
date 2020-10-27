@@ -23,7 +23,7 @@ public class DailyExerciseFinishFragment extends Fragment{
     public static final String KEY_DAILY_COMPLETE = "key_daily_complete";
     public static final String KEY_DAILY_ENABLE_DATE = "key_daily_enable_date";
 
-    @Nullable
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         int topicIndex = getArguments().getInt(DailySelectInnerExerciseView.KEY_TOPIC_INDEX);

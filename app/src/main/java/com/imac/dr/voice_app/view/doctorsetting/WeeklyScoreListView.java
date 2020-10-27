@@ -2,8 +2,9 @@ package com.imac.dr.voice_app.view.doctorsetting;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 
 import com.imac.dr.voice_app.R;
@@ -43,7 +44,7 @@ public class WeeklyScoreListView implements WeeklyListAdapter.OnRecyclerViewTIte
         weeklyListAdapter.setData(mSqliteManager.getWeeklyTableALlSqlData());
         weeklyListAdapter.setOnRecyclerViewTItemClick(this);
         recyclerView.setAdapter(weeklyListAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this.mActivity));
     }
 
     @Override

@@ -2,7 +2,7 @@ package com.imac.dr.voice_app.view.speakspeed;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.percent.PercentRelativeLayout;
+import androidx.percentlayout.widget.PercentRelativeLayout;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;

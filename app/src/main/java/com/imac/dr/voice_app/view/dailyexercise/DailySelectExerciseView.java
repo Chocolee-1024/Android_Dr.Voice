@@ -2,11 +2,12 @@ package com.imac.dr.voice_app.view.dailyexercise;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+
+import androidx.viewpager.widget.ViewPager;
 
 import com.imac.dr.voice_app.R;
 import com.imac.dr.voice_app.component.CustomIndicator;

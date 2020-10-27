@@ -2,7 +2,7 @@ package com.imac.dr.voice_app.view.mainmenu;
 
 import android.app.Activity;
 import android.graphics.Color;
-import android.support.percent.PercentRelativeLayout;
+import androidx.percentlayout.widget.PercentRelativeLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 

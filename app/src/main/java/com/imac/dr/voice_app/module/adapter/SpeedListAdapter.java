@@ -1,11 +1,12 @@
 package com.imac.dr.voice_app.module.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 
 import com.imac.dr.voice_app.R;
 import com.imac.dr.voice_app.module.database.data.SpeedDataStricture;

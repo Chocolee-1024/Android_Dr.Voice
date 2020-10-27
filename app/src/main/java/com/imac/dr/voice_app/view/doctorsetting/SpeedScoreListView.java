@@ -2,9 +2,10 @@ package com.imac.dr.voice_app.view.doctorsetting;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.imac.dr.voice_app.R;
 import com.imac.dr.voice_app.core.FragmentLauncher;
@@ -45,7 +46,7 @@ public class SpeedScoreListView implements SpeedListAdapter.OnRecyclerViewEvent 
         speedListAdapter.setData(mSqliteManager.getSpeedTableALlSqlData());
         speedListAdapter.setOnRecyclerViewEvent(this);
         recyclerViewAdapter.setAdapter(speedListAdapter);
-        recyclerViewAdapter.setLayoutManager(new LinearLayoutManager(mActivity));
+        recyclerViewAdapter.setLayoutManager(new LinearLayoutManager(this.mActivity));
     }
 
     @Override

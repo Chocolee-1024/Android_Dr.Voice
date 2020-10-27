@@ -1,8 +1,8 @@
 package com.imac.dr.voice_app.view.weeklyassessment;
 
 import android.app.Activity;
-import android.support.percent.PercentRelativeLayout;
-import android.support.v4.view.PagerAdapter;
+import androidx.percentlayout.widget.PercentRelativeLayout;
+import androidx.viewpager.widget.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

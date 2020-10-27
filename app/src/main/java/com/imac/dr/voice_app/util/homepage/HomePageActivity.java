@@ -2,9 +2,9 @@ package com.imac.dr.voice_app.util.homepage;
 
 import android.Manifest;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.imac.dr.voice_app.R;
 import com.imac.dr.voice_app.core.ActivityLauncher;
@@ -28,7 +28,7 @@ public class HomePageActivity extends AppCompatActivity {
     };
     private PermissionsChecker mPermissionsChecker;
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page_layout);
         ButterKnife.bind(this);

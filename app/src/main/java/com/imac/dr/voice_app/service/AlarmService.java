@@ -5,7 +5,6 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
-import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.imac.dr.voice_app.broadcastreceiver.AlarmReceiver;
@@ -45,7 +44,7 @@ public class AlarmService extends Service {
         return START_REDELIVER_INTENT;
     }
 
-    @Nullable
+
     @Override
     public IBinder onBind(Intent intent) {
         return null;

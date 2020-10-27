@@ -1,16 +1,15 @@
 apply plugin: 'com.android.application'
-apply plugin: 'android-apt'
 configurations {
     compile.exclude group: "org.apache.httpcomponents", module: "httpclient"
 }
 android {
-    compileSdkVersion 26
-    buildToolsVersion '25.0.2'
+    compileSdkVersion 29
+    buildToolsVersion "29.0.3"
 
     defaultConfig {
         applicationId "com.imac.dr.voice_app"
         minSdkVersion 16
-        targetSdkVersion 26
+        targetSdkVersion 29
         versionCode 14
         versionName "1.4.0"
     }
@@ -20,33 +19,39 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 buildscript {
     repositories {
         mavenCentral()
         jcenter()
     }
-    dependencies {
-        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
-    }
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:24.2.0'
-    compile 'com.jakewharton:butterknife:8.3.0'
-    apt 'com.jakewharton:butterknife-compiler:8.3.0'
-    compile 'com.android.support:percent:24.2.0'
-    compile 'com.google.android.gms:play-services-drive:8.4.0'
-    compile 'com.google.api-client:google-api-client-android:1.16.0-rc'
-    compile 'com.google.apis:google-api-services-drive:v3-rev36-1.22.0'
-    compile 'com.google.http-client:google-http-client-gson:1.16.0-rc'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    testImplementation 'junit:junit:4.12'
+
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.percentlayout:percentlayout:1.0.0'
+    implementation 'com.google.android.gms:play-services-drive:8.4.0'
+    implementation 'com.google.api-client:google-api-client-android:1.16.0-rc'
+    implementation 'com.google.apis:google-api-services-drive:v3-rev36-1.22.0'
+    implementation 'com.google.http-client:google-http-client-gson:1.16.0-rc'
     //    compile 'me.grantland:autofittextview:0.2.+'
-    compile 'com.nuance:speechkit:2.1+@aar'
-    compile 'com.github.bumptech.glide:glide:3.5.2'
-    //    compile 'com.android.support:support-v4:24.2.0'
-    compile 'com.android.support:recyclerview-v7:26.0.0-alpha1'
-    compile 'com.android.support:support-v4:26.0.0-alpha1'
+    implementation 'com.nuance:speechkit:2.1+@aar'
+    implementation 'com.github.bumptech.glide:glide:3.5.2'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+
+    // Recyclerview
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    // ButterKnife
+    implementation 'com.jakewharton:butterknife:10.2.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.1'
+
 }
 

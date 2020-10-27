@@ -2,7 +2,6 @@ package com.imac.dr.voice_app.util.history;
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +16,7 @@ public class HistoryDetailFragment extends Fragment {
     private HistoryDetailView historyDetailView = null;
     private boolean isShow = false;
 
-    @Nullable
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         getBundle();

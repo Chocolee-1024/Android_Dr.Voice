@@ -2,7 +2,6 @@ package com.imac.dr.voice_app.util.doctorsetting;
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +20,7 @@ public class DailyTimeSettingFragment extends Fragment {
     private DailyTimeSettingView mDailyTimeSettingView;
     private Preferences mPreferences;
 
-    @Nullable
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_doctory_daily_time_setting, container, false);
