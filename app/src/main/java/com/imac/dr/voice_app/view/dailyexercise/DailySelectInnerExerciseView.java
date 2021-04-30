@@ -76,7 +76,8 @@ public class DailySelectInnerExerciseView implements android.media.MediaPlayer.O
     private GifDrawable mGifDrawable;
     private boolean isFirstIn = true;
     private boolean isComplete = false;
-    private int[] delaySec = {2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4};
+//    private int[] delaySec = {2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4};
+        private int[] delaySec = {3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3};
 
     public DailySelectInnerExerciseView(Activity activity, View view, int index) {
         this.activity = activity;

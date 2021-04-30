@@ -10,8 +10,8 @@ android {
         applicationId "com.imac.dr.voice_app"
         minSdkVersion 16
         targetSdkVersion 29
-        versionCode 14
-        versionName "1.4.0"
+        versionCode 16
+        versionName "1.5.1"
     }
     buildTypes {
         release {
