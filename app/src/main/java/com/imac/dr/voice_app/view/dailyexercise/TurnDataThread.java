@@ -2,6 +2,7 @@ package com.imac.dr.voice_app.view.dailyexercise;
 
 import android.app.Activity;
 import android.os.Handler;
+import android.util.Log;
 
 /**
  * Created by isa on 2016/9/26.
@@ -20,7 +21,7 @@ public class TurnDataThread extends Thread {
 
     public TurnDataThread(Activity activity, int recycle) {
         this.activity = activity;
-        this.recycle = recycle;
+        this.recycle = recycle; //12,4
         mHandler = new Handler();
     }
 
@@ -29,6 +30,8 @@ public class TurnDataThread extends Thread {
         if (!isFinish) {
             if (!isPause) {
                 witchPictureIndex = witchPictureIndex % recycle;
+                Log.d("note", "witchPictureIndex=目前第幾個 : "+witchPictureIndex);
+                Log.d("note", "recycle=有幾個子項: "+recycle);
                 if (isFirst) {
                     event.onDataChangeEvent(witchPictureIndex);
                     witchPictureIndex++;
@@ -40,7 +43,9 @@ public class TurnDataThread extends Thread {
                 }
                 countScend++;
 
+                //note 這個tread每一秒run一次
                 mHandler.postDelayed(this, 1000);
+
             }
         }
     }

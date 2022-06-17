@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 
@@ -37,12 +38,14 @@ public class DailyExerciseActivity extends Activity {
     }
 
     private void init() {
+        Log.d("noteeee", "topicList: "+topicList);
         dailyExerciseView = new DailyExercise(this);
         dailyExerciseView.changeSelectFragment();
         counterContainer = (RelativeLayout) findViewById(R.id.counter_container);
         for (int i = 0; i < topicList.size(); i++) {
             int topicValue = Integer.valueOf(topicList.get(i));
             topic.add(topicValue);
+            Log.d("noteeee", "topic: "+topic);
         }
         isFinish = new boolean[topic.size()];
     }

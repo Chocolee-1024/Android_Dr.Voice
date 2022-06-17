@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -89,11 +90,13 @@ public class DailySelectInnerExerciseView implements android.media.MediaPlayer.O
         counterContainer = (RelativeLayout) activity.findViewById(R.id.counter_container);
         ButterKnife.bind(this, view);
         init();
+        //5sec
         startCountDown();
     }
 
     private void init() {
         if (index == 0) {
+            //note mCountTime = 60*醫生設定的秒數
             mCountTime *= positionToTime(mPreferences.getTopicOnePosition());
             dailyExerciseSelectedDescription.setVisibility(View.VISIBLE);
             Glide.with(activity)
@@ -129,12 +132,14 @@ public class DailySelectInnerExerciseView implements android.media.MediaPlayer.O
                     .into(dailyExerciseSelectedImage);
             player = new MediaPlayer(activity, R.raw.practice_3);
         } else if (index == 4) {
+            //note mCountTime = 60*醫生設定的秒數
             mCountTime *= positionToTime(mPreferences.getTopicFivePosition());
             dailyExerciseSelectedImage.setVisibility(View.VISIBLE);
             Glide.with(activity)
                     .load(R.drawable.cat)
                     .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                     .into(dailyExerciseSelectedImage);
+            //播放事前提醒
             player = new MediaPlayer(activity, R.raw.practice_5);
         } else {
             mCountTime *= positionToTime(mPreferences.getTopicSixPosition());
@@ -145,6 +150,7 @@ public class DailySelectInnerExerciseView implements android.media.MediaPlayer.O
                     .into(dailyExerciseSelectedImage);
             player = new MediaPlayer(activity, R.raw.practice_6);
         }
+        //note 秒轉 分:秒
         dailyExerciseSelectedTime.setText(SecToMin(mCountTime));
         setFont();
     }
@@ -179,9 +185,9 @@ public class DailySelectInnerExerciseView implements android.media.MediaPlayer.O
     };
 
     public void startCount() {
-        if (index == 0) pictureTurnPlay();
-        else if (index == 4) textTurnPlay(index);
-        else if (index == 5) textTurnPlay(index);
+        if (index == 0) pictureTurnPlay(); //note ->4 recycle
+        else if (index == 4) textTurnPlay(index); //note ->12 recycle
+        else if (index == 5) textTurnPlay(index); //note ->12 recycle
 
         countSecond.startCountWithCountDown(mCountTime);
     }
@@ -219,6 +225,7 @@ public class DailySelectInnerExerciseView implements android.media.MediaPlayer.O
                             dailyExerciseSelectedImage.setImageResource(herArray.getResourceId(witchData, 0));
                             player.setDataSource(herRawArray.getResourceId(witchData, 0));
                         }
+                        Log.d("note", "setDelaySec "+delaySec[witchData] + player.getDuration() / 1000);
                         textRunnable.setDelaySec(delaySec[witchData] + player.getDuration() / 1000);
                         player.startPlay();
                         isComplete = false;
@@ -307,13 +314,16 @@ public class DailySelectInnerExerciseView implements android.media.MediaPlayer.O
 
             @Override
             public void finishCount() {
+                //note 數完
                 isFiveSecCountDown = false;
                 dailyExerciseSelectedImage.setVisibility(View.VISIBLE);
                 counterContainer.setVisibility(View.INVISIBLE);
                 dailyExerciseSelectedDescription.setVisibility(View.INVISIBLE);
+                //換畫面
                 player.setCompleteListener(DailySelectInnerExerciseView.this);
                 player.startPlay();
                 isComplete = false;
+                //note 播放事前音檔
                 Toast.makeText(activity, activity.getString(R.string.daily_exercise_playing), Toast.LENGTH_LONG).show();
                 if (null != mGifDrawable) mGifDrawable.stop();
             }
