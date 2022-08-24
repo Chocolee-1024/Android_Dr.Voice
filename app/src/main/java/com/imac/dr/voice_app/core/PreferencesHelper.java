@@ -18,11 +18,11 @@ public abstract class PreferencesHelper {
     public Context getContext() {
         return context;
     }
-
+    //存取SharedPreferences資料
     public void save(Type type, String key, Object vale) {
+        //建立"store"這個SharedPreferences
         SharedPreferences store = context.getSharedPreferences(getClassName(), Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = store.edit();
-
         if (type == Type.STRING) {
             editor.putString(key, (String) vale);
         } else if (type == Type.FLOAT) {
@@ -38,10 +38,11 @@ public abstract class PreferencesHelper {
         }
         editor.commit();
     }
-
+    //拿取SharedPreferences資料
     public Object get(String key, Type type) {
-
+        //建立"store"這個SharedPreferences
         SharedPreferences store = context.getSharedPreferences(getClassName(), Context.MODE_PRIVATE);
+        //判斷傳進來的Type，之後用Key拿取Value
         if (type == Type.STRING) {
             return store.getString(String.valueOf(key), "");
         } else if (type == Type.FLOAT) {

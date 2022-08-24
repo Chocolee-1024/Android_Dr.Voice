@@ -18,6 +18,7 @@ public class HealthEducationContainerView {
     @BindView(R.id.health_education＿indicator)
     CustomIndicator customIndicator;
     private  HealthEducationAdapter healthEducationAdapter;
+    //傳入建構值
     public HealthEducationContainerView(Activity activity , View view) {
         this.mActivity=activity;
         this.mView=view;
@@ -26,9 +27,12 @@ public class HealthEducationContainerView {
     }
 
     private  void init(){
+        //建立healthEducationAdapter
         healthEducationAdapter=new HealthEducationAdapter(mActivity);
+        //設定viewPager的Adapter
         viewPager.setAdapter(healthEducationAdapter);
         boolean [] booleans =new boolean[8];
+        //用來建立頁面底下的指標(.....)
         customIndicator.setIsFinish(booleans);
         customIndicator.setViewPager(viewPager);
     }

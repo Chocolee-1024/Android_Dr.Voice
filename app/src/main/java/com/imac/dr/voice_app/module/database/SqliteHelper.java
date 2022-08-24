@@ -30,6 +30,7 @@ public class SqliteHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
+        //建立 "sound_table"的SQL(存每周練習的數值)
         String CREATE_TABLE_SQL =
                 "create table " + TABLE_NAME + " ("
                         + soundTopic + " TEXT,"
@@ -37,7 +38,8 @@ public class SqliteHelper extends SQLiteOpenHelper {
                         + assessmentTopicPoint + " TEXT,"
                         + date + " DEFAULT (datetime('now','localtime'))"
                         + ");";
-
+        //建立 "speed_table"的SQL(語速監控)
+        //沒有用到
         String CREATE_SPEED_TABLE_SQL =
                 "create table " + SPEED_TABLE_NAME + " ("
                         + startTime + " TEXT, "
@@ -51,16 +53,17 @@ public class SqliteHelper extends SQLiteOpenHelper {
 
         sqLiteDatabase.execSQL(CREATE_SPEED_TABLE_SQL);
     }
-
-
+    //是拿來做更新資料表的
+    // 可以看這網址介紹(https://mrraybox.blogspot.com/2017/01/android-sqlite-onupgrade.html)
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
+        //-------------------------------如果存在刪除資料表
         final String DROP_SOUND_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
         sqLiteDatabase.execSQL(DROP_SOUND_TABLE);
         onCreate(sqLiteDatabase);
     }
 
-    public String getWeeklyTableName() {
+    public String   getWeeklyTableName() {
         return TABLE_NAME;
     }
 

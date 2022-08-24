@@ -18,6 +18,7 @@ public class HealthEducationActivity extends Activity {
     }
 
     private void init(){
+        //呼叫changeSelectFragment
         healthEducationView.changeSelectFragment();
     }
 }

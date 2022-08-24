@@ -29,7 +29,7 @@ public class ToolbarView extends RelativeLayout {
     ImageView menuButton;
     @BindView(R.id.tv_title)
     TextView titleTextView;
-
+    //對外接口
     public interface toolbarCallBack {
         void backButtonListener();
 
@@ -72,15 +72,18 @@ public class ToolbarView extends RelativeLayout {
             }
         }
     }
-
+    //iv_back_left_arrow和iv_menu監聽
     @OnClick({R.id.iv_back_left_arrow, R.id.iv_menu})
     public void onClick(ImageView iv) {
+        //判斷是按下哪一個
         switch (iv.getId()) {
+            //如果是iv_back_left_arrow呼叫backButtonListener
             case R.id.iv_back_left_arrow:
                 if (listener != null) {
                     listener.backButtonListener();
                 }
                 break;
+            //    如果是iv_menu呼叫menuButtonListener
             case R.id.iv_menu:
                 if (listener != null) {
                     listener.menuButtonListener();
@@ -88,11 +91,11 @@ public class ToolbarView extends RelativeLayout {
                 break;
         }
     }
-
+    //傳入listener
     public void setToolbarButtonCallBack(toolbarCallBack listener) {
         this.listener = listener;
     }
-
+    //傳入tv_title要的值
     public void setTitleTextViewText(String text){
         this.titleTextView.setText(text);
     }

@@ -54,6 +54,7 @@ public class HomePage {
 //        return isLogin;
 //    }
 
+    //按下開始
     @OnClick(R.id.start)
     public void clickStart() {
         event.onClick( dailyExercise, weeklyExercise);

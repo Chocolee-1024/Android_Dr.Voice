@@ -2,6 +2,7 @@ package com.imac.dr.voice_app.module;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.imac.dr.voice_app.core.PreferencesHelper;
 
@@ -67,7 +68,7 @@ public class Preferences extends PreferencesHelper {
     public void saveName(String name) {
         save(Type.STRING, KEY_LOGIN_NAME, name);
     }
-
+    //存入每周練習是否做完
     public void saveComplete(boolean status) {
         save(Type.BOOLEAN, KEY_COMPLETE, status);
     }
@@ -201,7 +202,7 @@ public class Preferences extends PreferencesHelper {
     public boolean getComplete() {
         return (boolean) get(KEY_COMPLETE, Type.BOOLEAN);
     }
-
+    //上一次每周練習的時間
     public long getWeeklyEnableDate() {
         return (long) get(KEY_WEEKLY_ENABLE_DATE, Type.LONG);
     }
@@ -273,11 +274,11 @@ public class Preferences extends PreferencesHelper {
     public String getDailyDoctorSetting() {
         return (String) get(KEY_DOCTOR_DAILY_SETTING, Type.STRING);
     }
-
+    //醫師設定裡的"每周練習"
     public String getWeeklyDoctorSetting() {
         return (String) get(KEY_DOCTOR_WEEKLY_SETTING, Type.STRING);
     }
-
+    //醫師設定裡的"語速設定"
     public boolean getSpeedDoctorSetting() {
         return (boolean) get(KEY_DOCTOR_SPEED_SETTING, Type.BOOLEAN);
     }
@@ -309,27 +310,27 @@ public class Preferences extends PreferencesHelper {
     public long getWeeklyMillis() {
         return (long) get(SP_WEEKLY_MILLIS, Type.LONG);
     }
-
+    //醫師設定裡的"每日練習設定"第一個Topic
     public int getTopicOnePosition() {
         return (int) get(SP_DAILY_TOPIC_ONE_POSITION, Type.INT);
     }
-
+    //醫師設定裡的"每日練習設定"第二個Topic
     public int getTopicTwoPosition() {
         return (int) get(SP_DAILY_TOPIC_TWO_POSITION, Type.INT);
     }
-
+    //醫師設定裡的"每日練習設定"第三個Topic
     public int getTopicThreePosition() {
         return (int) get(SP_DAILY_TOPIC_THREE_POSITION, Type.INT);
     }
-
+    //醫師設定裡的"每日練習設定"第四個Topic
     public int getTopicFourPosition() {
         return (int) get(SP_DAILY_TOPIC_FOUR_POSITION, Type.INT);
     }
-
+    //醫師設定裡的"每日練習設定"第五個Topic
     public int getTopicFivePosition() {
         return (int) get(SP_DAILY_TOPIC_FIVE_POSITION, Type.INT);
     }
-
+    //醫師設定裡的"每日練習設定"第六個Topic
     public int getTopicSixPosition() {
         return (int) get(SP_DAILY_TOPIC_SIX_POSITION, Type.INT);
     }

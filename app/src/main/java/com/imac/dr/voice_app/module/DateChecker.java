@@ -30,19 +30,25 @@ public class DateChecker {
         Log.e("getNextWeekFirstDayTime", targetCal.getTime() + "");
         return targetCal.getTimeInMillis();
     }
-
+    //拿來判斷是否超過一周
     public boolean isOverWeek(Calendar currentCalendar) {
+        //每周練習的時間，拿取下一個禮拜第一天(轉成毫秒)
         long saveDate = preferences.getWeeklyEnableDate();
         if (DEBUG) {
-            Log.e("currentCalendar", currentCalendar.getTime() + "");
+            Log.e("currentCalendar", currentCalendar.getTime()+ "");
+            Log.e("currentCalendar", currentCalendar.getTimeInMillis()+ "");
+            //時間搓轉換
             Date resultdate = new Date(saveDate);
+            Log.e("saveDate",String.valueOf(saveDate));
             Log.e("saveDate", "" + resultdate);
-            Log.e("saveDate", currentCalendar.getTimeInMillis() - saveDate + "");
+            Log.e("subtract", currentCalendar.getTimeInMillis() - saveDate + "");
         }
-        if (0 != saveDate) {
+        //判斷是否有做過練習(做過才會存)
+//        if (0 != saveDate) {
+            //判斷是否過到下一個禮拜了(下次要做時間 - 上次做的時間)
             return currentCalendar.getTimeInMillis() - saveDate >= 0;
-        }
-        return false;
+//        }
+//        return false;
     }
 
     public long getNextDayFirstTime() {
