@@ -29,7 +29,7 @@ public class HealthEducationContainerView {
     private  void init(){
         //建立healthEducationAdapter
         healthEducationAdapter=new HealthEducationAdapter(mActivity);
-        //設定viewPager的Adapter
+        //給予viewPager "healthEducationAdapter"
         viewPager.setAdapter(healthEducationAdapter);
         boolean [] booleans =new boolean[8];
         //用來建立頁面底下的指標(.....)

@@ -12,7 +12,7 @@
         android:layout_centerHorizontal="true"
         android:text="02:00"
         android:textSize="@dimen/daily_exercise_selected_time_text_size"
-        app:layout_marginTopPercent="5%"/>
+        app:layout_marginTopPercent="5%" />
 
     <ImageView
         android:id="@+id/daily_exercise_selected_image"

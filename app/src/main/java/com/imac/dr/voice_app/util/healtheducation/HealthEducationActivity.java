@@ -4,11 +4,12 @@ import android.app.Activity;
 import android.os.Bundle;
 
 import com.imac.dr.voice_app.R;
+import com.imac.dr.voice_app.module.MediaPlayer;
 import com.imac.dr.voice_app.view.healtheducation.HealthEducationView;
 
 public class HealthEducationActivity extends Activity {
     private HealthEducationView healthEducationView = null;
-
+    private MediaPlayer player;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

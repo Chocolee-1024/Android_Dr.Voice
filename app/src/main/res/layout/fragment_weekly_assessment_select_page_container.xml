@@ -13,15 +13,15 @@
     <androidx.percentlayout.widget.PercentRelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_below="@+id/weekly_assessment_select_container">
+        android:layout_below="@+id/weekly_assessment_select_container"
+        android:layout_alignParentBottom="true">
 
         <Button
             android:id="@+id/next_step_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
             android:layout_toRightOf="@+id/indicator"
             android:background="@color/transparent"
             android:text="@string/daily_exercise_next_step"
@@ -32,8 +32,8 @@
             android:id="@+id/previous_step_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="true"
             android:layout_toLeftOf="@+id/indicator"
             android:background="@color/transparent"
             android:text="@string/daily_exercise_previous_step"

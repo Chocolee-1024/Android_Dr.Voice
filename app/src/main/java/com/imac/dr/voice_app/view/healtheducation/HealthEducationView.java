@@ -23,7 +23,7 @@ public class HealthEducationView {
 
         @Override
         public void menuButtonListener() {
-            //就如下排的返回建
+            //就如下排的返回建，返回上一頁
             activity.onBackPressed();
         }
     };

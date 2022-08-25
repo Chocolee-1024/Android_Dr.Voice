@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.imac.dr.voice_app.R;
+import com.imac.dr.voice_app.module.MediaPlayer;
 import com.imac.dr.voice_app.util.login.LoginActivity;
 import com.imac.dr.voice_app.view.dailyexercise.DailyExercise;
 
@@ -27,30 +28,33 @@ public class DailyExerciseActivity extends Activity {
     private DailyExercise dailyExerciseView;
     private RelativeLayout counterContainer;
     private int witch = 0;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_daily_exercise);
+
         ButterKnife.bind(this);
         getBundle();
         init();
     }
 
     private void init() {
-        Log.d("noteeee", "topicList: "+topicList);
+
+
         dailyExerciseView = new DailyExercise(this);
+        //呼叫changeSelectFragment
         dailyExerciseView.changeSelectFragment();
         counterContainer = (RelativeLayout) findViewById(R.id.counter_container);
+        //把要做的Topic轉int 放入List
         for (int i = 0; i < topicList.size(); i++) {
             int topicValue = Integer.valueOf(topicList.get(i));
             topic.add(topicValue);
-            Log.d("noteeee", "topic: "+topic);
         }
         isFinish = new boolean[topic.size()];
     }
 
     private void getBundle() {
+        //拿取傳進的Bundle(要做的Topic)
         topicList = (ArrayList<String>) getIntent().getExtras().getSerializable(LoginActivity.KEY_DAILY_EXERCISE);
     }
 

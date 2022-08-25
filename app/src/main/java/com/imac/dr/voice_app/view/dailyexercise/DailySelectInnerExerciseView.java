@@ -82,9 +82,12 @@ public class DailySelectInnerExerciseView implements android.media.MediaPlayer.O
 
     public DailySelectInnerExerciseView(Activity activity, View view, int index) {
         this.activity = activity;
+        //存取你要做的Topic
         this.index = index;
         handler = new Handler();
+        //倒數 監聽
         countSecond = new CountSecond(countEvent());
+        //倒數 五秒監聽
         countFiveSecond = new CountSecond(countFiveSecondCallBack());
         mPreferences = new Preferences(activity);
         counterContainer = (RelativeLayout) activity.findViewById(R.id.counter_container);
@@ -95,14 +98,18 @@ public class DailySelectInnerExerciseView implements android.media.MediaPlayer.O
     }
 
     private void init() {
+        //判斷為第幾個Topic
         if (index == 0) {
-            //note mCountTime = 60*醫生設定的秒數
+            //mCountTime = 60*醫生設定的秒數
             mCountTime *= positionToTime(mPreferences.getTopicOnePosition());
+            //這個Topic要做的事，顯示TextView
             dailyExerciseSelectedDescription.setVisibility(View.VISIBLE);
+            //並載入該Topic的圖片
             Glide.with(activity)
                     .load(R.drawable.practice4_action_a_icon)
                     .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                     .into(dailyExerciseSelectedImage);
+            //並撥放該Topic的提示音
             player = new MediaPlayer(activity, R.raw.practice_4);
         } else if (index == 1) {
             mCountTime *= mPreferences.getTopicTwoPosition();
@@ -153,6 +160,7 @@ public class DailySelectInnerExerciseView implements android.media.MediaPlayer.O
         //note 秒轉 分:秒
         dailyExerciseSelectedTime.setText(SecToMin(mCountTime));
         setFont();
+        Log.e("note","333333333" );
     }
 
     private void setFont() {

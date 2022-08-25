@@ -25,7 +25,9 @@ public class CountSecond {
 
     private countSecondCallBack callBack = null;
 
+
     public CountSecond(countSecondCallBack callBack) {
+        //設定 countStatus為STOP
         countStatus = CountStatus.STOP;
         this.callBack = callBack;
         handler = new Handler();

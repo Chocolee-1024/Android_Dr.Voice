@@ -2,6 +2,7 @@ package com.imac.dr.voice_app.util.dailyexercise;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ public class DailyExerciseInnerSelectFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        //拿取要做的Topic的Bundle
         topicIndex = getArguments().getInt(DailySelectExerciseView.KEY_INNER_FRAGMENT_INDEX);
         View view = inflater.inflate(R.layout.fragment_select_page_inner, null);
         dailySelectInnerExerciseView = new DailySelectInnerExerciseView(
@@ -34,7 +36,6 @@ public class DailyExerciseInnerSelectFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
 
     }
 
@@ -54,6 +55,7 @@ public class DailyExerciseInnerSelectFragment extends Fragment {
 
     @Override
     public void onResume() {
+
         if (null != dailySelectInnerExerciseView.getPlayer() && MediaPlayer.Status.PAUSE.equals(dailySelectInnerExerciseView.getPlayer().getStatus())) {
             dailySelectInnerExerciseView.getPlayer().startPlay();
         }

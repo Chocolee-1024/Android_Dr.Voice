@@ -19,6 +19,7 @@ public class DailyExerciseSelectFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        //動態存入要使用的xml
         View view = inflater.inflate(R.layout.fragment_select_page, null);
         dailySelectExerciseView = new DailySelectExerciseView(getActivity(), view);
         return view;
@@ -29,13 +30,13 @@ public class DailyExerciseSelectFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 //        ((DailyExerciseActivity) getActivity()).setCountTextVisible(false);
     }
-
     @Override
     public void onResume() {
         super.onResume();
+        //呼叫setNotFinishTopic
         dailySelectExerciseView.setNotFinishTopic();
     }
-
+    //摧毀此fragment_select_page
     @Override
     public void onDestroy() {
         super.onDestroy();

@@ -50,15 +50,14 @@ public class CustomIndicator extends LinearLayout {
         if (isFinish[0]) {
             views[0].setBackgroundResource(R.drawable.drawable_indicator_finish_select);
         } else {
-//            views[0].setBackgroundResource(R.drawable.drawable_indicator_select);
-            views[0].setBackgroundResource(R.drawable.drawable_indicator_finish_select);
+            views[0].setBackgroundResource(R.drawable.drawable_indicator_select);
         }
         for (int i = 1; i < views.length; i++) {
             if (isFinish[i]) {
                 views[i].setBackgroundResource(R.drawable.drawable_indicator_finish_no_select);
             } else {
-//                views[i].setBackgroundResource(R.drawable.drawable_indicator_no_select);
-                views[i].setBackgroundResource(R.drawable.drawable_indicator_select);
+                views[i].setBackgroundResource(R.drawable.drawable_indicator_no_select);
+
             }
         }
     }
@@ -84,9 +83,7 @@ public class CustomIndicator extends LinearLayout {
                     if (isFinish[index]) {
                         temp.setBackgroundResource(R.drawable.drawable_indicator_finish_no_select);
                     } else {
-//                        temp.setBackgroundResource(R.drawable.drawable_indicator_no_select);
-                        views[index].setBackgroundResource(R.drawable.drawable_indicator_select);
-                        Log.e("note", String.valueOf(index));
+                        temp.setBackgroundResource(R.drawable.drawable_indicator_no_select);
                     }
                     index++;
                 }
@@ -94,8 +91,7 @@ public class CustomIndicator extends LinearLayout {
                 if (isFinish[position]) {
                     views[position].setBackgroundResource(R.drawable.drawable_indicator_finish_select);
                 } else {
-//                    views[position].setBackgroundResource(R.drawable.drawable_indicator_select);
-                    views[position].setBackgroundResource(R.drawable.drawable_indicator_finish_select);
+                    views[position].setBackgroundResource(R.drawable.drawable_indicator_select);
                 }
             }
 
@@ -108,6 +104,8 @@ public class CustomIndicator extends LinearLayout {
 
     public void setIsFinish(boolean[] isFinish) {
         this.isFinish = isFinish;
+        for(int i=0;i<isFinish.length;i++)
+            Log.e("note", String.valueOf(isFinish[i]));
     }
 
 }
